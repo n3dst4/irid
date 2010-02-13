@@ -1,4 +1,6 @@
-test("6 hex chars with hash", function() {
+module("Reading formats");
+
+test("hexToRGB (6 digits)", function() {
     var rgb = Colour.hexToRGB("#0088ff");
     equals( rgb.r, 0 );
     equals( rgb.g, 136 );
@@ -6,12 +8,28 @@ test("6 hex chars with hash", function() {
     equals( rgb.a, undefined );
 });
 
-test("3 hex chars with hash", function() {
+test("hexToRGB (8 digits)", function() {
+    var rgb = Colour.hexToRGB("#0088ff7f");
+    equals( rgb.r, 0 );
+    equals( rgb.g, 136 );
+    equals( rgb.b, 255 );
+    equals( rgb.a.toFixed(1), 0.5 );
+});
+
+test("hexToRGB (3 digits)", function() {
     var rgb = Colour.hexToRGB("#08f");
     equals( rgb.r, 0 );
     equals( rgb.g, 136 );
     equals( rgb.b, 255 );
     equals( rgb.a, undefined );
+});
+
+test("hexToRGB (4 digits)", function() {
+    var rgb = Colour.hexToRGB("#08f8");
+    equals( rgb.r, 0 );
+    equals( rgb.g, 136 );
+    equals( rgb.b, 255 );
+    equals( rgb.a.toFixed(1), 0.5 );
 });
 
 test("simple rgb", function() {
@@ -54,17 +72,35 @@ test("hsla", function() {
     equals( hsl.a, 0.8 );
 });
 
+
+module("Writing formats");
+
 test("rgbToCSSRGB", function() {
     equals( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255 }), "rgb(0, 136, 255)" );
+});
+
+test("rgbToCSSRGB with alpha", function() {
+    equals( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255, a: 0.7 }), "rgba(0, 136, 255, 0.70)" );
 });
 
 test("hslToCSSHSL", function() {
     equals( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7}), "hsl(180, 60%, 70%)" );
 });
 
+test("hslToCSSHSL with alpha", function() {
+    equals( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7, a: 0.8}), "hsla(180, 60%, 70%, 0.80)" );
+});
+
 test("rgbToHex", function() {
     equals( Colour.rgbToHex({r: 0, g: 136, b: 255 }), "#0088ff" );
 });
+
+test("rgbToHex with alpha", function() {
+    equals( Colour.rgbToHex({r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f" );
+});
+
+
+module("Colour space conversion");
 
 test("hslToRGB", function() {
     var rgb = Colour.hslToRGB({ h: 147/255, s: 1, l: 128/255 })
@@ -72,6 +108,14 @@ test("hslToRGB", function() {
     equals( rgb.g , 138 );
     equals( rgb.b , 255 );
     equals( rgb.a , undefined );
+});
+
+test("hslToRGB with alpha", function() {
+    var rgb = Colour.hslToRGB({ h: 147/255, s: 1, l: 128/255, a: 0.5 })
+    equals( rgb.r , 0 );
+    equals( rgb.g , 138 );
+    equals( rgb.b , 255 );
+    equals( rgb.a , 0.5 );
 });
 
 test("hslToRGB (white)", function() {
@@ -106,6 +150,14 @@ test("rgbToHSL", function() {
     equals( hsl.a , undefined );
 });
 
+test("rgbToHSL", function() {
+    var hsl = Colour.rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 })
+    equals( hsl.h.toFixed(2) , (147/255).toFixed(2) );
+    equals( hsl.s.toFixed(2) , 1 );
+    equals( hsl.l.toFixed(2) , (128/255).toFixed(2) );
+    equals( hsl.a , 0.5 );
+});
+
 test("rgbToHSL (white)", function() {
     var hsl = Colour.rgbToHSL({ r: 255, g: 255, b: 255 })
     equals( hsl.h.toFixed(2) , 0 );
@@ -114,6 +166,8 @@ test("rgbToHSL (white)", function() {
     equals( hsl.a , undefined );
 });
 
+
+module("Colour object");
 
 test("colour from string (#fff)", function() {
     var colour = new Colour("#fff");
