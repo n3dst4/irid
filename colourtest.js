@@ -140,6 +140,24 @@ test("colour from colour", function() {
     equals( colour.a , undefined );
 });
 
+test("lighten", function() {
+    var colour = new Colour("#000").lighten(0.5);
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 0.5 );
+    equals( colour.a , undefined );
+    equals( colour.toHexString() , "#7f7f7f");
+});
+
+test("darken", function() {
+    var colour = new Colour("#fff").darken(0.5);
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 0.5 );
+    equals( colour.a , undefined );
+    equals( colour.toHexString() , "#7f7f7f");
+});
+
 
 
 
