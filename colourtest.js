@@ -212,6 +212,50 @@ test("darken", function() {
     equals( colour.toHexString() , "#7f7f7f");
 });
 
+test("invert", function() {
+    var colour = new Colour("#fff").invert();
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 0 );
+    colour = new Colour("#000").invert();
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 1 );
+    equals( new Colour("#f00").invert().toHexString(), "#00ffff");
+    equals( new Colour("#0f0").invert().toHexString(), "#ff00ff");
+    equals( new Colour("#00f").invert().toHexString(), "#ffff00");
+    equals( new Colour("#ace").invert().toHexString(), "#553310");
+});
+
+test("complement", function() {
+    var colour = new Colour("#fff").complement();
+    equals( colour.h.toFixed(2) , 0.5 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 1 );
+    colour = new Colour("#000").complement();
+    equals( colour.h.toFixed(2) , 0.5 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 0 );
+    equals( new Colour("#f00").complement().toHexString(), "#00ffff");
+    equals( new Colour("#0f0").complement().toHexString(), "#ff00ff");
+    equals( new Colour("#00f").complement().toHexString(), "#fffe00");
+    equals( new Colour("#ace").complement().toHexString(), "#eeccaa");
+});
+
+test("desaturate", function() {
+    var colour = new Colour("#fff").desaturate();
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 1 );
+    colour = new Colour("#000").desaturate();
+    equals( colour.h.toFixed(2) , 0 );
+    equals( colour.s.toFixed(2) , 0 );
+    equals( colour.l.toFixed(2) , 0 );
+    equals( new Colour("#f00").desaturate().toHexString(), "#7f7f7f");
+    equals( new Colour("#0f0").desaturate().toHexString(), "#7f7f7f");
+    equals( new Colour("#00f").desaturate().toHexString(), "#7f7f7f");
+    equals( new Colour("#ace").desaturate().toHexString(), "#cccccc");
+});
 
 
 

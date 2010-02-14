@@ -63,6 +63,19 @@
  *      black by the proportion given. Colour("white").darken(0.5) is medium 
  *      grey. Colour("white").darken(0.5).darken(0.5) is 75% dark grey. 
  *      .darken(0) is a no-op, .darken(1) turns any colour into black.
+ *
+ * .invert ()
+ *      Turns the colour into the RGB opposite of itself. White becomes black,
+ *      black becomes white, and medium grey remains medium grey. If you are 
+ *      building a colour scheme, you probably want .complement() instead.
+ *
+ * .complement ()
+ *      Turns the colour into its colour-wheel complement - that is, it keeps 
+ *      the same lightness and saturation but moves to the opposite hue. This
+ *      will generally produce a pleasingly contrasting colour.
+ *
+ * .desaturate ()
+ *      Turns the colour into a grey shade with the same lightness.
  *   
  * .getContrast ( [light, dark] )
  *      Returns a new Colour object representing a tone which will be as legible
@@ -172,6 +185,28 @@ Colour.prototype = {
     },
     darken: function(amount) {
         this.l = this.l * (1 - amount);
+        return this;
+    },
+    invert: function() {
+        var hsl, 
+            rgb = hslToRGB(this);
+        rgb.r = 255 - rgb.r;
+        rgb.g = 255 - rgb.g;
+        rgb.b = 255 - rgb.b;
+        hsl = rgbToHSL(rgb);
+        this.h = hsl.h;
+        this.s = hsl.s;
+        this.l = hsl.l;
+        //this.h = (this.h + 180) % 360;
+        return this;
+    },
+    complement: function() {
+        //debugger;
+        this.h = (this.h + 0.5) % 1.0;
+        return this;
+    },
+    desaturate: function() {
+        this.s = 0;
         return this;
     },
     getContrast: function() {
