@@ -201,6 +201,8 @@ test("lighten", function() {
     equals( colour.l.toFixed(2) , 0.5 );
     equals( colour.a , undefined );
     equals( colour.toHexString() , "#7f7f7f");
+    colour = new Colour({h: 0, s: 0, l: 0.5}).lighten(0.5);
+    equals( colour.l.toFixed(2) , 0.75 );
 });
 
 test("darken", function() {

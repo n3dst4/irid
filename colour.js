@@ -180,7 +180,7 @@ Colour = global.Colour = function (initial) {
 
 Colour.prototype = {
     lighten: function(amount) {
-        this.l = (1 - this.l) * amount;
+        this.l += (1 - this.l) * amount;
         return this;
     },
     darken: function(amount) {
