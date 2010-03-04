@@ -328,7 +328,19 @@ test("NaN", function () {
 });
 
 
+test("named colour", function() {
+    var c = Colour("lightgoldenrodyellow");
+    equals(c.h.toFixed(2), "0.17");
+    equals(c.s.toFixed(2), "0.80");
+    equals(c.l.toFixed(2), "0.90");
+});
 
+test("named colours are case insensitive", function() {
+    var c = Colour("LightGoldenrodYellow");
+    equals(c.h.toFixed(2), "0.17");
+    equals(c.s.toFixed(2), "0.80");
+    equals(c.l.toFixed(2), "0.90");
+});
 
 
 

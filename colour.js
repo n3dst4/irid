@@ -135,7 +135,7 @@
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY <copyright holder> ''AS IS'' AND ANY
+ * THIS SOFTWARE IS PROVIDED BY NEIL DE CARTERET ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <copyright holder> BE LIABLE FOR ANY
@@ -168,7 +168,7 @@ Colour = global.Colour = function (initial) {
     }
     else if (typeof initial == "string") {
         rgb = hexToRGB(initial) || cssRGBToRGB(initial) ||
-                hexToRGB(Colour.swatches[initial]);
+                hexToRGB(Colour.swatches[initial.toLowerCase()]);
         if (rgb) { hsl = rgbToHSL(rgb); }
         else     { hsl = cssHSLToHSL(initial); }
     }
