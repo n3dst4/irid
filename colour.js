@@ -152,11 +152,15 @@
 
 var hexToRGB, rgbToHex, rgbToHSL, hslToRGB, Colour, 
     parseRGBValue, parseAlphaValue, parseSLValue, parseHueValue, parseHexValue,
-    cssRGBToRGB, cssHSLToHSL, rgbToCSSRGB, hslToCSSHSL;
+    cssRGBToRGB, cssHSLToHSL, rgbToCSSRGB, hslToCSSHSL,
+    invalidError = "Invalid colour specification";
 
 
 Colour = global.Colour = function (initial) {
     var rgb, hsl;
+    if (initial === undefined || initial === null) {
+        throw invalidError;
+    }
     if ( ! (this instanceof Colour)) { return new Colour(initial); }
     if (initial.h !== undefined && 
             initial.s !== undefined && initial.l !== undefined) {
@@ -168,8 +172,11 @@ Colour = global.Colour = function (initial) {
         if (rgb) { hsl = rgbToHSL(rgb); }
         else     { hsl = cssHSLToHSL(initial); }
     }
-    else if (initial.r && initial.g && initial.b) {
-        this.hsl = rgbToHSL(rgb);
+    else if (initial.r !== undefined && initial.g !== undefined && initial.b !== undefined) {
+        hsl = rgbToHSL(initial);
+    }
+    if (hsl === undefined) {
+        throw invalidError;
     }
     this.h = hsl.h;
     this.s = hsl.s;
@@ -348,7 +355,7 @@ rgbToHSL = Colour.rgbToHSL = function rgbToHSL (rgb) {
             h = h / 6;
         }
     }    
-    return {h: h, s: s, l: l, a: rgb.a};
+    return {h: h%1, s: s, l: l, a: rgb.a};
 };
 
 

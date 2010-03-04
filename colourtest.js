@@ -260,8 +260,72 @@ test("desaturate", function() {
 });
 
 
+test("Colour(undefined)", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var colour = new Colour(undefined);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
 
+test("RGB object", function () {
+    var c = Colour({r: 255, g: 0, b:0});
+    equals(c.h, 0);
+    equals(c.s, 1);
+    equals(c.l, 0.5);
+});
 
+test("Gibberish", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour("ThisIsDefinitelyNotTheNameOfAColour");
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("null", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour(null);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("NaN", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour(NaN);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
 
 
 
