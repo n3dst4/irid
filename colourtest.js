@@ -1,4 +1,5 @@
-module("Reading formats");
+////////////////////////////////////////////////////////////////////////////////
+module("functions");
 
 test("hexToRGB (6 digits)", function() {
     var rgb = Colour.hexToRGB("#0088ff");
@@ -72,9 +73,6 @@ test("hsla", function() {
     equals( hsl.a, 0.8 );
 });
 
-
-module("Writing formats");
-
 test("rgbToCSSRGB", function() {
     equals( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255 }), "rgb(0, 136, 255)" );
 });
@@ -98,9 +96,6 @@ test("rgbToHex", function() {
 test("rgbToHex with alpha", function() {
     equals( Colour.rgbToHex({r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f" );
 });
-
-
-module("Colour space conversion");
 
 test("hslToRGB", function() {
     var rgb = Colour.hslToRGB({ h: 147/255, s: 1, l: 128/255 })
@@ -167,9 +162,10 @@ test("rgbToHSL (white)", function() {
 });
 
 
-module("Colour object");
+////////////////////////////////////////////////////////////////////////////////
+module("Colour");
 
-test("colour from string (#fff)", function() {
+test("from string (#fff)", function() {
     var colour = new Colour("#fff");
     equals( colour.h.toFixed(2) , 0 );
     equals( colour.s.toFixed(2) , 0 );
@@ -177,7 +173,7 @@ test("colour from string (#fff)", function() {
     equals( colour.a , undefined );
 });
 
-test("colour from string (#000)", function() {
+test("from string (#000)", function() {
     var colour = new Colour("#000");
     equals( colour.h.toFixed(2) , 0 );
     equals( colour.s.toFixed(2) , 0 );
@@ -185,7 +181,7 @@ test("colour from string (#000)", function() {
     equals( colour.a , undefined );
 });
 
-test("colour from colour", function() {
+test("from Colour object", function() {
     var colour = new Colour("#000");
     colour = new Colour(colour);
     equals( colour.h.toFixed(2) , 0 );
@@ -193,6 +189,99 @@ test("colour from colour", function() {
     equals( colour.l.toFixed(2) , 0 );
     equals( colour.a , undefined );
 });
+
+test("from RGB object", function () {
+    var c = Colour({r: 255, g: 0, b:0});
+    equals(c.h, 0);
+    equals(c.s, 1);
+    equals(c.l, 0.5);
+});
+
+test("from named colour", function() {
+    var c = Colour("lightgoldenrodyellow");
+    equals(c.h.toFixed(2), "0.17");
+    equals(c.s.toFixed(2), "0.80");
+    equals(c.l.toFixed(2), "0.90");
+});
+
+test("from named colour (case insensitive)", function() {
+    var c = Colour("LightGoldenrodYellow");
+    equals(c.h.toFixed(2), "0.17");
+    equals(c.s.toFixed(2), "0.80");
+    equals(c.l.toFixed(2), "0.90");
+});
+
+test("from undefined", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var colour = new Colour(undefined);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("from gibberish", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour("ThisIsDefinitelyNotTheNameOfAColour");
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("from null", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour(null);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("from NaN", function () {
+    var failed = false;
+    expect(2);
+    try {
+        var c = Colour(NaN);
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
+});
+
+test("from malformed hex code", function () {
+    var c, failed = false;
+    expect(2);
+    try { c = Colour("#ab"); }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally { ok(failed, "An error was correctly raised"); }
+});
+
 
 test("lighten", function() {
     var colour = new Colour("#000").lighten(0.5);
@@ -258,92 +347,6 @@ test("desaturate", function() {
     equals( new Colour("#00f").desaturate().toHexString(), "#7f7f7f");
     equals( new Colour("#ace").desaturate().toHexString(), "#cccccc");
 });
-
-
-test("Colour(undefined)", function () {
-    var failed = false;
-    expect(2);
-    try {
-        var colour = new Colour(undefined);
-    }
-    catch (e) {
-        equals(e, "Invalid colour specification");
-        failed = true;
-    }
-    finally {
-        ok(failed, "An error was correctly raised");
-    }
-});
-
-test("RGB object", function () {
-    var c = Colour({r: 255, g: 0, b:0});
-    equals(c.h, 0);
-    equals(c.s, 1);
-    equals(c.l, 0.5);
-});
-
-test("Gibberish", function () {
-    var failed = false;
-    expect(2);
-    try {
-        var c = Colour("ThisIsDefinitelyNotTheNameOfAColour");
-    }
-    catch (e) {
-        equals(e, "Invalid colour specification");
-        failed = true;
-    }
-    finally {
-        ok(failed, "An error was correctly raised");
-    }
-});
-
-test("null", function () {
-    var failed = false;
-    expect(2);
-    try {
-        var c = Colour(null);
-    }
-    catch (e) {
-        equals(e, "Invalid colour specification");
-        failed = true;
-    }
-    finally {
-        ok(failed, "An error was correctly raised");
-    }
-});
-
-test("NaN", function () {
-    var failed = false;
-    expect(2);
-    try {
-        var c = Colour(NaN);
-    }
-    catch (e) {
-        equals(e, "Invalid colour specification");
-        failed = true;
-    }
-    finally {
-        ok(failed, "An error was correctly raised");
-    }
-});
-
-
-test("named colour", function() {
-    var c = Colour("lightgoldenrodyellow");
-    equals(c.h.toFixed(2), "0.17");
-    equals(c.s.toFixed(2), "0.80");
-    equals(c.l.toFixed(2), "0.90");
-});
-
-test("named colours are case insensitive", function() {
-    var c = Colour("LightGoldenrodYellow");
-    equals(c.h.toFixed(2), "0.17");
-    equals(c.s.toFixed(2), "0.80");
-    equals(c.l.toFixed(2), "0.90");
-});
-
-
-
 
 
 
