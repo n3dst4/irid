@@ -186,6 +186,11 @@ Colour = global.Colour = function (initial) {
 
 
 Colour.prototype = {
+	_getLuma: function() {
+        var rgb = hslToRGB(this);
+        // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+		return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
+	},
     lighten: function(amount) {
         this.l += (1 - this.l) * amount;
         return this;
@@ -204,11 +209,9 @@ Colour.prototype = {
         this.h = hsl.h;
         this.s = hsl.s;
         this.l = hsl.l;
-        //this.h = (this.h + 180) % 360;
         return this;
     },
     complement: function() {
-        //debugger;
         this.h = (this.h + 0.5) % 1.0;
         return this;
     },
@@ -217,7 +220,8 @@ Colour.prototype = {
         return this;
     },
     getContrast: function() {
-        return new Colour((this.l > 0.5) ? "#111": "#eee");
+    	// return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
+        return new Colour((this._getLuma() > 0.5) ? "#111": "#eee");
     },
     toString: function() {
         return this.toHexString();
