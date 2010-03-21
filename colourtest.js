@@ -282,7 +282,6 @@ test("from malformed hex code", function () {
     finally { ok(failed, "An error was correctly raised"); }
 });
 
-
 test("lighten", function() {
     var colour = new Colour("#000").lighten(0.5);
     equals( colour.h.toFixed(2) , 0 );
@@ -349,6 +348,19 @@ test("desaturate", function() {
 });
 
 
+test("contrast", function () {
+    var colour = new Colour("#fff").contrast();
+    equals(colour.toString(), "#111111");
+    colour = new Colour("#000").contrast();
+    equals(colour.toString(), "#eeeeee");
+});
+
+test("contrast uses luma", function () {
+    var colour = new Colour("#3531ff").contrast();
+    equals(colour.toString(), "#eeeeee");
+    colour = new Colour("#d8ec00").contrast();
+    equals(colour.toString(), "#111111");
+});
 
 
 

@@ -192,36 +192,50 @@ Colour.prototype = {
 		return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
 	},
     lighten: function(amount) {
-        this.l += (1 - this.l) * amount;
-        return this;
+        return new Colour({
+            h: this.h,
+            s: this.s,
+            l: this.l + (1 - this.l) * amount,
+            a: this.a
+        });
     },
     darken: function(amount) {
-        this.l = this.l * (1 - amount);
-        return this;
+        return new Colour({
+            h: this.h,
+            s: this.s,
+            l: this.l * (1 - amount),
+            a: this.a
+        });
     },
     invert: function() {
-        var hsl, 
-            rgb = hslToRGB(this);
-        rgb.r = 255 - rgb.r;
-        rgb.g = 255 - rgb.g;
-        rgb.b = 255 - rgb.b;
-        hsl = rgbToHSL(rgb);
-        this.h = hsl.h;
-        this.s = hsl.s;
-        this.l = hsl.l;
-        return this;
+        var rgb = hslToRGB(this);
+        return new Colour({
+            r: 255 - rgb.r,
+            g: 255 - rgb.g,
+            b: 255 - rgb.b
+        });
     },
     complement: function() {
-        this.h = (this.h + 0.5) % 1.0;
-        return this;
+        return new Colour({
+            h: (this.h + 0.5) % 1.0,
+            s: this.s,
+            l: this.l,
+            a: this.a            
+        });
     },
     desaturate: function() {
-        this.s = 0;
-        return this;
+        return new Colour({
+            h: this.h,
+            s: 0,
+            l: this.l,
+            a: this.a            
+        });
     },
-    getContrast: function() {
-    	// return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Colour((this._getLuma() > 0.5) ? "#111": "#eee");
+    contrast: function(forDark, forLight) {
+        // return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
+        return new Colour((this._getLuma() > 0.5)?
+                 forDark || "#111" :
+                 forLight || "#eee");
     },
     toString: function() {
         return this.toHexString();
