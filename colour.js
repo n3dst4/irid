@@ -162,7 +162,10 @@ Colour = global.Colour = function (initial) {
         throw invalidError;
     }
     if ( ! (this instanceof Colour)) { return new Colour(initial); }
-    if (initial.h !== undefined && 
+	if (initial instanceof Colour) {
+		hsl = initial.hsl;
+	}
+    else if (initial.h !== undefined && 
             initial.s !== undefined && initial.l !== undefined) {
         hsl = initial;
     }
@@ -174,61 +177,90 @@ Colour = global.Colour = function (initial) {
     }
     else if (initial.r !== undefined && initial.g !== undefined && initial.b !== undefined) {
         hsl = rgbToHSL(initial);
+		rgb = initial;
     }
     if (hsl === undefined) {
         throw invalidError;
     }
-    this.h = hsl.h;
-    this.s = hsl.s;
-    this.l = hsl.l;
-    this.a = hsl.a;           
+    this.hsl = hsl;
+	this.rgb = rgb;
 };
 
 
 Colour.prototype = {
 	_getLuma: function() {
-        var rgb = hslToRGB(this);
+		this._makeRGB();
         // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
-		return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
+		return  (0.3*this.rgb.r + 0.59*this.rgb.g + 0.11*this.rgb.b) / 255;
+	},
+	_makeRGB: function () {
+		if (typeof(this.rgb) == "undefined") this.rgb = hslToRGB(this.hsl);
+	},
+	red: function(r) {
+		this._makeRGB();
+		return (typeof(r) == "undefined") ? this.rgb.r :
+			new Colour({r: r, g: this.rgb.g, b: this.rgb.b});
+	},
+	green: function(g) {
+		this._makeRGB();
+		return (typeof(g) == "undefined") ? this.rgb.g :
+			new Colour({r: this.rgb.r, g: g, b: this.rgb.b});
+	},
+	blue: function(b) {
+		this._makeRGB();
+		return (typeof(b) == "undefined") ? this.rgb.b :
+			new Colour({r: this.rgb.r, g: this.rgb.g, b: b});
+	},
+	hue: function(h) {
+		return (typeof(h) == "undefined") ? this.hsl.h :
+			new Colour({h: h, s: this.hsl.s, l: this.hsl.l});
+	},
+	saturation: function(s) {
+		return (typeof(s) == "undefined") ? this.hsl.s :
+			new Colour({h: this.hsl.h, s: s, l: this.hsl.l});
+	},
+	lightness: function(l) {
+		return (typeof(l) == "undefined") ? this.hsl.l :
+			new Colour({h: this.hsl.h, s: this.hsl.s, l: l});
 	},
     lighten: function(amount) {
         return new Colour({
-            h: this.h,
-            s: this.s,
-            l: this.l + (1 - this.l) * amount,
+            h: this.hsl.h,
+            s: this.hsl.s,
+            l: this.hsl.l + (1 - this.hsl.l) * amount,
             a: this.a
         });
     },
     darken: function(amount) {
         return new Colour({
-            h: this.h,
-            s: this.s,
-            l: this.l * (1 - amount),
-            a: this.a
+            h: this.hsl.h,
+            s: this.hsl.s,
+            l: this.hsl.l * (1 - amount),
+            a: this.hsl.a
         });
     },
     invert: function() {
-        var rgb = hslToRGB(this);
+        this._makeRGB();
         return new Colour({
-            r: 255 - rgb.r,
-            g: 255 - rgb.g,
-            b: 255 - rgb.b
+            r: 255 - this.rgb.r,
+            g: 255 - this.rgb.g,
+            b: 255 - this.rgb.b
         });
     },
     complement: function() {
         return new Colour({
-            h: (this.h + 0.5) % 1.0,
-            s: this.s,
-            l: this.l,
-            a: this.a            
+            h: (this.hsl.h + 0.5) % 1.0,
+            s: this.hsl.s,
+            l: this.hsl.l,
+            a: this.hsl.a            
         });
     },
     desaturate: function() {
         return new Colour({
-            h: this.h,
+            h: this.hsl.h,
             s: 0,
-            l: this.l,
-            a: this.a            
+            l: this.hsl.l,
+            a: this.hsl.a            
         });
     },
     contrast: function(forDark, forLight) {
@@ -241,13 +273,15 @@ Colour.prototype = {
         return this.toHexString();
     },
     toHexString: function() {
-        return rgbToHex(hslToRGB(this));
+		this._makeRGB();
+        return rgbToHex(this.rgb);
     },
     toRGBString: function() {
-        return rgbToCSSRGB(hslToRGB(this));
+		this._makeRGB();
+        return rgbToCSSRGB(this.rgb);
     },
     toHSLString: function() {
-        return hslToCSSHSL(this);
+        return hslToCSSHSL(this.hsl);
     }
 };
 
