@@ -4,14 +4,19 @@
  *
  * JavaScript library for dealing with colours and CSS-style colour literals.
  *
+ *
  * Usage
  * -----
  * Colour( string );
  * Colour( rgbObject );
  * Colour( hslObject );
  * 
- * API
- * ---
+ *
+ * API - Constructors
+ * ------------------
+ *
+ * For convenience, Colour() is an alias for new Colour().
+ *
  * Colour( string )
  *      Returns a new Colour object based on a css-style colour value string.
  *      The recognised formats are:
@@ -36,7 +41,7 @@
  *      In rgb() and rgba() formats, the int values are either integers between
  *      0 and 255 inclusive, or percentage values (indicated by a %-sign.) The
  *      CSS3 spec stipulates that the three values should all be plain integers
- *      or percentages, but this is not enforced in colour.js.
+ *      or all percentages, but this is not enforced in colour.js.
  *
  *      In hsl() and hsla() formats, the first int value is the hue in degrees, 
  *      where 0 = 360 = red. The second and third values are percentages for the
@@ -51,6 +56,76 @@
  *      The #xxxx and #xxxxxxxx formats are not part of CSS3. They are like
  *      #xxx and #xxxxxx respectively, but with an alpha value given as the last
  *      one or two hex digits.
+ *
+ * Colour( rgbobject )
+ *      Returns a new Colour object based on the r, g, and b members of the 
+ *      argument, which should be integers between 0 and 255 inclusive. Example:
+ *      Colour({r: 255, g: 0, b: 0}) // red colour
+ *
+ * Colour( hslobject )
+ *      Returns a new Colour object based on the h, s, and l members of the 
+ *      argument, which should be numbers between 0 and 1 inclusive. Example:
+ *      Colour({h: 0.33, s: 0.5, b: 0.4}) // olive colour
+ *
+ *
+ * API - Methods of colour objects
+ * -------------------------------
+ *
+ * All destructive operations (setters) return new Colour objects, leaving the
+ * original in tact. This means you can do this:
+ *
+ *      myColour = Colour("#BEDEAD");
+ *      myShade = myColour.darken(0.5);
+ *      myDiv.css({
+ *          "background-color": myColour.toString()
+ *          "color": myShade.toString()
+ *      });
+ *
+ * .red()
+ *      Returns the red component of the colour as an integer from 0 to 255.
+ *
+ * .red(r)
+ *      Returns a new colour based the current colour but with the red component
+ *      set to r, which should be an integer from 0 to 255.
+ *
+ * .green()
+ *      Returns the green component of the colour as an integer from 0 to 255.
+ *
+ * .green(g)
+ *      Returns a new colour based the current colour but with the green
+ *      component set to g, which should be an integer from 0 to 255.
+ *
+ * .blue()
+ *      Returns the blue component of the colour as an integer from 0 to 255.
+ *
+ * .blue(b)
+ *      Returns a new colour based the current colour but with the blue
+ *      component set to b, which should be an integer from 0 to 255.
+ *
+ * .hue()
+ *      Returns the hue value of the colour as an value from 0 to 1.
+ *
+ * .hue(h)
+ *      Returns a new colour based the current colour but with the hue
+ *      value set to h, which should be an number from 0 to 1.
+ *
+ * .saturation()
+ *      Returns the saturation value of the colour as an value from 0 to 1.
+ *
+ * .saturation(s)
+ *      Returns a new colour based the current colour but with the saturation
+ *      value set to s, which should be an number from 0 to 1.
+ *
+ * .lightness()
+ *      Returns the lightness value of the colour as an value from 0 to 1.
+ *
+ * .lightness(l)
+ *      Returns a new colour based the current colour but with the lightness
+ *      value set to l, which should be an number from 0 to 1.
+ *
+ * .luma()
+ *      Returns the calculated luma of the colour as a number from 0 to 1. it is
+ *      not currently possible to set the luma directly.
  *
  * .lighten (amount)
  *      Where amount is a number between 0 and 1. Lightens the colour towards 
@@ -112,12 +187,27 @@
  *          Colour(myDl.css("background-color")).getContrast().toString()
  *      );
  *
+ *
  * Notes
  * -----
- * Colours are stored internally in HSL format. See
+ * Colours are stored internally in HSL format, but attempt to preserve the RGB
+ * values they were created with. See
  * http://en.wikipedia.org/wiki/HSL_and_HSV
  * for details. This means that sometimes, due to gamut changes and rounding
- * errors, a colour which starts as one RGB value can come out as another one.
+ * errors, a colour subjected to a series of transformations which should cancel
+ * each other out will actually end up very slightly different to how it 
+ * started.
+ *
+ *
+ * Test coverage
+ * -------------
+ * 100% coverage - see colourtest.html.
+ *
+ *
+ * Demo
+ * ----
+ * See colourtoy.html for a toy colour picker app which uses colour.js.
+ *
  *
  * Copyright and licence
  * ---------------------
@@ -188,13 +278,13 @@ Colour = global.Colour = function (initial) {
 
 
 Colour.prototype = {
-	_getLuma: function() {
+	_makeRGB: function () {
+		if (typeof(this.rgb) == "undefined") this.rgb = hslToRGB(this.hsl);
+	},
+	luma: function() {
 		this._makeRGB();
         // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
 		return  (0.3*this.rgb.r + 0.59*this.rgb.g + 0.11*this.rgb.b) / 255;
-	},
-	_makeRGB: function () {
-		if (typeof(this.rgb) == "undefined") this.rgb = hslToRGB(this.hsl);
 	},
 	red: function(r) {
 		this._makeRGB();
@@ -265,7 +355,7 @@ Colour.prototype = {
     },
     contrast: function(forDark, forLight) {
         // return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Colour((this._getLuma() > 0.65)?
+        return new Colour((this.luma() > 0.65)?
                  forDark || "#111" :
                  forLight || "#eee");
     },
@@ -314,7 +404,7 @@ parseSLValue = function (str) {
 };
 
 
-hexToRGB = Colour.hexToRGB = function hexToRGB (hex) {
+hexToRGB = Colour.hexToRGB = function (hex) {
     var parts = /^#(\w)(\w)(\w)(\w)?$/.exec(hex) || 
             /^#(\w\w)(\w\w)(\w\w)(\w\w)?$/.exec(hex);
     return parts? {
@@ -328,7 +418,7 @@ hexToRGB = Colour.hexToRGB = function hexToRGB (hex) {
 };
 
 
-cssRGBToRGB = Colour.cssRGBToRGB = function cssRGBToRGB (css) {
+cssRGBToRGB = Colour.cssRGBToRGB = function (css) {
     var parts = /^rgba?\(\s*(-?\d+%?)\s*,\s*(-?\d+%?)\s*,\s*(-?\d+%?)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(css);
     return parts? {
         r: parseRGBValue(parts[1]),
@@ -339,7 +429,7 @@ cssRGBToRGB = Colour.cssRGBToRGB = function cssRGBToRGB (css) {
 };
 
 
-rgbToCSSRGB = Colour.rgbToCSSRGB = function rgbToCSSRGB (rgb) {
+rgbToCSSRGB = Colour.rgbToCSSRGB = function (rgb) {
     return "rgb" + (rgb.a?"a":"") + "(" +
         Math.round(rgb.r) + ", " +
         Math.round(rgb.g) + ", " +
@@ -348,7 +438,7 @@ rgbToCSSRGB = Colour.rgbToCSSRGB = function rgbToCSSRGB (rgb) {
 };
 
 
-hslToCSSHSL = Colour.hslToCSSHSL = function rgbToCSSRGB (hsl) {
+hslToCSSHSL = Colour.hslToCSSHSL = function (hsl) {
     return "hsl" + (hsl.a?"a":"") + "(" +
         Math.round(hsl.h * 360) + ", " +
         Math.round(hsl.s * 100) + "%, " +
@@ -357,7 +447,7 @@ hslToCSSHSL = Colour.hslToCSSHSL = function rgbToCSSRGB (hsl) {
 };
 
 
-cssHSLToHSL = Colour.cssHSLToHSL = function cssRGBToRGB (css) {
+cssHSLToHSL = Colour.cssHSLToHSL = function (css) {
     var parts = /^hsla?\(\s*(-?\d+)\s*,\s*(-?\d+%)\s*,\s*(-?\d+%)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(css);
     return parts? {
         h: parseHueValue(parts[1]),
@@ -368,7 +458,7 @@ cssHSLToHSL = Colour.cssHSLToHSL = function cssRGBToRGB (css) {
 };
 
 
-rgbToHex = Colour.rgbToHex = function rgbToHex (rgb) {
+rgbToHex = Colour.rgbToHex = function (rgb) {
     var alpha,
         str = "#" + 
         ((rgb.r < 16)? "0":"") + rgb.r.toString(16) + 
@@ -382,7 +472,7 @@ rgbToHex = Colour.rgbToHex = function rgbToHex (rgb) {
 };
 
 
-rgbToHSL = Colour.rgbToHSL = function rgbToHSL (rgb) {
+rgbToHSL = Colour.rgbToHSL = function (rgb) {
     var v, m, vm, r2, g2, b2,
         r = rgb.r/255,
         g = rgb.g/255.0,
@@ -411,7 +501,7 @@ rgbToHSL = Colour.rgbToHSL = function rgbToHSL (rgb) {
 };
 
 
-hslToRGB = Colour.hslToRGB = function hslToRGB (hsl) {
+hslToRGB = Colour.hslToRGB = function (hsl) {
     var v, r, g, b, m, sv, sextant, fract, vsf, mid1, mid2,
         h = hsl.h % 1,
         sl = hsl.s,
