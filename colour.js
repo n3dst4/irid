@@ -155,7 +155,7 @@ var hexToRGB, rgbToHex, rgbToHSL, hslToRGB, Colour,
     cssRGBToRGB, cssHSLToHSL, rgbToCSSRGB, hslToCSSHSL,
     invalidError = "Invalid colour specification";
 
-
+/** @constructor */
 Colour = global.Colour = function (initial) {
     var rgb, hsl;
     if (initial === undefined || initial === null) {
@@ -265,7 +265,7 @@ Colour.prototype = {
     },
     contrast: function(forDark, forLight) {
         // return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Colour((this._getLuma() > 0.5)?
+        return new Colour((this._getLuma() > 0.65)?
                  forDark || "#111" :
                  forLight || "#eee");
     },
