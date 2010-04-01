@@ -421,7 +421,10 @@ test("set lightness", function () {
     equals(colour.lightness(0.5).toString(), "#0400ff");
 });
 
-
+test("component values can assigned by string", function () {
+    var colour = new Colour("black").green("101");
+    equals(colour.toString(), "#006500");
+});
 
 
 

@@ -289,29 +289,29 @@ Colour.prototype = {
 	red: function(r) {
 		this._makeRGB();
 		return (typeof(r) == "undefined") ? this.rgb.r :
-			new Colour({r: r, g: this.rgb.g, b: this.rgb.b});
+			new Colour({r: parseInt(r), g: this.rgb.g, b: this.rgb.b});
 	},
 	green: function(g) {
 		this._makeRGB();
 		return (typeof(g) == "undefined") ? this.rgb.g :
-			new Colour({r: this.rgb.r, g: g, b: this.rgb.b});
+			new Colour({r: this.rgb.r, g: parseInt(g), b: this.rgb.b});
 	},
 	blue: function(b) {
 		this._makeRGB();
 		return (typeof(b) == "undefined") ? this.rgb.b :
-			new Colour({r: this.rgb.r, g: this.rgb.g, b: b});
+			new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b)});
 	},
 	hue: function(h) {
 		return (typeof(h) == "undefined") ? this.hsl.h :
-			new Colour({h: h, s: this.hsl.s, l: this.hsl.l});
+			new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l});
 	},
 	saturation: function(s) {
 		return (typeof(s) == "undefined") ? this.hsl.s :
-			new Colour({h: this.hsl.h, s: s, l: this.hsl.l});
+			new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l});
 	},
 	lightness: function(l) {
 		return (typeof(l) == "undefined") ? this.hsl.l :
-			new Colour({h: this.hsl.h, s: this.hsl.s, l: l});
+			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l)});
 	},
     lighten: function(amount) {
         return new Colour({
@@ -355,7 +355,7 @@ Colour.prototype = {
     },
     contrast: function(forDark, forLight) {
         // return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Colour((this.luma() > 0.65)?
+        return new Colour((this.luma() > 0.5)?
                  forDark || "#111" :
                  forLight || "#eee");
     },
