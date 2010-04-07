@@ -167,48 +167,48 @@ module("Colour");
 
 test("from string (#fff)", function() {
     var colour = new Colour("#fff");
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 1 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 1 );
     equals( colour.a , undefined );
 });
 
 test("from string (#000)", function() {
     var colour = new Colour("#000");
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0 );
     equals( colour.a , undefined );
 });
 
 test("from Colour object", function() {
     var colour = new Colour("#000");
     colour = new Colour(colour);
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0 );
     equals( colour.a , undefined );
 });
 
 test("from RGB object", function () {
     var c = Colour({r: 255, g: 0, b:0});
-    equals(c.hsl.h, 0);
-    equals(c.hsl.s, 1);
-    equals(c.hsl.l, 0.5);
+    equals(c.hue(), 0);
+    equals(c.saturation(), 1);
+    equals(c.lightness(), 0.5);
 });
 
 test("from named colour", function() {
     var c = Colour("lightgoldenrodyellow");
-    equals(c.hsl.h.toFixed(2), "0.17");
-    equals(c.hsl.s.toFixed(2), "0.80");
-    equals(c.hsl.l.toFixed(2), "0.90");
+    equals(c.hue().toFixed(2), "0.17");
+    equals(c.saturation().toFixed(2), "0.80");
+    equals(c.lightness().toFixed(2), "0.90");
 });
 
 test("from named colour (case insensitive)", function() {
     var c = Colour("LightGoldenrodYellow");
-    equals(c.hsl.h.toFixed(2), "0.17");
-    equals(c.hsl.s.toFixed(2), "0.80");
-    equals(c.hsl.l.toFixed(2), "0.90");
+    equals(c.hue().toFixed(2), "0.17");
+    equals(c.saturation().toFixed(2), "0.80");
+    equals(c.lightness().toFixed(2), "0.90");
 });
 
 test("from undefined", function () {
@@ -284,33 +284,33 @@ test("from malformed hex code", function () {
 
 test("lighten", function() {
     var colour = new Colour("#000").lighten(0.5);
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0.5 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0.5 );
     equals( colour.a , undefined );
     equals( colour.toHexString() , "#7f7f7f");
     colour = new Colour({h: 0, s: 0, l: 0.5}).lighten(0.5);
-    equals( colour.hsl.l.toFixed(2) , 0.75 );
+    equals( colour.lightness().toFixed(2) , 0.75 );
 });
 
 test("darken", function() {
     var colour = new Colour("#fff").darken(0.5);
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0.5 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0.5 );
     equals( colour.a , undefined );
     equals( colour.toHexString() , "#7f7f7f");
 });
 
 test("invert", function() {
     var colour = new Colour("#fff").invert();
-    equals( colour.hsl.h.toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0 );
     colour = new Colour("#000").invert();
-    equals( colour.hsl.h.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
     equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 1 );
+    equals( colour.lightness().toFixed(2) , 1 );
     equals( new Colour("#f00").invert().toHexString(), "#00ffff");
     equals( new Colour("#0f0").invert().toHexString(), "#ff00ff");
     equals( new Colour("#00f").invert().toHexString(), "#ffff00");
@@ -319,13 +319,13 @@ test("invert", function() {
 
 test("complement", function() {
     var colour = new Colour("#fff").complement();
-    equals( colour.hsl.h.toFixed(2) , 0.5 );
+    equals( colour.hue().toFixed(2) , 0.5 );
     equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 1 );
+    equals( colour.lightness().toFixed(2) , 1 );
     colour = new Colour("#000").complement();
-    equals( colour.hsl.h.toFixed(2) , 0.5 );
+    equals( colour.hue().toFixed(2) , 0.5 );
     equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0 );
     equals( new Colour("#f00").complement().toHexString(), "#00ffff");
     equals( new Colour("#0f0").complement().toHexString(), "#ff00ff");
     equals( new Colour("#00f").complement().toHexString(), "#fffe00");
@@ -334,13 +334,13 @@ test("complement", function() {
 
 test("desaturate", function() {
     var colour = new Colour("#fff").desaturate();
-    equals( colour.hsl.h.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
     equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 1 );
+    equals( colour.lightness().toFixed(2) , 1 );
     colour = new Colour("#000").desaturate();
-    equals( colour.hsl.h.toFixed(2) , 0 );
+    equals( colour.hue().toFixed(2) , 0 );
     equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.hsl.l.toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 0 );
     equals( new Colour("#f00").desaturate().toHexString(), "#7f7f7f");
     equals( new Colour("#0f0").desaturate().toHexString(), "#7f7f7f");
     equals( new Colour("#00f").desaturate().toHexString(), "#7f7f7f");
