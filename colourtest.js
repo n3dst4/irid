@@ -449,6 +449,16 @@ test("component values can assigned by string", function () {
     equals(colour.toString(), "#006500");
 });
 
+test("get alpha", function () {
+    var colour = new Colour("#ffffff80");
+    equals(colour.alpha().toFixed(2), "0.50");
+});
+
+test("set alpha", function () {
+    var colour = new Colour("#ffffff").alpha(0.5);
+    equals(colour.toString(), "#ffffff7f");
+});
+
 
 
 

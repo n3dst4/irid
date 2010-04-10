@@ -316,6 +316,11 @@ Colour.prototype = {
 		return (typeof(l) == "undefined") ? this.hsl.l :
 			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l)});
 	},
+	alpha: function(a) {
+	    this._makeHSL();
+		return (typeof(a) == "undefined") ? this.hsl.a :
+			new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: parseFloat(a)});
+	},
     lighten: function(amount) {
 	    this._makeHSL();
         return new Colour({
