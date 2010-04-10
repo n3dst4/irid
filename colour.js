@@ -123,6 +123,14 @@
  *      Returns a new colour based the current colour but with the lightness
  *      value set to l, which should be an number from 0 to 1.
  *
+ * .alpha()
+ * 		Returns alpha value of colour as a value from 0 to 1.
+ *
+ * .alpha(a)
+ * 		Returns a new colour based the current colour but with the alpha
+ *      value set to a, which should be a number from 0 to 1. Setting a to null
+ *      or undefined will effectively "unset" the alpha.
+ *
  * .luma()
  *      Returns the calculated luma of the colour as a number from 0 to 1. it is
  *      not currently possible to set the luma directly.
@@ -317,11 +325,11 @@ Colour.prototype = {
 			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
 	},
 	alpha: function(a) {
-		if (typeof(a) == "undefined") {
+		if (arguments.length === 0) {
 			return (this.hsl || this.rgb).a;
 		}
 		else {
-			a = (a === null) ? undefined : parseFloat(a);
+			a = (a === null || a === undefined) ? undefined : parseFloat(a);
 			if (this.hsl) {
 				return new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: a});
 			}

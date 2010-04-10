@@ -253,7 +253,7 @@ test("from gibberish", function () {
     var failed = false;
     expect(2);
     try {
-        var c = Colour("ThisIsDefinitelyNotTheNameOfAColour");
+        var c = new Colour("ThisIsDefinitelyNotTheNameOfAColour");
     }
     catch (e) {
         equals(e, "Invalid colour specification");
@@ -268,7 +268,7 @@ test("from null", function () {
     var failed = false;
     expect(2);
     try {
-        var c = Colour(null);
+        var c = new Colour(null);
     }
     catch (e) {
         equals(e, "Invalid colour specification");
@@ -283,7 +283,7 @@ test("from NaN", function () {
     var failed = false;
     expect(2);
     try {
-        var c = Colour(NaN);
+        var c = new Colour(NaN);
     }
     catch (e) {
         equals(e, "Invalid colour specification");
@@ -297,7 +297,7 @@ test("from NaN", function () {
 test("from malformed hex code", function () {
     var c, failed = false;
     expect(2);
-    try { c = Colour("#ab"); }
+    try { c = new Colour("#ab"); }
     catch (e) {
         equals(e, "Invalid colour specification");
         failed = true;
@@ -459,9 +459,18 @@ test("set alpha", function () {
     equals(colour.toString(), "#ffffff7f");
 });
 
-test("set alpha to undefined", function () {
+test("set alpha to null", function () {
     var colour = new Colour("#ffffff55").alpha(null);
     equals(colour.toString(), "#ffffff");
+});
+
+test("set alpha to undefined", function () {
+    var colour = new Colour("#ffffff55").alpha(undefined);
+    equals(colour.toString(), "#ffffff");
+});
+
+test("undefined alpha returned correctly", function () {
+    equals(Colour("#ffffff").alpha(), undefined);
 });
 
 
