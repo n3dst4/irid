@@ -289,37 +289,46 @@ Colour.prototype = {
 	red: function(r) {
 		this._makeRGB();
 		return (typeof(r) == "undefined") ? this.rgb.r :
-			new Colour({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b});
+			new Colour({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b, a: this.rgb.a});
 	},
 	green: function(g) {
 		this._makeRGB();
 		return (typeof(g) == "undefined") ? this.rgb.g :
-			new Colour({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b});
+			new Colour({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b, a: this.rgb.a});
 	},
 	blue: function(b) {
 		this._makeRGB();
 		return (typeof(b) == "undefined") ? this.rgb.b :
-			new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10)});
+			new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10), a: this.rgb.a});
 	},
 	hue: function(h) {
 	    this._makeHSL();
 		return (typeof(h) == "undefined") ? this.hsl.h :
-			new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l});
+			new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l, a: this.hsl.a});
 	},
 	saturation: function(s) {
 	    this._makeHSL();
 		return (typeof(s) == "undefined") ? this.hsl.s :
-			new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l});
+			new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l, a: this.hsl.a});
 	},
 	lightness: function(l) {
 	    this._makeHSL();
 		return (typeof(l) == "undefined") ? this.hsl.l :
-			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l)});
+			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
 	},
 	alpha: function(a) {
-	    this._makeHSL();
-		return (typeof(a) == "undefined") ? this.hsl.a :
-			new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: parseFloat(a)});
+		if (typeof(a) == "undefined") {
+			return (this.hsl || this.rgb).a;
+		}
+		else {
+			a = (a === null) ? undefined : parseFloat(a);
+			if (this.hsl) {
+				return new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: a});
+			}
+			else {
+				return new Colour({r: this.rgb.r, g: this.rgb.g, b: this.rgb.b, a: a});
+			}
+		}
 	},
     lighten: function(amount) {
 	    this._makeHSL();
@@ -327,7 +336,7 @@ Colour.prototype = {
             h: this.hsl.h,
             s: this.hsl.s,
             l: this.hsl.l + (1 - this.hsl.l) * amount,
-            a: this.a
+            a: this.hsl.a
         });
     },
     darken: function(amount) {
@@ -344,7 +353,8 @@ Colour.prototype = {
         return new Colour({
             r: 255 - this.rgb.r,
             g: 255 - this.rgb.g,
-            b: 255 - this.rgb.b
+            b: 255 - this.rgb.b,
+			a: this.rgb.a
         });
     },
     complement: function() {
@@ -371,7 +381,7 @@ Colour.prototype = {
                  forDark || "#111" :
                  forLight || "#eee");
     },
-    toString: function() {
+    toString: function() { // TODO: make this smarter, return rgba when needed
         return this.toHexString();
     },
     toHexString: function() {

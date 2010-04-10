@@ -459,6 +459,11 @@ test("set alpha", function () {
     equals(colour.toString(), "#ffffff7f");
 });
 
+test("set alpha to undefined", function () {
+    var colour = new Colour("#ffffff55").alpha(null);
+    equals(colour.toString(), "#ffffff");
+});
+
 
 
 
