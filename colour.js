@@ -413,8 +413,8 @@ parseSLValue = function (str) {
 
 
 hexToRGB = Colour.hexToRGB = function (hex) {
-    var parts = /^#(\w)(\w)(\w)(\w)?$/.exec(hex) || 
-            /^#(\w\w)(\w\w)(\w\w)(\w\w)?$/.exec(hex);
+    var parts = /^#([\da-f])([\da-f])([\da-f])([\da-f])?$/i.exec(hex) || 
+            /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})?$/i.exec(hex);
     return parts? {
         r: parseHexValue(parts[1]),
         g: parseHexValue(parts[2]),

@@ -173,12 +173,35 @@ test("from string (#fff)", function() {
     equals( colour.a , undefined );
 });
 
+test("from string (#FFF)", function() {
+    var colour = new Colour("#FFF");
+    equals( colour.hue().toFixed(2) , 0 );
+    equals( colour.saturation().toFixed(2) , 0 );
+    equals( colour.lightness().toFixed(2) , 1 );
+    equals( colour.a , undefined );
+});
+
 test("from string (#000)", function() {
     var colour = new Colour("#000");
     equals( colour.hue().toFixed(2) , 0 );
     equals( colour.saturation().toFixed(2) , 0 );
     equals( colour.lightness().toFixed(2) , 0 );
     equals( colour.a , undefined );
+});
+
+test("from invalid string (#yyy)", function() {
+    var failed = false;
+    expect(2);
+    try {
+        var colour = new Colour("#yyy");
+    }
+    catch (e) {
+        equals(e, "Invalid colour specification");
+        failed = true;
+    }
+    finally {
+        ok(failed, "An error was correctly raised");
+    }
 });
 
 test("from Colour object", function() {
