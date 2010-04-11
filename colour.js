@@ -396,6 +396,32 @@ Colour.prototype = {
 			this.hue(this.hue() - 1/4)
 		];
 	},
+	tetrad: function() {
+		return [
+			this.hue(this.hue() - 0.25),
+			this.hue(this.hue() + 0.5),
+			this.hue(this.hue() + 0.25)
+		];
+	},
+	rectTetrad: function() {
+		return [
+			this.hue(this.hue() - 1/6),
+			this.hue(this.hue() - 3/6),
+			this.hue(this.hue() - 4/6)
+		];
+	},
+	triad: function() {
+		return [
+			this.hue(this.hue() - 1/3),
+			this.hue(this.hue() + 1/3)
+		];
+	},
+	splitComplementary: function() {
+		return [
+			this.hue(this.hue() - 5/12),
+			this.hue(this.hue() + 5/12)
+		];
+	},
     toString: function() { // TODO: make this smarter, return rgba when needed
         return this.toHexString();
     },

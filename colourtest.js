@@ -482,6 +482,40 @@ test("analagous colours", function () {
     equals(anal[2].toString(), "#7f00ff");
 });
 
+test("tetradic colours", function () {
+    var c = new Colour("red"),
+        tet = c.tetrad();
+    equals(tet.length, 3);
+    equals(tet[0].toString(), "#7f00ff");
+    equals(tet[1].toString(), "#00ffff");
+    equals(tet[2].toString(), "#7fff00");
+});
+
+test("rectangular tetradic colours", function () {
+    var c = new Colour("red"),
+        tet = c.rectTetrad();
+    equals(tet.length, 3);
+    equals(tet[0].toString(), "#ff00ff");
+    equals(tet[1].toString(), "#00ffff");
+    equals(tet[2].toString(), "#00ff00");
+});
+
+test("triadic colours", function () {
+    var c = new Colour("red"),
+        tri = c.triad();
+    equals(tri.length, 2);
+    equals(tri[0].toString(), "#0000ff");
+    equals(tri[1].toString(), "#00ff00");
+});
+
+test("split complementary colours", function () {
+    var c = new Colour("red"),
+        comp = c.splitComplementary();
+    equals(comp.length, 2);
+    equals(comp[0].toString(), "#007fff");
+    equals(comp[1].toString(), "#00ff7f");
+});
+
 
 
 
