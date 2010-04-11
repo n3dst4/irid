@@ -389,6 +389,13 @@ Colour.prototype = {
                  forDark || "#111" :
                  forLight || "#eee");
     },
+	analagous: function() {
+		return [
+			this.hue(this.hue() - 1/12),
+			this.hue(this.hue() - 1/6),
+			this.hue(this.hue() - 1/4)
+		];
+	},
     toString: function() { // TODO: make this smarter, return rgba when needed
         return this.toHexString();
     },

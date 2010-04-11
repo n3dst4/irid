@@ -473,7 +473,14 @@ test("undefined alpha returned correctly", function () {
     equals(Colour("#ffffff").alpha(), undefined);
 });
 
-
+test("analagous colours", function () {
+    var c = new Colour("red"),
+        anal = c.analagous();
+    equals(anal.length, 3);
+    equals(anal[0].toString(), "#ff007f");
+    equals(anal[1].toString(), "#ff00ff");
+    equals(anal[2].toString(), "#7f00ff");
+});
 
 
 
