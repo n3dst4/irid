@@ -391,13 +391,14 @@ Colour.prototype = {
     },
 	analagous: function() {
 		return [
+			this,
 			this.hue(this.hue() - 1/12),
-			this.hue(this.hue() - 1/6),
-			this.hue(this.hue() - 1/4)
+			this.hue(this.hue() + 1/12)
 		];
 	},
 	tetrad: function() {
 		return [
+			this,
 			this.hue(this.hue() - 0.25),
 			this.hue(this.hue() + 0.5),
 			this.hue(this.hue() + 0.25)
@@ -405,19 +406,22 @@ Colour.prototype = {
 	},
 	rectTetrad: function() {
 		return [
-			this.hue(this.hue() - 1/6),
-			this.hue(this.hue() - 3/6),
-			this.hue(this.hue() - 4/6)
+			this,
+			this.hue(this.hue() + 1/6),
+			this.hue(this.hue() + 3/6),
+			this.hue(this.hue() + 4/6)
 		];
 	},
 	triad: function() {
 		return [
+			this,
 			this.hue(this.hue() - 1/3),
 			this.hue(this.hue() + 1/3)
 		];
 	},
 	splitComplementary: function() {
 		return [
+			this,
 			this.hue(this.hue() - 5/12),
 			this.hue(this.hue() + 5/12)
 		];

@@ -477,43 +477,47 @@ test("analagous colours", function () {
     var c = new Colour("red"),
         anal = c.analagous();
     equals(anal.length, 3);
-    equals(anal[0].toString(), "#ff007f");
-    equals(anal[1].toString(), "#ff00ff");
-    equals(anal[2].toString(), "#7f00ff");
+    equals(anal[0].toString(), "#ff0000");
+    equals(anal[1].toString(), "#ff007f");
+    equals(anal[2].toString(), "#ff7f00");
 });
 
 test("tetradic colours", function () {
     var c = new Colour("red"),
         tet = c.tetrad();
-    equals(tet.length, 3);
-    equals(tet[0].toString(), "#7f00ff");
-    equals(tet[1].toString(), "#00ffff");
-    equals(tet[2].toString(), "#7fff00");
+    equals(tet.length, 4);
+    equals(tet[0].toString(), "#ff0000");
+    equals(tet[1].toString(), "#7f00ff");
+    equals(tet[2].toString(), "#00ffff");
+    equals(tet[3].toString(), "#7fff00");
 });
 
 test("rectangular tetradic colours", function () {
     var c = new Colour("red"),
         tet = c.rectTetrad();
-    equals(tet.length, 3);
-    equals(tet[0].toString(), "#ff00ff");
-    equals(tet[1].toString(), "#00ffff");
-    equals(tet[2].toString(), "#00ff00");
+    equals(tet.length, 4);
+    equals(tet[0].toString(), "#ff0000");
+    equals(tet[1].toString(), "#ffff00");
+    equals(tet[2].toString(), "#00ffff");
+    equals(tet[3].toString(), "#0000ff");
 });
 
 test("triadic colours", function () {
     var c = new Colour("red"),
         tri = c.triad();
-    equals(tri.length, 2);
-    equals(tri[0].toString(), "#0000ff");
-    equals(tri[1].toString(), "#00ff00");
+    equals(tri.length, 3);
+    equals(tri[0].toString(), "#ff0000");
+    equals(tri[1].toString(), "#0000ff");
+    equals(tri[2].toString(), "#00ff00");
 });
 
 test("split complementary colours", function () {
     var c = new Colour("red"),
         comp = c.splitComplementary();
-    equals(comp.length, 2);
-    equals(comp[0].toString(), "#007fff");
-    equals(comp[1].toString(), "#00ff7f");
+    equals(comp.length, 3);
+    equals(comp[0].toString(), "#ff0000");
+    equals(comp[1].toString(), "#007fff");
+    equals(comp[2].toString(), "#00ff7f");
 });
 
 
