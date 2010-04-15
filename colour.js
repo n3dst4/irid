@@ -399,9 +399,9 @@ Colour.prototype = {
 	tetrad: function() {
 		return [
 			this,
-			this.hue(this.hue() - 0.25),
-			this.hue(this.hue() + 0.5),
-			this.hue(this.hue() + 0.25)
+			this.hue(this.hue() + 1/4),
+			this.hue(this.hue() + 2/4),
+			this.hue(this.hue() + 3/4)
 		];
 	},
 	rectTetrad: function() {

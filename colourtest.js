@@ -487,9 +487,9 @@ test("tetradic colours", function () {
         tet = c.tetrad();
     equals(tet.length, 4);
     equals(tet[0].toString(), "#ff0000");
-    equals(tet[1].toString(), "#7f00ff");
+    equals(tet[1].toString(), "#7fff00");
     equals(tet[2].toString(), "#00ffff");
-    equals(tet[3].toString(), "#7fff00");
+    equals(tet[3].toString(), "#7f00ff");
 });
 
 test("rectangular tetradic colours", function () {
