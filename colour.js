@@ -160,7 +160,7 @@
  * .desaturate ()
  *      Turns the colour into a grey shade with the same lightness.
  *   
- * .getContrast ( [light, dark] )
+ * .contrast ( [light, dark] )
  *      Returns a new Colour object representing a tone which will be as legible
  *      as possible as a text/foreground colour when the original colour is
  *      used as a background. The defaults are #111 (on light backgrounds) and 
