@@ -72,7 +72,7 @@
  * -------------------------------
  *
  * All destructive operations (setters) return new Colour objects, leaving the
- * original in tact. This means you can do this:
+ * original intact. This means you can do this:
  *
  *      myColour = Colour("#BEDEAD");
  *      myShade = myColour.darken(0.5);
@@ -80,6 +80,8 @@
  *          "background-color": myColour.toString()
  *          "color": myShade.toString()
  *      });
+ *
+ * In other words, **you can always treat Colour objects as immutable**.
  *
  * .red()
  *      Returns the red component of the colour as an integer from 0 to 255.
@@ -124,15 +126,15 @@
  *      value set to l, which should be an number from 0 to 1.
  *
  * .alpha()
- * 		Returns alpha value of colour as a value from 0 to 1.
+ *      Returns alpha value of colour as a value from 0 to 1.
  *
  * .alpha(a)
- * 		Returns a new colour based the current colour but with the alpha
+ *      Returns a new colour based the current colour but with the alpha
  *      value set to a, which should be a number from 0 to 1. Setting a to null
  *      or undefined will effectively "unset" the alpha.
  *
  * .luma()
- *      Returns the calculated luma of the colour as a number from 0 to 1. it is
+ *      Returns the calculated luma of the colour as a number from 0 to 1. It is
  *      not currently possible to set the luma directly.
  *
  * .lighten (amount)
@@ -168,6 +170,44 @@
  *      Colour objects which will be used instead (light should be a light 
  *      colour for use on dark backgrounds, dark should be a dark colour for use
  *      on light backgrounds.)
+ *
+ * .analagous()
+ *      Returns an array of colours based on the original:
+ *      [original, left, right]
+ *      Where original is the original colour, and left and right are slight
+ *      variants based on moving slighty left and right round the HSL colour
+ *      wheel (30° each way.)
+ *
+ * .tetrad()
+ *      Returns an array of colours based on the original:
+ *      [original, right, complement, left]
+ *      Where original is the original colour, and right, complement, and left
+ *      are produced by rotating in 90° incremenets round the HSL colour wheel 
+ *      (complement is the same as the colour returned by the complement() 
+ *      method.)
+ *
+ * .rectTetrad()
+ *      Returns an array of colours based on the original:
+ *      [original, right, complement, left]
+ *      Where original is the original colour, and right, complement, and left
+ *      are produced by rotating in alternating 60 and 120° incremenets round
+ *      the HSL colour wheel (complement is the same as the colour returned by
+ *      the complement() method.) 
+ *
+ * .triad()
+ *      Returns an array of colours based on the original:
+ *      [original, left, right]
+ *      Where original is the original colour, and left and right are spaced 
+ *      evenly round the HSL colour wheel, producing a group of three colours
+ *      120° apart.
+ *
+ * .splitComplementary()
+ *      Returns an array of colours based on the original:
+ *      [original, left, right]
+ *      Where original is the original colour, and left and right are 150°
+ *      round the colour HSL colour wheel on each side. (The left and right
+ *      colours returned from this method are the same as the left and right
+ *      returned from doing .complement().analagous().)
  *   
  * .toString ()
  *      Alias for .toHexString()
@@ -245,7 +285,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*jslint onevar: true, browser: true, undef: true, regexp: true, newcap: true */
+/*jslint onevar: true, undef: true, regexp: true, newcap: true */
 (function(global){
 
 var hexToRGB, rgbToHex, rgbToHSL, hslToRGB, Colour, 
@@ -255,15 +295,14 @@ var hexToRGB, rgbToHex, rgbToHSL, hslToRGB, Colour,
 
 /** @constructor */
 Colour = global.Colour = function (initial) {
-    var rgb, hsl, type = typeof(initial);
     if ( ! (this instanceof Colour)) { return new Colour(initial); }
     if ( ! initial ) {
         throw invalidError;
     }
-	if (initial instanceof Colour) {
-		this.hsl = initial.hsl;
-		this.rgb = initial.rgb;
-	}
+    if (initial instanceof Colour) {
+        this.hsl = initial.hsl;
+        this.rgb = initial.rgb;
+    }
     else if (initial.h !== undefined && 
             initial.s !== undefined && initial.l !== undefined) {
         this.hsl = initial;
@@ -277,69 +316,69 @@ Colour = global.Colour = function (initial) {
         }
     }
     else if (initial.r !== undefined && initial.g !== undefined && initial.b !== undefined) {
-		this.rgb = initial;
+        this.rgb = initial;
     }
 };
 
 
 Colour.prototype = {
-	_makeRGB: function () {
-		if (typeof(this.rgb) == "undefined") { this.rgb = hslToRGB(this.hsl); }
-	},
-	_makeHSL: function () {
-		if (typeof(this.hsl) == "undefined") { this.hsl = rgbToHSL(this.rgb); }
-	},
-	luma: function() {
-		this._makeRGB();
+    _makeRGB: function () {
+        if (typeof(this.rgb) == "undefined") { this.rgb = hslToRGB(this.hsl); }
+    },
+    _makeHSL: function () {
+        if (typeof(this.hsl) == "undefined") { this.hsl = rgbToHSL(this.rgb); }
+    },
+    luma: function() {
+        this._makeRGB();
         // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
-		return  (0.3*this.rgb.r + 0.59*this.rgb.g + 0.11*this.rgb.b) / 255;
-	},
-	red: function(r) {
-		this._makeRGB();
-		return (typeof(r) == "undefined") ? this.rgb.r :
-			new Colour({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b, a: this.rgb.a});
-	},
-	green: function(g) {
-		this._makeRGB();
-		return (typeof(g) == "undefined") ? this.rgb.g :
-			new Colour({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b, a: this.rgb.a});
-	},
-	blue: function(b) {
-		this._makeRGB();
-		return (typeof(b) == "undefined") ? this.rgb.b :
-			new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10), a: this.rgb.a});
-	},
-	hue: function(h) {
-	    this._makeHSL();
-		return (typeof(h) == "undefined") ? this.hsl.h :
-			new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l, a: this.hsl.a});
-	},
-	saturation: function(s) {
-	    this._makeHSL();
-		return (typeof(s) == "undefined") ? this.hsl.s :
-			new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l, a: this.hsl.a});
-	},
-	lightness: function(l) {
-	    this._makeHSL();
-		return (typeof(l) == "undefined") ? this.hsl.l :
-			new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
-	},
-	alpha: function(a) {
-		if (arguments.length === 0) {
-			return (this.hsl || this.rgb).a;
-		}
-		else {
-			a = (a === null || a === undefined) ? undefined : parseFloat(a);
-			if (this.hsl) {
-				return new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: a});
-			}
-			else {
-				return new Colour({r: this.rgb.r, g: this.rgb.g, b: this.rgb.b, a: a});
-			}
-		}
-	},
+        return  (0.3*this.rgb.r + 0.59*this.rgb.g + 0.11*this.rgb.b) / 255;
+    },
+    red: function(r) {
+        this._makeRGB();
+        return (typeof(r) == "undefined") ? this.rgb.r :
+            new Colour({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b, a: this.rgb.a});
+    },
+    green: function(g) {
+        this._makeRGB();
+        return (typeof(g) == "undefined") ? this.rgb.g :
+            new Colour({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b, a: this.rgb.a});
+    },
+    blue: function(b) {
+        this._makeRGB();
+        return (typeof(b) == "undefined") ? this.rgb.b :
+            new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10), a: this.rgb.a});
+    },
+    hue: function(h) {
+        this._makeHSL();
+        return (typeof(h) == "undefined") ? this.hsl.h :
+            new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l, a: this.hsl.a});
+    },
+    saturation: function(s) {
+        this._makeHSL();
+        return (typeof(s) == "undefined") ? this.hsl.s :
+            new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l, a: this.hsl.a});
+    },
+    lightness: function(l) {
+        this._makeHSL();
+        return (typeof(l) == "undefined") ? this.hsl.l :
+            new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
+    },
+    alpha: function(a) {
+        if (arguments.length === 0) {
+            return (this.hsl || this.rgb).a;
+        }
+        else {
+            a = (a === null || a === undefined) ? undefined : parseFloat(a);
+            if (this.hsl) {
+                return new Colour({h: this.hsl.h, s: this.hsl.s, l: this.hsl.l, a: a});
+            }
+            else {
+                return new Colour({r: this.rgb.r, g: this.rgb.g, b: this.rgb.b, a: a});
+            }
+        }
+    },
     lighten: function(amount) {
-	    this._makeHSL();
+        this._makeHSL();
         return new Colour({
             h: this.hsl.h,
             s: this.hsl.s,
@@ -348,7 +387,7 @@ Colour.prototype = {
         });
     },
     darken: function(amount) {
-	    this._makeHSL();
+        this._makeHSL();
         return new Colour({
             h: this.hsl.h,
             s: this.hsl.s,
@@ -362,11 +401,11 @@ Colour.prototype = {
             r: 255 - this.rgb.r,
             g: 255 - this.rgb.g,
             b: 255 - this.rgb.b,
-			a: this.rgb.a
+            a: this.rgb.a
         });
     },
     complement: function() {
-	    this._makeHSL();
+        this._makeHSL();
         return new Colour({
             h: (this.hsl.h + 0.5) % 1.0,
             s: this.hsl.s,
@@ -375,7 +414,7 @@ Colour.prototype = {
         });
     },
     desaturate: function() {
-	    this._makeHSL();
+        this._makeHSL();
         return new Colour({
             h: this.hsl.h,
             s: 0,
@@ -385,60 +424,60 @@ Colour.prototype = {
     },
     contrast: function(forDark, forLight) {
         // return new Colour((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Colour((this.luma() > 0.5)?
-                 forDark || "#111" :
-                 forLight || "#eee");
+        return new Colour((this.luma() > 0.6)?
+                 forLight || "#111" :
+                 forDark || "#eee");
     },
-	analagous: function() {
-		return [
-			this,
-			this.hue(this.hue() - 1/12),
-			this.hue(this.hue() + 1/12)
-		];
-	},
-	tetrad: function() {
-		return [
-			this,
-			this.hue(this.hue() + 1/4),
-			this.hue(this.hue() + 2/4),
-			this.hue(this.hue() + 3/4)
-		];
-	},
-	rectTetrad: function() {
-		return [
-			this,
-			this.hue(this.hue() + 1/6),
-			this.hue(this.hue() + 3/6),
-			this.hue(this.hue() + 4/6)
-		];
-	},
-	triad: function() {
-		return [
-			this,
-			this.hue(this.hue() - 1/3),
-			this.hue(this.hue() + 1/3)
-		];
-	},
-	splitComplementary: function() {
-		return [
-			this,
-			this.hue(this.hue() - 5/12),
-			this.hue(this.hue() + 5/12)
-		];
-	},
+    analagous: function() {
+        return [
+            this,
+            this.hue(this.hue() - 1/12),
+            this.hue(this.hue() + 1/12)
+        ];
+    },
+    tetrad: function() {
+        return [
+            this,
+            this.hue(this.hue() + 1/4),
+            this.hue(this.hue() + 2/4),
+            this.hue(this.hue() + 3/4)
+        ];
+    },
+    rectTetrad: function() {
+        return [
+            this,
+            this.hue(this.hue() + 1/6),
+            this.hue(this.hue() + 3/6),
+            this.hue(this.hue() + 4/6)
+        ];
+    },
+    triad: function() {
+        return [
+            this,
+            this.hue(this.hue() - 1/3),
+            this.hue(this.hue() + 1/3)
+        ];
+    },
+    splitComplementary: function() {
+        return [
+            this,
+            this.hue(this.hue() - 5/12),
+            this.hue(this.hue() + 5/12)
+        ];
+    },
     toString: function() { // TODO: make this smarter, return rgba when needed
         return this.toHexString();
     },
     toHexString: function() {
-		this._makeRGB();
+        this._makeRGB();
         return rgbToHex(this.rgb);
     },
     toRGBString: function() {
-		this._makeRGB();
+        this._makeRGB();
         return rgbToCSSRGB(this.rgb);
     },
     toHSLString: function() {
-	    this._makeHSL();
+        this._makeHSL();
         return hslToCSSHSL(this.hsl);
     }
 };
