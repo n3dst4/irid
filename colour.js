@@ -291,9 +291,17 @@
 var hexToRGB, rgbToHex, rgbToHSL, hslToRGB, Colour, 
     parseRGBValue, parseAlphaValue, parseSLValue, parseHueValue, parseHexValue,
     cssRGBToRGB, cssHSLToHSL, rgbToCSSRGB, hslToCSSHSL,
-    invalidError = "Invalid colour specification";
+    invalidError = "Invalid colour specification",
+    // Silly micro-optimizations (vars get minified):
+    undef = "undefined",
+    parseFloat = global.parseFloat,
+    parseInt = global.parseInt,
+    undefined = global.undefined,
+    round = Math.round,
+    max = Math.max,
+    min = Math.min,
+    floor = Math.floor;
 
-/** @constructor */
 Colour = global.Colour = function (initial) {
     if ( ! (this instanceof Colour)) { return new Colour(initial); }
     if ( ! initial ) {
@@ -323,44 +331,45 @@ Colour = global.Colour = function (initial) {
 
 Colour.prototype = {
     _makeRGB: function () {
-        if (typeof(this.rgb) == "undefined") { this.rgb = hslToRGB(this.hsl); }
+        if (typeof(this.rgb) == undef) { this.rgb = hslToRGB(this.hsl); }
     },
     _makeHSL: function () {
-        if (typeof(this.hsl) == "undefined") { this.hsl = rgbToHSL(this.rgb); }
+        if (typeof(this.hsl) == undef) { this.hsl = rgbToHSL(this.rgb); }
     },
     luma: function() {
+        var rgb = this.rgb;
         this._makeRGB();
         // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
-        return  (0.3*this.rgb.r + 0.59*this.rgb.g + 0.11*this.rgb.b) / 255;
+        return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
     },
     red: function(r) {
         this._makeRGB();
-        return (typeof(r) == "undefined") ? this.rgb.r :
+        return (typeof(r) == undef) ? this.rgb.r :
             new Colour({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b, a: this.rgb.a});
     },
     green: function(g) {
         this._makeRGB();
-        return (typeof(g) == "undefined") ? this.rgb.g :
+        return (typeof(g) == undef) ? this.rgb.g :
             new Colour({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b, a: this.rgb.a});
     },
     blue: function(b) {
         this._makeRGB();
-        return (typeof(b) == "undefined") ? this.rgb.b :
+        return (typeof(b) == undef) ? this.rgb.b :
             new Colour({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10), a: this.rgb.a});
     },
     hue: function(h) {
         this._makeHSL();
-        return (typeof(h) == "undefined") ? this.hsl.h :
+        return (typeof(h) == undef) ? this.hsl.h :
             new Colour({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l, a: this.hsl.a});
     },
     saturation: function(s) {
         this._makeHSL();
-        return (typeof(s) == "undefined") ? this.hsl.s :
+        return (typeof(s) == undef) ? this.hsl.s :
             new Colour({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l, a: this.hsl.a});
     },
     lightness: function(l) {
         this._makeHSL();
-        return (typeof(l) == "undefined") ? this.hsl.l :
+        return (typeof(l) == undef) ? this.hsl.l :
             new Colour({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
     },
     alpha: function(a) {
@@ -436,11 +445,12 @@ Colour.prototype = {
         ];
     },
     tetrad: function() {
+        var hue = this.hue();
         return [
             this,
-            this.hue(this.hue() + 1/4),
-            this.hue(this.hue() + 2/4),
-            this.hue(this.hue() + 3/4)
+            this.hue(hue + 1/4),
+            this.hue(hue + 2/4),
+            this.hue(hue + 3/4)
         ];
     },
     rectTetrad: function() {
@@ -485,19 +495,19 @@ Colour.prototype = {
 
 parseHexValue = function (str) {
     if (str.length == 1) { str += str; }
-    return Math.max(0, Math.min(255, parseInt(str, 16)));
+    return max(0, min(255, parseInt(str, 16)));
 };
 
 parseRGBValue = function (str) {
     var percent = str.charAt(str.length - 1) == "%";
     if (percent) { str = str.slice(0, str.length - 1); }
-    return Math.max(0, Math.min(255, Math.round(
+    return max(0, min(255, round(
             parseInt(str, 10) * (percent ? 2.55 : 1)
     )));
 };
 
 parseAlphaValue = function (str) {
-    return str ? Math.max(0, Math.min(1, parseFloat(str))) : undefined;
+    return str ? max(0, min(1, parseFloat(str))) : undefined;
 };
 
 parseHueValue = function (str) {
@@ -507,7 +517,7 @@ parseHueValue = function (str) {
 };
 
 parseSLValue = function (str) {
-    return Math.max(0, Math.min(100, parseInt(str, 10))) / 100;
+    return max(0, min(100, parseInt(str, 10))) / 100;
 };
 
 
@@ -518,7 +528,7 @@ hexToRGB = Colour.hexToRGB = function (hex) {
         r: parseHexValue(parts[1]),
         g: parseHexValue(parts[2]),
         b: parseHexValue(parts[3]),
-        a: (typeof parts[4] == "undefined" || parts[4] == "")? 
+        a: (typeof parts[4] == undef || parts[4] == "")? 
                 undefined : 
                 parseHexValue(parts[4])/255
     }:undefined;
@@ -538,18 +548,18 @@ cssRGBToRGB = Colour.cssRGBToRGB = function (css) {
 
 rgbToCSSRGB = Colour.rgbToCSSRGB = function (rgb) {
     return "rgb" + (rgb.a?"a":"") + "(" +
-        Math.round(rgb.r) + ", " +
-        Math.round(rgb.g) + ", " +
-        Math.round(rgb.b) + 
+        round(rgb.r) + ", " +
+        round(rgb.g) + ", " +
+        round(rgb.b) + 
         ( rgb.a? (", " + rgb.a.toFixed(2)) : ""  ) + ")";
 };
 
 
 hslToCSSHSL = Colour.hslToCSSHSL = function (hsl) {
     return "hsl" + (hsl.a?"a":"") + "(" +
-        Math.round(hsl.h * 360) + ", " +
-        Math.round(hsl.s * 100) + "%, " +
-        Math.round(hsl.l * 100) + "%" +
+        round(hsl.h * 360) + ", " +
+        round(hsl.s * 100) + "%, " +
+        round(hsl.l * 100) + "%" +
         ( hsl.a? (", " + hsl.a.toFixed(2)) : ""  ) + ")";
 };
 
@@ -572,7 +582,7 @@ rgbToHex = Colour.rgbToHex = function (rgb) {
         ((rgb.g < 16)? "0":"") + rgb.g.toString(16) + 
         ((rgb.b < 16)? "0":"") + rgb.b.toString(16);
     if (rgb.a !== undefined) {
-        alpha = Math.floor(rgb.a*255);
+        alpha = floor(rgb.a*255);
         str += ((alpha < 16 )? "0":"") + alpha.toString(16);
     }
     return str;
@@ -582,13 +592,13 @@ rgbToHex = Colour.rgbToHex = function (rgb) {
 rgbToHSL = Colour.rgbToHSL = function (rgb) {
     var v, m, vm, r2, g2, b2,
         r = rgb.r/255,
-        g = rgb.g/255.0,
-        b = rgb.b/255.0,
+        g = rgb.g/255,
+        b = rgb.b/255,
         h = 0,
         s = 0,
         l = 0;
-    v = Math.max(r,g,b);
-    m = Math.min(r,g,b);
+    v = max(r,g,b);
+    m = min(r,g,b);
     l = (m + v) / 2;
     if (l > 0) {
         vm = v - m;
@@ -620,7 +630,7 @@ hslToRGB = Colour.hslToRGB = function (hsl) {
         m = l + l - v;
         sv = (v - m ) / v;
         h *= 6.0;
-        sextant = Math.floor(h);
+        sextant = floor(h);
         fract = h - sextant;
         vsf = v * sv * fract;
         mid1 = m + vsf;
@@ -635,9 +645,9 @@ hslToRGB = Colour.hslToRGB = function (hsl) {
         }
     }
     return {
-        r: Math.floor(r * 255),
-        g: Math.floor(g * 255),
-        b: Math.floor(b * 255),
+        r: floor(r * 255),
+        g: floor(g * 255),
+        b: floor(b * 255),
         a: hsl.a
     };
 };
