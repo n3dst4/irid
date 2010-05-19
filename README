@@ -3,6 +3,8 @@ colour.js
 
 Parse, convert and manipulate colours (also known as colors) in JavaScript.
 
+For a page which makes extensive use of colour.js, see http://colourtoy.lumphammer.com/
+
 
 Usage
 ===============
@@ -337,7 +339,8 @@ Test coverage
 
 Demo
 ===============
-See colourtoy.html for a toy colour picker app which uses colour.js.
+See http://colourtoy.lumphammer.com/ for a colour picker app which uses
+colour.js.
 
 
 Copyright and licence
