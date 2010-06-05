@@ -1,0 +1,20 @@
+body { margin-top: 1.0em; background-color: #fff; font-family: "Helvetica", "Arial", sans-serif; color: #333; }
+
+#container { margin: 0 auto; width: 700px; }
+
+h1 { font-size: 3em; margin-bottom: 3px; background: transparent url(blob-of-colour.png);
+	background-repeat: no-repeat; margin-left: -210px; padding-left: 205px; font-weight: normal;}
+
+h1 .small { font-size: 0.4em; }
+h1 a { color: #666; text-decoration: none }
+h2 { font-size: 1.5em; color: #666; }
+h3 { text-align: center; color: #666; }
+a { color: hotpink; }
+.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+
+pre { background: lightgoldenrodyellow; color: #333; padding: 1em; border: 1px solid goldenrod;}
+pre.legal { background: none; border: none; }
+hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+.footer { text-align:center; padding-top:30px; font-style: italic; }
+
+.swatch { padding: 0 0.3em; border: 1px solid #333; }
