@@ -1,16 +1,17 @@
-body { margin-top: 1.0em; background-color: #fff; font-family: "Helvetica", "Arial", sans-serif; color: #333; }
+body { background-color: #fff; font-family: "Helvetica", "Arial", sans-serif; color: #333; }
 
 #container { margin: 0 auto; width: 700px; }
 
 h1 { font-size: 3em; margin-bottom: 3px; background: transparent url(blob-of-colour.png);
-	background-repeat: no-repeat; margin-left: -210px; padding-left: 205px; font-weight: normal;}
+	background-repeat: no-repeat; margin-left: -210px; padding-left: 205px; font-weight: normal; text-shadow: rgba(0,0,0,0.2) 2px 2px 5px;
+}
 
 h1 .small { font-size: 0.4em; }
-h1 a { color: #666; text-decoration: none }
-h2 { font-size: 1.5em; color: #666; }
+h1 a { color: #333; text-decoration: none }
+h2 { font-size: 1.5em; color: #666; border-top: 6px solid #eee; margin-top: 2em; padding-top: 0.2em; }
 h3 { text-align: center; color: #666; }
 a { color: hotpink; }
-.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; text-shadow: rgba(0,0,0,0.2) 2px 2px 5px; }
 
 pre { background: lightgoldenrodyellow; color: #333; padding: 1em; border: 1px solid goldenrod;}
 pre.legal { background: none; border: none; }
