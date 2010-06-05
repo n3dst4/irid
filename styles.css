@@ -10,7 +10,7 @@ h1 .small { font-size: 0.4em; }
 h1 a { color: #333; text-decoration: none }
 h2 { font-size: 1.5em; color: #666; border-top: 6px solid #eee; margin-top: 2em; padding-top: 0.2em; }
 h3 { text-align: center; color: #666; }
-a { color: hotpink; }
+a { color: #274ac8; }
 .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; text-shadow: rgba(0,0,0,0.2) 2px 2px 5px; }
 
 pre { background: lightgoldenrodyellow; color: #333; padding: 1em; border: 1px solid goldenrod;}

@@ -24,11 +24,11 @@
       Parse, convert and manipulate colours (also known as colors) in JavaScript 
     </div>
     
-    <p>colour.js is a small JavaScript library which can parse any CSS colour
+    <p><strong>colour.js</strong> is a small (4KB minified and gzipped) JavaScript library which can parse any CSS colour
     definition, convert the results between RGB and HSL, and perform various
     transformations.
     
-    <p>For a page which makes extensive use of colour.js, have a look at <a
+    <p>For a page which makes extensive use of <strong>colour.js</strong>, have a look at <a
     href="http://colourtoy.lumphammer.com/">The Colour Toy</a>.
     
     <h2>Download</h2>
@@ -55,26 +55,29 @@
     
     
     <h2>Documentation</h2>
-    <p>Full API documentation is in the <a href="http://github.com/n3dst4/colour.js/blob/master/README.md">README</a>
+    <p>Full API documentation is in the <a href="http://github.com/n3dst4/colour.js/blob/master/README.md">README</a>.
     
     
-    <h2>Examples</h2>
+    <h2>Example</h2>
 <pre>var colourString = "hotpink", // maybe this came from a user preference or something
     baseColour = new Colour(colourString), // create colour object for <span class="swatch" style="background: hotpink">hotpink</span>
     shaded = baseColour.darken(0.5), // looks like <span class="swatch" style="background: #b30059; color: #eee;">this</span>
-    textColour = baseColour.contrast(); // is <span class="swatch" style="background: #111; color: #eee">#111</span></pre>
+    textColour = baseColour.contrast(); // is <span class="swatch" style="background: #111; color: #eee">#111</span>
+
+// using jQuery syntax here, but could apply to anything:
+$(".customized").css({
+    "background-color": baseColour.toString(), // "#ff69b4"
+    "border-color": shaded.toString(),         // "#b30059"
+    "color": textColor.toString()              // "#111111"
+});</pre>
 
 <p>Notice how each operation returns a new Colour object, leaving baseColour untouched.
-
-    
-    
-    
     
     
     <p>
     <h2>License</h2>
     <pre class="legal">
-Copyright (c) 2009, Neil de Carteret
+Copyright (c) 2010, Neil de Carteret
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -85,14 +88,14 @@ modification, are permitted provided that the following conditions are met:
 *   Redistributions in binary form must reproduce the above copyright
     notice, this list of conditions and the following disclaimer in the
     documentation and/or other materials provided with the distribution.
-*   Neither the name of the <organization> nor the
-    names of its contributors may be used to endorse or promote products
-    derived from this software without specific prior written permission.
+*   Neither the name "Neil de Carteret" nor the names of any contributors may be
+    used to endorse or promote products derived from this software without
+    specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY NEIL DE CARTERET ''AS IS'' AND ANY
 EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <copyright holder> BE LIABLE FOR ANY
+DISCLAIMED. IN NO EVENT SHALL NEIL DE CARTERET BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -101,13 +104,9 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
     
     
-    <h2>Authors</h2>
+    <h2>Author</h2>
     <p>Neil de Carteret (n3dst4@gmail.com)
-    <br/>
-    <br/>      </p>
-    <h2>Contact</h2>
-    <p>Neil de Carteret (n3dst4@gmail.com)
-    <br/>      </p>
+	<p>Blog: <a href="http://blog.lumphammer.com/">http://blog.lumphammer.com/</a>
     
     
     <h2>Download</h2>
