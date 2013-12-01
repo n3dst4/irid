@@ -221,12 +221,14 @@ Colour.prototype = {
             this.hue(this.hue() + 5/12)
         ];
     },
-    blend: function (other) {
+    blend: function (other, opacity) {
+        if (typeof opacity == "undefined") opacity = 0.5;
+        var thisOpacity = 1 - opacity;
         other = new Colour(other);
         return new Colour({
-            r: Math.floor((this.red() + other.red()) / 2),
-            g: Math.floor((this.green() + other.green()) / 2),
-            b: Math.floor((this.blue() + other.blue()) / 2)
+            r: Math.floor((this.red() * thisOpacity + other.red() * opacity)),
+            g: Math.floor((this.green() * thisOpacity + other.green() * opacity)),
+            b: Math.floor((this.blue() * thisOpacity + other.blue() * opacity))
         });
     },
     toString: function() { // TODO: make this smarter, return rgba when needed

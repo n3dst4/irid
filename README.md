@@ -283,6 +283,16 @@ round the colour HSL colour wheel on each side. (The left and right
 colours returned from this method are the same as the left and right
 returned from doing .complement().analagous().)
 
+.blend(other [, opacity])
+----------------
+
+Returns a new colour consisting of the the original colour blended with a given
+other colour. The optional `opacity` argument is a number between 0 and 1
+specifying a weighting for the blended colour in the mix. A low value, e.g. 0.1,
+will yield a result very close to the original, while a high value, e.g. 0.9,
+will yield a result very close to the "other" colour. The default opacity is
+0.5, yielding an even mix of the two colours.
+
 .toString ()
 ----------------
 

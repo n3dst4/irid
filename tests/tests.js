@@ -527,6 +527,20 @@ test("blending", function () {
     equals(blend.toString(), "#7f7f7f");
 });
 
+test("blending with opacity 0.25", function () {
+    var white = new Colour("white"),
+        black = new Colour("black"),
+        blend = white.blend("black", 0.25);
+    equals(blend.toString(), "#bfbfbf");
+});
+
+test("blending with opacity 0.75", function () {
+    var white = new Colour("white"),
+        black = new Colour("black"),
+        blend = white.blend("black", 0.75);
+    equals(blend.toString(), "#3f3f3f");
+});
+
 
 
 
