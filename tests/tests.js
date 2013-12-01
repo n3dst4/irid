@@ -520,6 +520,13 @@ test("split complementary colours", function () {
     equals(comp[2].toString(), "#00ff7f");
 });
 
+test("blending", function () {
+    var white = new Colour("white"),
+        black = new Colour("black"),
+        blend = white.blend("black");
+    equals(blend.toString(), "#7f7f7f");
+});
+
 
 
 
