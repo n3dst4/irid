@@ -1,29 +1,25 @@
-colour.js
-=========
+colour
+======
 
-Parse, convert and manipulate colours (also known as colors) in JavaScript.
+Parse, convert and manipulate colours (also known as colors).
 
 For a page which makes extensive use of colour.js, see http://colourtoy.lumphammer.com/
 
 
 Usage
 ===============
-Download colour.min.js and link to it in in your HTML:
+```
+npm install colour --save
+```
 
-     <head>
-          ...
-          <script type="text/javascript" src="path/to/colour.min.js"></script>
-          ...
-     </head>
-     
-You knew that already, right?
+Then:
 
-To create Colour objects:
-
-     Colour( string );
-     Colour( rgbObject );
-     Colour( hslObject );
-     
+```js
+var Colour = require("Colour");
+Colour( string );
+Colour( rgbObject );
+Colour( hslObject );
+```
 
 
 
@@ -50,7 +46,7 @@ The recognised formats are:
      hsla(int, int%, int%, float)
      colourname
 
-More detail about these formats can be found at 
+More detail about these formats can be found at
 http://www.w3.org/TR/css3-color/
 
 colourname can be any any named colour defined in CSS3. This is not
@@ -61,14 +57,14 @@ In rgb() and rgba() formats, the int values are either integers between
 CSS3 spec stipulates that the three values should all be plain integers
 or all percentages, but this is not enforced in colour.js.
 
-In hsl() and hsla() formats, the first int value is the hue in degrees, 
+In hsl() and hsla() formats, the first int value is the hue in degrees,
 where 0 = 360 = red. The second and third values are percentages for the
 saturation and luminance, and must be followed by a %-sign.
 
 In rgba() and hsla() formats, the float value is the alpha value, and
 should be between 0.0 and 1.0 inclusive. colour.js will actually
 understand if you supply an alpha float to rgb() or hsl(), or leave it
-out of rgba() or hsla() (in other words, the "a" is completely 
+out of rgba() or hsla() (in other words, the "a" is completely
 optional.)
 
 The #xxxx and #xxxxxxxx formats are not part of CSS3. They are like #xxx
@@ -78,14 +74,14 @@ one or two hex digits.
 Colour( rgbobject )
 ----------------
 
-Returns a new Colour object based on the r, g, and b members of the 
+Returns a new Colour object based on the r, g, and b members of the
 argument, which should be integers between 0 and 255 inclusive. Example:
 Colour({r: 255, g: 0, b: 0}) // red colour
 
 Colour( hslobject )
 ----------------
 
-Returns a new Colour object based on the h, s, and l members of the 
+Returns a new Colour object based on the h, s, and l members of the
 argument, which should be numbers between 0 and 1 inclusive. Example:
 Colour({h: 0.33, s: 0.5, b: 0.4}) // olive colour
 
@@ -192,30 +188,30 @@ not currently possible to set the luma directly.
 .lighten (amount)
 ----------------
 
-Where amount is a number between 0 and 1. Lightens the colour towards 
-white by the proportion given. Colour("black").lighten(0.5) is medium 
-grey. Colour("black").lighten(0.5).lighten(0.5) is 75% light grey. 
+Where amount is a number between 0 and 1. Lightens the colour towards
+white by the proportion given. Colour("black").lighten(0.5) is medium
+grey. Colour("black").lighten(0.5).lighten(0.5) is 75% light grey.
 .lighten(0) is a no-op, .lighten(1) turns any colour into white.
 
 .darken (amount)
 ----------------
 
-Where amount is a number between 0 and 1. Darkens the colour towards 
-black by the proportion given. Colour("white").darken(0.5) is medium 
-grey. Colour("white").darken(0.5).darken(0.5) is 75% dark grey. 
+Where amount is a number between 0 and 1. Darkens the colour towards
+black by the proportion given. Colour("white").darken(0.5) is medium
+grey. Colour("white").darken(0.5).darken(0.5) is 75% dark grey.
 .darken(0) is a no-op, .darken(1) turns any colour into black.
 
 .invert ()
 ----------------
 
 Turns the colour into the RGB opposite of itself. White becomes black,
-black becomes white, and medium grey remains medium grey. If you are 
+black becomes white, and medium grey remains medium grey. If you are
 building a colour scheme, you probably want .complement() instead.
 
 .complement ()
 ----------------
 
-Turns the colour into its colour-wheel complement - that is, it keeps 
+Turns the colour into its colour-wheel complement - that is, it keeps
 the same lightness and saturation but moves to the opposite hue. This
 will generally produce a pleasingly contrasting colour.
 
@@ -231,7 +227,7 @@ Returns a new Colour object representing a tone which will be as legible
 as possible as a text/foreground colour when the original colour is
 used as a background. The defaults are #111 (on light backgrounds) and #eee
 (on dark backgrounds.) If supplied, light and dark are strings or
-Colour objects which will be used instead (light should be a light 
+Colour objects which will be used instead (light should be a light
 colour for use on dark backgrounds, dark should be a dark colour for use
 on light backgrounds.)
 
@@ -250,8 +246,8 @@ wheel (30� each way.)
 Returns an array of colours based on the original:
 [original, right, complement, left]
 Where original is the original colour, and right, complement, and left
-are produced by rotating in 90� incremenets round the HSL colour wheel 
-(complement is the same as the colour returned by the complement() 
+are produced by rotating in 90� incremenets round the HSL colour wheel
+(complement is the same as the colour returned by the complement()
 method.)
 
 .rectTetrad()
@@ -262,14 +258,14 @@ Returns an array of colours based on the original:
 Where original is the original colour, and right, complement, and left
 are produced by rotating in alternating 60 and 120� incremenets round
 the HSL colour wheel (complement is the same as the colour returned by
-the complement() method.) 
+the complement() method.)
 
 .triad()
 ----------------
 
 Returns an array of colours based on the original:
 [original, left, right]
-Where original is the original colour, and left and right are spaced 
+Where original is the original colour, and left and right are spaced
 evenly round the HSL colour wheel, producing a group of three colours
 120� apart.
 
@@ -312,7 +308,7 @@ Returns a CSS colour code in the rgb() or rgba() format.
 ----------------
 
 Returns a CSS colour code in the hsl() or hsla() format.
-  
+
 
 Example
 ===============
@@ -320,13 +316,13 @@ Example
 Making the background of a "dt" element proportionally darker than the parent dl:
 
      var myDl = $("my-dl");
-     myDl.find("dt").css("background-colour", 
+     myDl.find("dt").css("background-colour",
          Colour(myDl.css("background-colour")).darken(0.3).toString()
      );
 
 Setting the text colour in the dl automatically:
 
-     myDl.css("color", 
+     myDl.css("color",
          Colour(myDl.css("background-color")).getContrast().toString()
      );
 
@@ -338,7 +334,7 @@ values they were created with. See
 http://en.wikipedia.org/wiki/HSL_and_HSV
 for details. This means that sometimes, due to gamut changes and rounding
 errors, a colour subjected to a series of transformations which should cancel
-each other out will actually end up very slightly different to how it 
+each other out will actually end up very slightly different to how it
 started.
 
 

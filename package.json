@@ -1,0 +1,28 @@
+{
+  "name": "colour",
+  "version": "1.0.0",
+  "description": "Parse, convert and manipulate colours (also known as colors)",
+  "main": "colour.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n3dst4/colour.js.git"
+  },
+  "author": "Neil de Carteret <n3dst4@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/n3dst4/colour.js/issues"
+  },
+  "homepage": "https://github.com/n3dst4/colour.js#readme",
+  "devDependencies": {
+    "eslint": "^1.1.0"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended"
+  }
+}
