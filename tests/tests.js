@@ -1,560 +1,565 @@
-////////////////////////////////////////////////////////////////////////////////
-module("functions");
+/*global require */
 
-test("hexToRGB (6 digits)", function() {
+if (typeof require !== "undefined") {
+    if (typeof QUnit == 'undefined') {
+        var QUnit = require('qunit-cli');
+    }
+    var Colour = require("../colour.js");
+}
+
+
+
+
+
+
+
+
+
+
+QUnit.module("functions");
+
+
+
+
+QUnit.test("hexToRGB (6 digits)", function (assert) {
     var rgb = Colour.hexToRGB("#0088ff");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a, undefined );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a, undefined );
 });
 
-test("hexToRGB (8 digits)", function() {
+
+
+
+QUnit.test("hexToRGB (8 digits)", function (assert) {
     var rgb = Colour.hexToRGB("#0088ff7f");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a.toFixed(1), 0.5 );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a.toFixed(1), 0.5 );
 });
 
-test("hexToRGB (3 digits)", function() {
+QUnit.test("hexToRGB (3 digits)", function (assert) {
     var rgb = Colour.hexToRGB("#08f");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a, undefined );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a, undefined );
 });
 
-test("hexToRGB (4 digits)", function() {
+QUnit.test("hexToRGB (4 digits)", function (assert) {
     var rgb = Colour.hexToRGB("#08f8");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a.toFixed(1), 0.5 );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a.toFixed(1), 0.5 );
 });
 
-test("simple rgb", function() {
+QUnit.test("simple rgb", function (assert) {
     var rgb = Colour.cssRGBToRGB("rgb(0, 136, 255)");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a, undefined );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a, undefined );
 });
 
-test("rgb with percent", function() {
+QUnit.test("rgb with percent", function (assert) {
     var rgb = Colour.cssRGBToRGB("rgb(0%, 50%, 100%)");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 127 );
-    equals( rgb.b, 255 );
-    equals( rgb.a, undefined );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 127 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a, undefined );
 });
 
-test("rgba", function() {
+QUnit.test("rgba", function (assert) {
     var rgb = Colour.cssRGBToRGB("rgba(0, 136, 255, 0.7)");
-    equals( rgb.r, 0 );
-    equals( rgb.g, 136 );
-    equals( rgb.b, 255 );
-    equals( rgb.a, 0.7 );
+    assert.equal( rgb.r, 0 );
+    assert.equal( rgb.g, 136 );
+    assert.equal( rgb.b, 255 );
+    assert.equal( rgb.a, 0.7 );
 });
 
-test("hsl", function() {
+QUnit.test("hsl", function (assert) {
     var hsl = Colour.cssHSLToHSL("hsl(180, 60%, 70%)");
-    equals( hsl.h, 0.5 );
-    equals( hsl.s, 0.6 );
-    equals( hsl.l, 0.7 );
-    equals( hsl.a, undefined );
+    assert.equal( hsl.h, 0.5 );
+    assert.equal( hsl.s, 0.6 );
+    assert.equal( hsl.l, 0.7 );
+    assert.equal( hsl.a, undefined );
 });
 
-test("hsla", function() {
+QUnit.test("hsla", function (assert) {
     var hsl = Colour.cssHSLToHSL("hsl(180, 60%, 70%, 0.8)");
-    equals( hsl.h, 0.5 );
-    equals( hsl.s, 0.6 );
-    equals( hsl.l, 0.7 );
-    equals( hsl.a, 0.8 );
+    assert.equal( hsl.h, 0.5 );
+    assert.equal( hsl.s, 0.6 );
+    assert.equal( hsl.l, 0.7 );
+    assert.equal( hsl.a, 0.8 );
 });
 
-test("rgbToCSSRGB", function() {
-    equals( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255 }), "rgb(0, 136, 255)" );
+QUnit.test("rgbToCSSRGB", function (assert) {
+    assert.equal( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255 }), "rgb(0, 136, 255)" );
 });
 
-test("rgbToCSSRGB with alpha", function() {
-    equals( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255, a: 0.7 }), "rgba(0, 136, 255, 0.70)" );
+QUnit.test("rgbToCSSRGB with alpha", function (assert) {
+    assert.equal( Colour.rgbToCSSRGB({r: 0, g: 136, b: 255, a: 0.7 }), "rgba(0, 136, 255, 0.70)" );
 });
 
-test("hslToCSSHSL", function() {
-    equals( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7}), "hsl(180, 60%, 70%)" );
+QUnit.test("hslToCSSHSL", function (assert) {
+    assert.equal( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7}), "hsl(180, 60%, 70%)" );
 });
 
-test("hslToCSSHSL with alpha", function() {
-    equals( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7, a: 0.8}), "hsla(180, 60%, 70%, 0.80)" );
+QUnit.test("hslToCSSHSL with alpha", function (assert) {
+    assert.equal( Colour.hslToCSSHSL({h: 0.5, s: 0.6, l: 0.7, a: 0.8}), "hsla(180, 60%, 70%, 0.80)" );
 });
 
-test("rgbToHex", function() {
-    equals( Colour.rgbToHex({r: 0, g: 136, b: 255 }), "#0088ff" );
+QUnit.test("rgbToHex", function (assert) {
+    assert.equal( Colour.rgbToHex({r: 0, g: 136, b: 255 }), "#0088ff" );
 });
 
-test("rgbToHex with alpha", function() {
-    equals( Colour.rgbToHex({r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f" );
+QUnit.test("rgbToHex with alpha", function (assert) {
+    assert.equal( Colour.rgbToHex({r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f" );
 });
 
-test("hslToRGB", function() {
+QUnit.test("hslToRGB", function (assert) {
     var rgb = Colour.hslToRGB({ h: 147/255, s: 1, l: 128/255 })
-    equals( rgb.r , 0 );
-    equals( rgb.g , 138 );
-    equals( rgb.b , 255 );
-    equals( rgb.a , undefined );
+    assert.equal( rgb.r , 0 );
+    assert.equal( rgb.g , 138 );
+    assert.equal( rgb.b , 255 );
+    assert.equal( rgb.a , undefined );
 });
 
-test("hslToRGB with alpha", function() {
+QUnit.test("hslToRGB with alpha", function (assert) {
     var rgb = Colour.hslToRGB({ h: 147/255, s: 1, l: 128/255, a: 0.5 })
-    equals( rgb.r , 0 );
-    equals( rgb.g , 138 );
-    equals( rgb.b , 255 );
-    equals( rgb.a , 0.5 );
+    assert.equal( rgb.r , 0 );
+    assert.equal( rgb.g , 138 );
+    assert.equal( rgb.b , 255 );
+    assert.equal( rgb.a , 0.5 );
 });
 
-test("hslToRGB (white)", function() {
+QUnit.test("hslToRGB (white)", function (assert) {
     var rgb = Colour.hslToRGB({ h: 0, s: 1, l: 1 })
-    equals( rgb.r , 255 );
-    equals( rgb.g , 255 );
-    equals( rgb.b , 255 );
-    equals( rgb.a , undefined ); 
+    assert.equal( rgb.r , 255 );
+    assert.equal( rgb.g , 255 );
+    assert.equal( rgb.b , 255 );
+    assert.equal( rgb.a , undefined );
 });
 
-test("hslToRGB (hue=1)", function() {
+QUnit.test("hslToRGB (hue=1)", function (assert) {
     var rgb = Colour.hslToRGB({ h: 1, s: 1, l: 0.5 })
-    equals( rgb.r , 255 );
-    equals( rgb.g , 0 );
-    equals( rgb.b , 0 );
-    equals( rgb.a , undefined ); 
+    assert.equal( rgb.r , 255 );
+    assert.equal( rgb.g , 0 );
+    assert.equal( rgb.b , 0 );
+    assert.equal( rgb.a , undefined );
 });
 
-test("hslToRGB (negative hue)", function() {
+QUnit.test("hslToRGB (negative hue)", function (assert) {
     var rgb = Colour.hslToRGB({ h: -0.25, s: 1, l: 0.5 })
-    equals( rgb.r , 127 );
-    equals( rgb.g , 0 );
-    equals( rgb.b , 255 );
-    equals( rgb.a , undefined ); 
+    assert.equal( rgb.r , 127 );
+    assert.equal( rgb.g , 0 );
+    assert.equal( rgb.b , 255 );
+    assert.equal( rgb.a , undefined );
 });
 
-test("rgbToHSL", function() {
+QUnit.test("rgbToHSL", function (assert) {
     var hsl = Colour.rgbToHSL({ r: 0, g: 138, b: 255 })
-    equals( hsl.h.toFixed(2) , (147/255).toFixed(2) );
-    equals( hsl.s.toFixed(2) , 1 );
-    equals( hsl.l.toFixed(2) , (128/255).toFixed(2) );
-    equals( hsl.a , undefined );
+    assert.equal( hsl.h.toFixed(2) , (147/255).toFixed(2) );
+    assert.equal( hsl.s.toFixed(2) , 1 );
+    assert.equal( hsl.l.toFixed(2) , (128/255).toFixed(2) );
+    assert.equal( hsl.a , undefined );
 });
 
-test("rgbToHSL", function() {
+QUnit.test("rgbToHSL", function (assert) {
     var hsl = Colour.rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 })
-    equals( hsl.h.toFixed(2) , (147/255).toFixed(2) );
-    equals( hsl.s.toFixed(2) , 1 );
-    equals( hsl.l.toFixed(2) , (128/255).toFixed(2) );
-    equals( hsl.a , 0.5 );
+    assert.equal( hsl.h.toFixed(2) , (147/255).toFixed(2) );
+    assert.equal( hsl.s.toFixed(2) , 1 );
+    assert.equal( hsl.l.toFixed(2) , (128/255).toFixed(2) );
+    assert.equal( hsl.a , 0.5 );
 });
 
-test("rgbToHSL (white)", function() {
+QUnit.test("rgbToHSL (white)", function (assert) {
     var hsl = Colour.rgbToHSL({ r: 255, g: 255, b: 255 })
-    equals( hsl.h.toFixed(2) , 0 );
-    equals( hsl.s.toFixed(2) , 0 );
-    equals( hsl.l.toFixed(2) , 1 );
-    equals( hsl.a , undefined );
+    assert.equal( hsl.h.toFixed(2) , 0 );
+    assert.equal( hsl.s.toFixed(2) , 0 );
+    assert.equal( hsl.l.toFixed(2) , 1 );
+    assert.equal( hsl.a , undefined );
 });
 
 
 ////////////////////////////////////////////////////////////////////////////////
-module("Colour");
+QUnit.module("Colour");
 
-test("from string (#fff)", function() {
+QUnit.test("from string (#fff)", function (assert) {
     var colour = new Colour("#fff");
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 1 );
-    equals( colour.a , undefined );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 1 );
+    assert.equal( colour.a , undefined );
 });
 
-test("from string (#FFF)", function() {
+QUnit.test("from string (#FFF)", function (assert) {
     var colour = new Colour("#FFF");
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 1 );
-    equals( colour.a , undefined );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 1 );
+    assert.equal( colour.a , undefined );
 });
 
-test("from string (#000)", function() {
+QUnit.test("from string (#000)", function (assert) {
     var colour = new Colour("#000");
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0 );
-    equals( colour.a , undefined );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0 );
+    assert.equal( colour.a , undefined );
 });
 
-test("from invalid string (#yyy)", function() {
+QUnit.test("from invalid string (#yyy)", function (assert) {
     var failed = false;
-    expect(2);
+    QUnit.expect(2);
     try {
-        var colour = new Colour("#yyy");
+        Colour("#yyy");
     }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
     finally {
-        ok(failed, "An error was correctly raised");
+        assert.ok(failed, "An error was correctly raised");
     }
 });
 
-test("from Colour object", function() {
+QUnit.test("from Colour object", function (assert) {
     var colour = new Colour("#000");
     colour = new Colour(colour);
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0 );
-    equals( colour.a , undefined );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0 );
+    assert.equal( colour.a , undefined );
 });
 
-test("from RGB object", function () {
+QUnit.test("from RGB object", function (assert) {
     var c = Colour({r: 255, g: 0, b:0});
-    equals(c.hue(), 0);
-    equals(c.saturation(), 1);
-    equals(c.lightness(), 0.5);
+    assert.equal(c.hue(), 0);
+    assert.equal(c.saturation(), 1);
+    assert.equal(c.lightness(), 0.5);
 });
 
-test("from named colour", function() {
+QUnit.test("from named colour", function (assert) {
     var c = Colour("lightgoldenrodyellow");
-    equals(c.hue().toFixed(2), "0.17");
-    equals(c.saturation().toFixed(2), "0.80");
-    equals(c.lightness().toFixed(2), "0.90");
+    assert.equal(c.hue().toFixed(2), "0.17");
+    assert.equal(c.saturation().toFixed(2), "0.80");
+    assert.equal(c.lightness().toFixed(2), "0.90");
 });
 
-test("from named colour (case insensitive)", function() {
+QUnit.test("from named colour (case insensitive)", function (assert) {
     var c = Colour("LightGoldenrodYellow");
-    equals(c.hue().toFixed(2), "0.17");
-    equals(c.saturation().toFixed(2), "0.80");
-    equals(c.lightness().toFixed(2), "0.90");
+    assert.equal(c.hue().toFixed(2), "0.17");
+    assert.equal(c.saturation().toFixed(2), "0.80");
+    assert.equal(c.lightness().toFixed(2), "0.90");
 });
 
-test("from undefined", function () {
+QUnit.test("from undefined", function (assert) {
     var failed = false;
-    expect(2);
+    QUnit.expect(2);
     try {
-        var colour = new Colour(undefined);
+        Colour(undefined);
     }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
     finally {
-        ok(failed, "An error was correctly raised");
+        assert.ok(failed, "An error was correctly raised");
     }
 });
 
-test("from gibberish", function () {
+QUnit.test("from gibberish", function (assert) {
     var failed = false;
-    expect(2);
+    QUnit.expect(2);
     try {
-        var c = new Colour("ThisIsDefinitelyNotTheNameOfAColour");
+        Colour("ThisIsDefinitelyNotTheNameOfAColour");
     }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
     finally {
-        ok(failed, "An error was correctly raised");
+        assert.ok(failed, "An error was correctly raised");
     }
 });
 
-test("from null", function () {
+QUnit.test("from null", function (assert) {
     var failed = false;
-    expect(2);
+    QUnit.expect(2);
     try {
-        var c = new Colour(null);
+        Colour(null);
     }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
     finally {
-        ok(failed, "An error was correctly raised");
+        assert.ok(failed, "An error was correctly raised");
     }
 });
 
-test("from NaN", function () {
+QUnit.test("from NaN", function (assert) {
     var failed = false;
-    expect(2);
+    QUnit.expect(2);
     try {
-        var c = new Colour(NaN);
+        Colour(NaN);
     }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
     finally {
-        ok(failed, "An error was correctly raised");
+        assert.ok(failed, "An error was correctly raised");
     }
 });
 
-test("from malformed hex code", function () {
-    var c, failed = false;
-    expect(2);
-    try { c = new Colour("#ab"); }
+QUnit.test("from malformed hex code", function (assert) {
+    var failed = false;
+    QUnit.expect(2);
+    try { Colour("#ab"); }
     catch (e) {
-        equals(e, "Invalid colour specification");
+        assert.equal(e, "Invalid colour specification");
         failed = true;
     }
-    finally { ok(failed, "An error was correctly raised"); }
+    finally { assert.ok(failed, "An error was correctly raised"); }
 });
 
-test("lighten", function() {
+QUnit.test("lighten", function (assert) {
     var colour = new Colour("#000").lighten(0.5);
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0.5 );
-    equals( colour.a , undefined );
-    equals( colour.toHexString() , "#7f7f7f");
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0.5 );
+    assert.equal( colour.a , undefined );
+    assert.equal( colour.toHexString() , "#7f7f7f");
     colour = new Colour({h: 0, s: 0, l: 0.5}).lighten(0.5);
-    equals( colour.lightness().toFixed(2) , 0.75 );
+    assert.equal( colour.lightness().toFixed(2) , 0.75 );
 });
 
-test("darken", function() {
+QUnit.test("darken", function (assert) {
     var colour = new Colour("#fff").darken(0.5);
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0.5 );
-    equals( colour.a , undefined );
-    equals( colour.toHexString() , "#7f7f7f");
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0.5 );
+    assert.equal( colour.a , undefined );
+    assert.equal( colour.toHexString() , "#7f7f7f");
 });
 
-test("invert", function() {
+QUnit.test("invert", function (assert) {
     var colour = new Colour("#fff").invert();
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.saturation().toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0 );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.saturation().toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0 );
     colour = new Colour("#000").invert();
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 1 );
-    equals( new Colour("#f00").invert().toHexString(), "#00ffff");
-    equals( new Colour("#0f0").invert().toHexString(), "#ff00ff");
-    equals( new Colour("#00f").invert().toHexString(), "#ffff00");
-    equals( new Colour("#ace").invert().toHexString(), "#553311");
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.hsl.s.toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 1 );
+    assert.equal( new Colour("#f00").invert().toHexString(), "#00ffff");
+    assert.equal( new Colour("#0f0").invert().toHexString(), "#ff00ff");
+    assert.equal( new Colour("#00f").invert().toHexString(), "#ffff00");
+    assert.equal( new Colour("#ace").invert().toHexString(), "#553311");
 });
 
-test("complement", function() {
+QUnit.test("complement", function (assert) {
     var colour = new Colour("#fff").complement();
-    equals( colour.hue().toFixed(2) , 0.5 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 1 );
+    assert.equal( colour.hue().toFixed(2) , 0.5 );
+    assert.equal( colour.hsl.s.toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 1 );
     colour = new Colour("#000").complement();
-    equals( colour.hue().toFixed(2) , 0.5 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0 );
-    equals( new Colour("#f00").complement().toHexString(), "#00ffff");
-    equals( new Colour("#0f0").complement().toHexString(), "#ff00ff");
-    equals( new Colour("#00f").complement().toHexString(), "#fffe00");
-    equals( new Colour("#ace").complement().toHexString(), "#eeccaa");
+    assert.equal( colour.hue().toFixed(2) , 0.5 );
+    assert.equal( colour.hsl.s.toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0 );
+    assert.equal( new Colour("#f00").complement().toHexString(), "#00ffff");
+    assert.equal( new Colour("#0f0").complement().toHexString(), "#ff00ff");
+    assert.equal( new Colour("#00f").complement().toHexString(), "#fffe00");
+    assert.equal( new Colour("#ace").complement().toHexString(), "#eeccaa");
 });
 
-test("desaturate", function() {
+QUnit.test("desaturate", function (assert) {
     var colour = new Colour("#fff").desaturate();
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 1 );
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.hsl.s.toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 1 );
     colour = new Colour("#000").desaturate();
-    equals( colour.hue().toFixed(2) , 0 );
-    equals( colour.hsl.s.toFixed(2) , 0 );
-    equals( colour.lightness().toFixed(2) , 0 );
-    equals( new Colour("#f00").desaturate().toHexString(), "#7f7f7f");
-    equals( new Colour("#0f0").desaturate().toHexString(), "#7f7f7f");
-    equals( new Colour("#00f").desaturate().toHexString(), "#7f7f7f");
-    equals( new Colour("#ace").desaturate().toHexString(), "#cccccc");
+    assert.equal( colour.hue().toFixed(2) , 0 );
+    assert.equal( colour.hsl.s.toFixed(2) , 0 );
+    assert.equal( colour.lightness().toFixed(2) , 0 );
+    assert.equal( new Colour("#f00").desaturate().toHexString(), "#7f7f7f");
+    assert.equal( new Colour("#0f0").desaturate().toHexString(), "#7f7f7f");
+    assert.equal( new Colour("#00f").desaturate().toHexString(), "#7f7f7f");
+    assert.equal( new Colour("#ace").desaturate().toHexString(), "#cccccc");
 });
 
 
-test("contrast", function () {
+QUnit.test("contrast", function (assert) {
     var colour = new Colour("#fff").contrast();
-    equals(colour.toString(), "#111111");
+    assert.equal(colour.toString(), "#111111");
     colour = new Colour("#000").contrast();
-    equals(colour.toString(), "#eeeeee");
+    assert.equal(colour.toString(), "#eeeeee");
 });
 
-test("contrast uses luma", function () {
+QUnit.test("contrast uses luma", function (assert) {
     var colour = new Colour("#3531ff").contrast();
-    equals(colour.toString(), "#eeeeee");
+    assert.equal(colour.toString(), "#eeeeee");
     colour = new Colour("#d8ec00").contrast();
-    equals(colour.toString(), "#111111");
+    assert.equal(colour.toString(), "#111111");
 });
 
-test("get red", function () {
+QUnit.test("get red", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.red(), 0x35);
+    assert.equal(colour.red(), 0x35);
 });
 
-test("get blue", function () {
+QUnit.test("get blue", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.blue(), 0xff);
+    assert.equal(colour.blue(), 0xff);
 });
 
-test("get green", function () {
+QUnit.test("get green", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.green(), 0x31);
+    assert.equal(colour.green(), 0x31);
 });
 
-test("set red", function () {
+QUnit.test("set red", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.red(128).toString(), "#8031ff");
+    assert.equal(colour.red(128).toString(), "#8031ff");
 });
 
-test("set blue", function () {
+QUnit.test("set blue", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.blue(128).toString(), "#353180");
+    assert.equal(colour.blue(128).toString(), "#353180");
 });
 
-test("set green", function () {
+QUnit.test("set green", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.green(128).toString(), "#3580ff");
+    assert.equal(colour.green(128).toString(), "#3580ff");
 });
-test("get hue", function () {
+QUnit.test("get hue", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.hue().toFixed(2), "0.67");
-});
-
-test("get saturation", function () {
-    var colour = new Colour("#3531ff");
-    equals(colour.saturation().toFixed(2), "1.00");
+    assert.equal(colour.hue().toFixed(2), "0.67");
 });
 
-test("get lightness", function () {
+QUnit.test("get saturation", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.lightness().toFixed(2), "0.60");
+    assert.equal(colour.saturation().toFixed(2), "1.00");
 });
 
-test("set hue", function () {
+QUnit.test("get lightness", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.hue(0.5).toString(), "#30ffff");
+    assert.equal(colour.lightness().toFixed(2), "0.60");
 });
 
-test("set saturation", function () {
+QUnit.test("set hue", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.saturation(0.5).toString(), "#6664cb");
+    assert.equal(colour.hue(0.5).toString(), "#30ffff");
 });
 
-test("set lightness", function () {
+QUnit.test("set saturation", function (assert) {
     var colour = new Colour("#3531ff");
-    equals(colour.lightness(0.5).toString(), "#0400ff");
+    assert.equal(colour.saturation(0.5).toString(), "#6664cb");
 });
 
-test("component values can assigned by string", function () {
+QUnit.test("set lightness", function (assert) {
+    var colour = new Colour("#3531ff");
+    assert.equal(colour.lightness(0.5).toString(), "#0400ff");
+});
+
+QUnit.test("component values can assigned by string", function (assert) {
     var colour = new Colour("black").green("101");
-    equals(colour.toString(), "#006500");
+    assert.equal(colour.toString(), "#006500");
 });
 
-test("get alpha", function () {
+QUnit.test("get alpha", function (assert) {
     var colour = new Colour("#ffffff80");
-    equals(colour.alpha().toFixed(2), "0.50");
+    assert.equal(colour.alpha().toFixed(2), "0.50");
 });
 
-test("set alpha", function () {
+QUnit.test("set alpha", function (assert) {
     var colour = new Colour("#ffffff").alpha(0.5);
-    equals(colour.toString(), "#ffffff7f");
+    assert.equal(colour.toString(), "#ffffff7f");
 });
 
-test("set alpha to null", function () {
+QUnit.test("set alpha to null", function (assert) {
     var colour = new Colour("#ffffff55").alpha(null);
-    equals(colour.toString(), "#ffffff");
+    assert.equal(colour.toString(), "#ffffff");
 });
 
-test("set alpha to undefined", function () {
+QUnit.test("set alpha to undefined", function (assert) {
     var colour = new Colour("#ffffff55").alpha(undefined);
-    equals(colour.toString(), "#ffffff");
+    assert.equal(colour.toString(), "#ffffff");
 });
 
-test("undefined alpha returned correctly", function () {
-    equals(Colour("#ffffff").alpha(), undefined);
+QUnit.test("undefined alpha returned correctly", function (assert) {
+    assert.equal(Colour("#ffffff").alpha(), undefined);
 });
 
-test("analagous colours", function () {
+QUnit.test("analagous colours", function (assert) {
     var c = new Colour("red"),
         anal = c.analagous();
-    equals(anal.length, 3);
-    equals(anal[0].toString(), "#ff0000");
-    equals(anal[1].toString(), "#ff007f");
-    equals(anal[2].toString(), "#ff7f00");
+    assert.equal(anal.length, 3);
+    assert.equal(anal[0].toString(), "#ff0000");
+    assert.equal(anal[1].toString(), "#ff007f");
+    assert.equal(anal[2].toString(), "#ff7f00");
 });
 
-test("tetradic colours", function () {
+QUnit.test("tetradic colours", function (assert) {
     var c = new Colour("red"),
         tet = c.tetrad();
-    equals(tet.length, 4);
-    equals(tet[0].toString(), "#ff0000");
-    equals(tet[1].toString(), "#7fff00");
-    equals(tet[2].toString(), "#00ffff");
-    equals(tet[3].toString(), "#7f00ff");
+    assert.equal(tet.length, 4);
+    assert.equal(tet[0].toString(), "#ff0000");
+    assert.equal(tet[1].toString(), "#7fff00");
+    assert.equal(tet[2].toString(), "#00ffff");
+    assert.equal(tet[3].toString(), "#7f00ff");
 });
 
-test("rectangular tetradic colours", function () {
+QUnit.test("rectangular tetradic colours", function (assert) {
     var c = new Colour("red"),
         tet = c.rectTetrad();
-    equals(tet.length, 4);
-    equals(tet[0].toString(), "#ff0000");
-    equals(tet[1].toString(), "#ffff00");
-    equals(tet[2].toString(), "#00ffff");
-    equals(tet[3].toString(), "#0000ff");
+    assert.equal(tet.length, 4);
+    assert.equal(tet[0].toString(), "#ff0000");
+    assert.equal(tet[1].toString(), "#ffff00");
+    assert.equal(tet[2].toString(), "#00ffff");
+    assert.equal(tet[3].toString(), "#0000ff");
 });
 
-test("triadic colours", function () {
+QUnit.test("triadic colours", function (assert) {
     var c = new Colour("red"),
         tri = c.triad();
-    equals(tri.length, 3);
-    equals(tri[0].toString(), "#ff0000");
-    equals(tri[1].toString(), "#0000ff");
-    equals(tri[2].toString(), "#00ff00");
+    assert.equal(tri.length, 3);
+    assert.equal(tri[0].toString(), "#ff0000");
+    assert.equal(tri[1].toString(), "#0000ff");
+    assert.equal(tri[2].toString(), "#00ff00");
 });
 
-test("split complementary colours", function () {
+QUnit.test("split complementary colours", function (assert) {
     var c = new Colour("red"),
         comp = c.splitComplementary();
-    equals(comp.length, 3);
-    equals(comp[0].toString(), "#ff0000");
-    equals(comp[1].toString(), "#007fff");
-    equals(comp[2].toString(), "#00ff7f");
+    assert.equal(comp.length, 3);
+    assert.equal(comp[0].toString(), "#ff0000");
+    assert.equal(comp[1].toString(), "#007fff");
+    assert.equal(comp[2].toString(), "#00ff7f");
 });
 
-test("blending", function () {
+QUnit.test("blending", function (assert) {
     var white = new Colour("white"),
         black = new Colour("black"),
-        blend = white.blend("black");
-    equals(blend.toString(), "#7f7f7f");
+        blend = white.blend(black);
+    assert.equal(blend.toString(), "#7f7f7f");
 });
 
-test("blending with opacity 0.25", function () {
+QUnit.test("blending with opacity 0.25", function (assert) {
     var white = new Colour("white"),
         black = new Colour("black"),
-        blend = white.blend("black", 0.25);
-    equals(blend.toString(), "#bfbfbf");
+        blend = white.blend(black, 0.25);
+    assert.equal(blend.toString(), "#bfbfbf");
 });
 
-test("blending with opacity 0.75", function () {
+QUnit.test("blending with opacity 0.75", function (assert) {
     var white = new Colour("white"),
         black = new Colour("black"),
-        blend = white.blend("black", 0.75);
-    equals(blend.toString(), "#3f3f3f");
+        blend = white.blend(black, 0.75);
+    assert.equal(blend.toString(), "#3f3f3f");
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

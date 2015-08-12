@@ -7,20 +7,21 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "qunit-cli tests/tests.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/n3dst4/colour.js.git"
   },
-  "author": "Neil de Carteret <n3dst4@gmail.com>",
+  "author": "Neil de Carteret <npm@lumphammer.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/n3dst4/colour.js/issues"
   },
   "homepage": "https://github.com/n3dst4/colour.js#readme",
   "devDependencies": {
-    "eslint": "^1.1.0"
+    "eslint": "^1.1.0",
+    "qunit-cli": "^0.2.0"
   },
   "eslintConfig": {
     "extends": "eslint:recommended"

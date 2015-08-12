@@ -1,3 +1,4 @@
+/*global module*/
 "use strict";
 
 var invalidError = "Invalid colour specification",
@@ -517,3 +518,5 @@ Colour.swatches = {
     yellow: "#ffff00",
     yellowgreen: "#9acd32"
 };
+
+module.exports = Colour;
