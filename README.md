@@ -1,24 +1,24 @@
-colour
+Irid
 ======
 
 Parse, convert and manipulate colours (also known as colors).
 
-For a page which makes extensive use of colour.js, see http://colourtoy.lumphammer.com/
+For a page which makes extensive use of irid.js, see http://colourtoy.lumphammer.com/
 
 
 Usage
 ===============
 ```
-npm install colour --save
+npm install irid --save
 ```
 
 Then:
 
 ```js
-var Colour = require("Colour");
-Colour( string );
-Colour( rgbObject );
-Colour( hslObject );
+var Irid = require("irid");
+Irid( string );
+Irid( rgbObject );
+Irid( hslObject );
 ```
 
 
@@ -26,12 +26,12 @@ Colour( hslObject );
 API - Constructors
 ===============
 
-For convenience, Colour() is an alias for new Colour().
+For convenience, Irid() is an alias for new Irid().
 
-Colour( string )
+Irid( string )
 ----------------
 
-Returns a new Colour object based on a css-style colour value string.
+Returns a new Irid object based on a css-style colour value string.
 The recognised formats are:
 
      #xxx          Hex chars for red, greed, and blue
@@ -71,35 +71,35 @@ The #xxxx and #xxxxxxxx formats are not part of CSS3. They are like #xxx
 and #xxxxxx respectively, but with an alpha value given as the last
 one or two hex digits.
 
-Colour( rgbobject )
+Irid( rgbobject )
 ----------------
 
-Returns a new Colour object based on the r, g, and b members of the
+Returns a new Irid object based on the r, g, and b members of the
 argument, which should be integers between 0 and 255 inclusive. Example:
-Colour({r: 255, g: 0, b: 0}) // red colour
+Irid({r: 255, g: 0, b: 0}) // red colour
 
-Colour( hslobject )
+Irid( hslobject )
 ----------------
 
-Returns a new Colour object based on the h, s, and l members of the
+Returns a new Irid object based on the h, s, and l members of the
 argument, which should be numbers between 0 and 1 inclusive. Example:
-Colour({h: 0.33, s: 0.5, b: 0.4}) // olive colour
+Irid({h: 0.33, s: 0.5, b: 0.4}) // olive colour
 
 
-API - Methods of colour objects
+API - Methods of Irid objects
 ===============
 
-All destructive operations (setters) return new Colour objects, leaving the
+All destructive operations (setters) return new Irid objects, leaving the
 original intact. This means you can do this:
 
-     myColour = Colour("#BEDEAD");
-     myShade = myColour.darken(0.5);
+     myIrid = Irid("#BEDEAD");
+     myShade = myIrid.darken(0.5);
      myDiv.css({
-         "background-color": myColour.toString()
+         "background-color": myIrid.toString()
          "color": myShade.toString()
      });
 
-In other words, **you can always treat Colour objects as immutable**.
+In other words, **you can always treat Irid objects as immutable**.
 
 .red()
 ----------------
@@ -189,16 +189,16 @@ not currently possible to set the luma directly.
 ----------------
 
 Where amount is a number between 0 and 1. Lightens the colour towards
-white by the proportion given. Colour("black").lighten(0.5) is medium
-grey. Colour("black").lighten(0.5).lighten(0.5) is 75% light grey.
+white by the proportion given. Irid("black").lighten(0.5) is medium
+grey. Irid("black").lighten(0.5).lighten(0.5) is 75% light grey.
 .lighten(0) is a no-op, .lighten(1) turns any colour into white.
 
 .darken (amount)
 ----------------
 
 Where amount is a number between 0 and 1. Darkens the colour towards
-black by the proportion given. Colour("white").darken(0.5) is medium
-grey. Colour("white").darken(0.5).darken(0.5) is 75% dark grey.
+black by the proportion given. Irid("white").darken(0.5) is medium
+grey. Irid("white").darken(0.5).darken(0.5) is 75% dark grey.
 .darken(0) is a no-op, .darken(1) turns any colour into black.
 
 .invert ()
@@ -223,11 +223,11 @@ Turns the colour into a grey shade with the same lightness.
 .contrast ( [light, dark] )
 ----------------
 
-Returns a new Colour object representing a tone which will be as legible
+Returns a new Irid object representing a tone which will be as legible
 as possible as a text/foreground colour when the original colour is
 used as a background. The defaults are #111 (on light backgrounds) and #eee
 (on dark backgrounds.) If supplied, light and dark are strings or
-Colour objects which will be used instead (light should be a light
+Irid objects which will be used instead (light should be a light
 colour for use on dark backgrounds, dark should be a dark colour for use
 on light backgrounds.)
 
@@ -317,19 +317,19 @@ Making the background of a "dt" element proportionally darker than the parent dl
 
      var myDl = $("my-dl");
      myDl.find("dt").css("background-colour",
-         Colour(myDl.css("background-colour")).darken(0.3).toString()
+         Irid(myDl.css("background-colour")).darken(0.3).toString()
      );
 
 Setting the text colour in the dl automatically:
 
      myDl.css("color",
-         Colour(myDl.css("background-color")).getContrast().toString()
+         Irid(myDl.css("background-color")).getContrast().toString()
      );
 
 
 Notes
 ===============
-Colours are stored internally in HSL format, but attempt to preserve the RGB
+Irids are stored internally in HSL format, but attempt to preserve the RGB
 values they were created with. See
 http://en.wikipedia.org/wiki/HSL_and_HSV
 for details. This means that sometimes, due to gamut changes and rounding
@@ -346,7 +346,7 @@ Test coverage
 Demo
 ===============
 See http://colourtoy.lumphammer.com/ for a colour picker app which uses
-colour.js.
+irid.js.
 
 
 Copyright and licence

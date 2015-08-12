@@ -3,9 +3,9 @@
 import urllib2
 import urllib
 
-with open("colour.js") as input:
+with open("irid.js") as input:
     code = input.read()
-    
+
 minified = urllib2.urlopen("http://closure-compiler.appspot.com/compile",
     urllib.urlencode({
         "js_code": code,
@@ -14,7 +14,7 @@ minified = urllib2.urlopen("http://closure-compiler.appspot.com/compile",
         "output_info": "compiled_code"
     })).read()
 
-with open("colour.min.js", "w") as output:
+with open("irid.min.js", "w") as output:
     output.write(minified)
 
 print("Original:" + str(len(code)) +
