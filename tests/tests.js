@@ -7,19 +7,7 @@ if (typeof require !== "undefined") {
     var Irid = require("../irid.js");
 }
 
-
-
-
-
-
-
-
-
-
 QUnit.module("functions");
-
-
-
 
 QUnit.test("hexToRGB (6 digits)", function (assert) {
     var rgb = Irid.hexToRGB("#0088ff");
@@ -28,9 +16,6 @@ QUnit.test("hexToRGB (6 digits)", function (assert) {
     assert.equal( rgb.b, 255 );
     assert.equal( rgb.a, undefined );
 });
-
-
-
 
 QUnit.test("hexToRGB (8 digits)", function (assert) {
     var rgb = Irid.hexToRGB("#0088ff7f");
@@ -562,4 +547,36 @@ QUnit.test("blending with opacity 0.75", function (assert) {
         black = new Irid("black"),
         blend = white.blend(black, 0.75);
     assert.equal(blend.toString(), "#3f3f3f");
+});
+
+QUnit.test("luma calculation", function (assert) {
+  assert.equal(Irid("#fff").luma().toFixed(2), (1).toFixed(2));
+  assert.equal(Irid("#f00").luma().toFixed(2), (0.3).toFixed(2));
+  assert.equal(Irid("#0f0").luma().toFixed(2), (0.59).toFixed(2));
+  assert.equal(Irid("#00f").luma().toFixed(2), (0.11).toFixed(2));
+  assert.equal(Irid("#ff0").luma().toFixed(2), (0.89).toFixed(2));
+  assert.equal(Irid("#0ff").luma().toFixed(2), (0.7).toFixed(2));
+  assert.equal(Irid("#f0f").luma().toFixed(2), (0.41).toFixed(2));
+});
+
+QUnit.test("relative luminance", function (assert) {
+  assert.equal(Irid("#fff").relativeLuminance().toFixed(2), (1).toFixed(2));
+  assert.equal(Irid("#000").relativeLuminance().toFixed(2), (0).toFixed(2));
+  assert.equal(Irid("#f00").relativeLuminance().toFixed(2), (0.21).toFixed(2));
+  assert.equal(Irid("#0f0").relativeLuminance().toFixed(2), (0.72).toFixed(2));
+  assert.equal(Irid("#00f").relativeLuminance().toFixed(2), (0.07).toFixed(2));
+  assert.equal(Irid("#ff0").relativeLuminance().toFixed(2), (0.93).toFixed(2));
+  assert.equal(Irid("#0ff").relativeLuminance().toFixed(2), (0.79).toFixed(2));
+  assert.equal(Irid("#f0f").relativeLuminance().toFixed(2), (0.28).toFixed(2));
+});
+
+QUnit.test("contrast ratio", function (assert) {
+  assert.equal(Irid("#fff").contrastRatio("#000").toFixed(2), (21).toFixed(2));
+  assert.equal(Irid("#000").contrastRatio("#fff").toFixed(2), (21).toFixed(2));
+  assert.equal(Irid("#f00").contrastRatio("#000").toFixed(2), (5.25).toFixed(2));
+  assert.equal(Irid("#0f0").contrastRatio("#000").toFixed(2), (15.3).toFixed(2));
+  assert.equal(Irid("#00f").contrastRatio("#000").toFixed(2), (2.44).toFixed(2));
+  assert.equal(Irid("#f00").contrastRatio("#fff").toFixed(2), (4).toFixed(2));
+  assert.equal(Irid("#0f0").contrastRatio("#fff").toFixed(2), (1.37).toFixed(2));
+  assert.equal(Irid("#00f").contrastRatio("#fff").toFixed(2), (8.59).toFixed(2));
 });

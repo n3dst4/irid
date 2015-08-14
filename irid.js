@@ -42,43 +42,65 @@ Irid.prototype = {
     _makeHSL: function () {
         if (typeof(this.hsl) == undef) { this.hsl = rgbToHSL(this.rgb); }
     },
-    luma: function() {
+    luma: function () {
         var rgb = this.rgb;
         this._makeRGB();
         // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
         return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
     },
-    red: function(r) {
+    relativeLuminance: function () {
+      this._makeRGB();
+      // see http://www.w3.org/TR/WCAG/#relativeluminancedef
+      function calc (x) {
+        var srgb = x / 255;
+        return (srgb <= 0.03928) ? srgb/12.92 : Math.pow(((srgb + 0.055)/1.055),  2.4);
+      }
+      return (0.2126 * calc(this.rgb.r)) + (0.7152 * calc(this.rgb.g)) + (0.0722 * calc(this.rgb.b));
+    },
+    contrastRatio: function (other) {
+      other = Irid(other);
+      var lighter, darker;
+      if (other.relativeLuminance() > this.relativeLuminance()) {
+        lighter = other;
+        darker = this;
+      }
+      else {
+        lighter = this;
+        darker = other;
+      }
+      return (lighter.relativeLuminance() + 0.05) / (darker.relativeLuminance() + 0.05);
+    },
+    red: function (r) {
         this._makeRGB();
         return (typeof(r) == undef) ? this.rgb.r :
             new Irid({r: parseInt(r, 10), g: this.rgb.g, b: this.rgb.b, a: this.rgb.a});
     },
-    green: function(g) {
+    green: function (g) {
         this._makeRGB();
         return (typeof(g) == undef) ? this.rgb.g :
             new Irid({r: this.rgb.r, g: parseInt(g, 10), b: this.rgb.b, a: this.rgb.a});
     },
-    blue: function(b) {
+    blue: function (b) {
         this._makeRGB();
         return (typeof(b) == undef) ? this.rgb.b :
             new Irid({r: this.rgb.r, g: this.rgb.g, b: parseInt(b, 10), a: this.rgb.a});
     },
-    hue: function(h) {
+    hue: function (h) {
         this._makeHSL();
         return (typeof(h) == undef) ? this.hsl.h :
             new Irid({h: parseFloat(h), s: this.hsl.s, l: this.hsl.l, a: this.hsl.a});
     },
-    saturation: function(s) {
+    saturation: function (s) {
         this._makeHSL();
         return (typeof(s) == undef) ? this.hsl.s :
             new Irid({h: this.hsl.h, s: parseFloat(s), l: this.hsl.l, a: this.hsl.a});
     },
-    lightness: function(l) {
+    lightness: function (l) {
         this._makeHSL();
         return (typeof(l) == undef) ? this.hsl.l :
             new Irid({h: this.hsl.h, s: this.hsl.s, l: parseFloat(l), a: this.hsl.a});
     },
-    alpha: function(a) {
+    alpha: function (a) {
         if (arguments.length === 0) {
             return (this.hsl || this.rgb).a;
         }
@@ -92,7 +114,7 @@ Irid.prototype = {
             }
         }
     },
-    lighten: function(amount) {
+    lighten: function (amount) {
         this._makeHSL();
         return new Irid({
             h: this.hsl.h,
@@ -101,7 +123,7 @@ Irid.prototype = {
             a: this.hsl.a
         });
     },
-    darken: function(amount) {
+    darken: function (amount) {
         this._makeHSL();
         return new Irid({
             h: this.hsl.h,
@@ -110,7 +132,7 @@ Irid.prototype = {
             a: this.hsl.a
         });
     },
-    invert: function() {
+    invert: function () {
         this._makeRGB();
         return new Irid({
             r: 255 - this.rgb.r,
@@ -119,7 +141,7 @@ Irid.prototype = {
             a: this.rgb.a
         });
     },
-    complement: function() {
+    complement: function () {
         this._makeHSL();
         return new Irid({
             h: (this.hsl.h + 0.5) % 1.0,
@@ -128,7 +150,7 @@ Irid.prototype = {
             a: this.hsl.a
         });
     },
-    desaturate: function() {
+    desaturate: function () {
         this._makeHSL();
         return new Irid({
             h: this.hsl.h,
@@ -137,20 +159,20 @@ Irid.prototype = {
             a: this.hsl.a
         });
     },
-    contrast: function(forDark, forLight) {
+    contrast: function (forDark, forLight) {
         // return new Irid((this.l > 0.5) ? "#111": "#eee"); // naive
         return new Irid((this.luma() > 0.6)?
                  forLight || "#111" :
                  forDark || "#eee");
     },
-    analagous: function() {
+    analagous: function () {
         return [
             this,
             this.hue(this.hue() - 1/12),
             this.hue(this.hue() + 1/12)
         ];
     },
-    tetrad: function() {
+    tetrad: function () {
         var hue = this.hue();
         return [
             this,
@@ -159,7 +181,7 @@ Irid.prototype = {
             this.hue(hue + 3/4)
         ];
     },
-    rectTetrad: function() {
+    rectTetrad: function () {
         return [
             this,
             this.hue(this.hue() + 1/6),
@@ -167,14 +189,14 @@ Irid.prototype = {
             this.hue(this.hue() + 4/6)
         ];
     },
-    triad: function() {
+    triad: function () {
         return [
             this,
             this.hue(this.hue() - 1/3),
             this.hue(this.hue() + 1/3)
         ];
     },
-    splitComplementary: function() {
+    splitComplementary: function () {
         return [
             this,
             this.hue(this.hue() - 5/12),
@@ -191,18 +213,18 @@ Irid.prototype = {
             b: Math.floor((this.blue() * thisOpacity + other.blue() * opacity))
         });
     },
-    toString: function() { // TODO: make this smarter, return rgba when needed
+    toString: function () { // TODO: make this smarter, return rgba when needed
         return this.toHexString();
     },
-    toHexString: function() {
+    toHexString: function () {
         this._makeRGB();
         return rgbToHex(this.rgb);
     },
-    toRGBString: function() {
+    toRGBString: function () {
         this._makeRGB();
         return rgbToCSSRGB(this.rgb);
     },
-    toHSLString: function() {
+    toHSLString: function () {
         this._makeHSL();
         return hslToCSSHSL(this.hsl);
     }

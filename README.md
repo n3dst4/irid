@@ -182,8 +182,18 @@ or undefined will effectively "unset" the alpha.
 .luma()
 ----------------
 
-Returns the calculated luma of the colour as a number from 0 to 1. It is
+Returns the calculated [luma](http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness) of the colour as a number from 0 to 1. It is
 not currently possible to set the luma directly.
+
+.relativeLuminance()
+----------------
+
+Returns the calculated [relative luminance](http://www.w3.org/TR/WCAG/#relativeluminancedef) of the colour as a number from 0 to 1. It is not currently possible to set the relative luminance directly.
+
+.contrastRatio(other)
+----------------
+
+Returns the contrast ratio [relative luminance](http://www.w3.org/TR/WCAG/#contrast-ratiodef) of the colour against a given second colour.
 
 .lighten (amount)
 ----------------
