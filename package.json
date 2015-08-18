@@ -1,6 +1,6 @@
 {
   "name": "irid",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Parse, convert and manipulate colours (also known as colors)",
   "main": "irid.js",
   "directories": {
