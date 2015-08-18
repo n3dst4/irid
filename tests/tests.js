@@ -169,6 +169,25 @@ QUnit.test("rgbToHSL (white)", function (assert) {
     assert.equal( hsl.a , undefined );
 });
 
+QUnit.test("canInterpret", function (assert) {
+  assert.ok( Irid.canInterpret("#fff") );
+  assert.ok( Irid.canInterpret("white") );
+  assert.ok( Irid.canInterpret("rgb(100, 101, 102)") );
+  assert.ok( Irid.canInterpret(Irid("#fff")) );
+  assert.ok( Irid.canInterpret({r: 255, g: 255, b: 255}) );
+  assert.notOk( Irid.canInterpret("") );
+  assert.notOk( Irid.canInterpret("rkbyucvgtsaerklyuigbfakl") );
+  assert.notOk( Irid.canInterpret("#ab") );
+  assert.notOk( Irid.canInterpret(NaN) );
+  assert.notOk( Irid.canInterpret(null) );
+  assert.notOk( Irid.canInterpret(undefined) );
+  assert.notOk( Irid.canInterpret(5) );
+  assert.notOk( Irid.canInterpret(true) );
+  assert.notOk( Irid.canInterpret([]) );
+  assert.notOk( Irid.canInterpret([1, 2, 3]) );
+  assert.notOk( Irid.canInterpret({"foo": "bar"}) );
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////
 QUnit.module("Irid");

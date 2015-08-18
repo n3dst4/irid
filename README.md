@@ -320,6 +320,15 @@ Returns a CSS colour code in the rgb() or rgba() format.
 Returns a CSS colour code in the hsl() or hsla() format.
 
 
+API - Utility functions
+=======================
+
+Irid.canInterpret(candidate)
+----------------------------
+
+Returns `true` is Irid will be able to use the given candidate object or string (as per any of the listed constructors).
+
+
 Example
 ===============
 

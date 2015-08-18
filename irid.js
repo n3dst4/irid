@@ -230,7 +230,6 @@ Irid.prototype = {
     }
 };
 
-
 var parseHexValue = function (str) {
     if (str.length == 1) { str += str; }
     return max(0, min(255, parseInt(str, 16)));
@@ -256,6 +255,15 @@ var parseHueValue = function (str) {
 
 var parseSLValue = function (str) {
     return max(0, min(100, parseInt(str, 10))) / 100;
+};
+
+Irid.canInterpret = function (candidate) {
+  return candidate && (
+    (candidate instanceof Irid) ||
+    (candidate.h !== undefined && candidate.s !== undefined && candidate.l !== undefined) ||
+    ((typeof candidate == "string") && (hexToRGB(candidate) || cssRGBToRGB(candidate) || hexToRGB(Irid.swatches[candidate.toLowerCase()]))) ||
+    (candidate.r !== undefined && candidate.g !== undefined && candidate.b !== undefined)
+  );
 };
 
 
