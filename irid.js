@@ -519,6 +519,8 @@ Irid.swatches = {
     plum: "#dda0dd",
     powderblue: "#b0e0e6",
     purple: "#800080",
+    //http://codepen.io/trezy/blog/honoring-a-great-man
+    rebeccapurple: "#663399",
     red: "#ff0000",
     rosybrown: "#bc8f8f",
     royalblue: "#4169e1",
@@ -540,6 +542,7 @@ Irid.swatches = {
     teal: "#008080",
     thistle: "#d8bfd8",
     tomato: "#ff6347",
+    transparent: "rgb(0,0,0,0)",
     turquoise: "#40e0d0",
     violet: "#ee82ee",
     wheat: "#f5deb3",
