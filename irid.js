@@ -30,7 +30,9 @@ var Irid = function (initial) {
             if ( ! this.hsl ) { throw invalidError; }
         }
     }
-    else if (initial.r !== undefined && initial.g !== undefined && initial.b !== undefined) {
+    else if (initial.r !== undefined
+            && initial.g !== undefined
+            && initial.b !== undefined) {
         this.rgb = initial;
     }
 };
@@ -42,33 +44,36 @@ Irid.prototype = {
     _makeHSL: function () {
         if (typeof(this.hsl) == undef) { this.hsl = rgbToHSL(this.rgb); }
     },
+    // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
     luma: function () {
         var rgb = this.rgb;
         this._makeRGB();
-        // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
         return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
     },
+    // see http://www.w3.org/TR/WCAG/#relativeluminancedef
     relativeLuminance: function () {
-      this._makeRGB();
-      // see http://www.w3.org/TR/WCAG/#relativeluminancedef
-      function calc (x) {
-        var srgb = x / 255;
-        return (srgb <= 0.03928) ? srgb/12.92 : Math.pow(((srgb + 0.055)/1.055),  2.4);
-      }
+        this._makeRGB();
+        function calc (x) {
+            var srgb = x / 255;
+            return (srgb <= 0.03928) ? (srgb/12.92) :
+                Math.pow(((srgb + 0.055)/1.055),  2.4);
+        }
       return (0.2126 * calc(this.rgb.r)) + (0.7152 * calc(this.rgb.g)) + (0.0722 * calc(this.rgb.b));
     },
+    // see http://www.w3.org/TR/WCAG20/#visual-audio-contrast
+    // http://www.w3.org/TR/WCAG20/#contrast-ratiodefs
     contrastRatio: function (other) {
-      other = Irid(other);
-      var lighter, darker;
-      if (other.relativeLuminance() > this.relativeLuminance()) {
-        lighter = other;
-        darker = this;
-      }
-      else {
-        lighter = this;
-        darker = other;
-      }
-      return (lighter.relativeLuminance() + 0.05) / (darker.relativeLuminance() + 0.05);
+        other = Irid(other);
+        var lighter, darker;
+        if (other.relativeLuminance() > this.relativeLuminance()) {
+            lighter = other;
+            darker = this;
+        }
+        else {
+            lighter = this;
+            darker = other;
+        }
+        return (lighter.relativeLuminance() + 0.05) / (darker.relativeLuminance() + 0.05);
     },
     red: function (r) {
         this._makeRGB();

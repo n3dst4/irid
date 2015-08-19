@@ -587,6 +587,7 @@ QUnit.test("relative luminance", function (assert) {
   assert.equal(Irid("#ff0").relativeLuminance().toFixed(2), (0.93).toFixed(2));
   assert.equal(Irid("#0ff").relativeLuminance().toFixed(2), (0.79).toFixed(2));
   assert.equal(Irid("#f0f").relativeLuminance().toFixed(2), (0.28).toFixed(2));
+  assert.equal(Irid("#08f").relativeLuminance().toFixed(2), (0.25).toFixed(2));
 });
 
 QUnit.test("contrast ratio", function (assert) {
@@ -598,4 +599,5 @@ QUnit.test("contrast ratio", function (assert) {
   assert.equal(Irid("#f00").contrastRatio("#fff").toFixed(2), (4).toFixed(2));
   assert.equal(Irid("#0f0").contrastRatio("#fff").toFixed(2), (1.37).toFixed(2));
   assert.equal(Irid("#00f").contrastRatio("#fff").toFixed(2), (8.59).toFixed(2));
+  assert.equal(Irid("#08f").contrastRatio("#fff").toFixed(2), (3.52).toFixed(2));
 });
