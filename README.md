@@ -368,6 +368,12 @@ See http://colourtoy.lumphammer.com/ for a colour picker app which uses
 irid.js.
 
 
+Changelog
+=========
+**1.2.0** Add "canInterpret" helper function
+**1.3.0** Add rebeccapurple and transparent
+
+
 Copyright and licence
 ===============
 Copyright (c) 2009, Neil de Carteret
