@@ -372,8 +372,6 @@ irid.js.
 
 Changelog
 =========
-**1.2.0** Add "canInterpret" helper function
-**1.3.0** Add rebeccapurple and transparent
 
 
 Copyright and licence
