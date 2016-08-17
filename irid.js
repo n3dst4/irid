@@ -46,8 +46,8 @@ Irid.prototype = {
     },
     // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
     luma: function () {
-        var rgb = this.rgb;
         this._makeRGB();
+        var rgb = this.rgb;
         return  (0.3*rgb.r + 0.59*rgb.g + 0.11*rgb.b) / 255;
     },
     // see http://www.w3.org/TR/WCAG/#relativeluminancedef
