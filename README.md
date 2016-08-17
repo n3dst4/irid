@@ -1,6 +1,8 @@
 Irid
 ======
 
+![travis build status](https://travis-ci.org/n3dst4/irid.svg)
+
 Parse, convert and manipulate colours (also known as colors).
 
 For a page which makes extensive use of irid.js, see http://colourtoy.lumphammer.com/
