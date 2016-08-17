@@ -266,7 +266,7 @@ Irid.canInterpret = function (candidate) {
   return candidate && (
     (candidate instanceof Irid) ||
     (candidate.h !== undefined && candidate.s !== undefined && candidate.l !== undefined) ||
-    ((typeof candidate == "string") && (hexToRGB(candidate) || cssRGBToRGB(candidate) || hexToRGB(Irid.swatches[candidate.toLowerCase()]))) ||
+    ((typeof candidate == "string") && (hexToRGB(candidate) || cssRGBToRGB(candidate) || cssHSLToHSL(candidate) || hexToRGB(Irid.swatches[candidate.toLowerCase()]))) ||
     (candidate.r !== undefined && candidate.g !== undefined && candidate.b !== undefined)
   );
 };
