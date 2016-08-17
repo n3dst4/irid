@@ -601,3 +601,11 @@ QUnit.test("contrast ratio", function (assert) {
   assert.equal(Irid("#00f").contrastRatio("#fff").toFixed(2), (8.59).toFixed(2));
   assert.equal(Irid("#08f").contrastRatio("#fff").toFixed(2), (3.52).toFixed(2));
 });
+
+QUnit.skip("bug: luma calculation on numbers that haven't been RGB initialised", function (assert) {
+    assert.equal(Irid("hsl(180, 50%, 0%)").luma(), 0)
+})
+
+QUnit.skip("bug: canInterpret should recognise CSS HSL strings", function (assert) {
+    assert.ok(Irid.canInterpret("hsl(180, 60%, 70%)"))
+})
