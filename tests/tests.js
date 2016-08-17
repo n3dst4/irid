@@ -602,10 +602,10 @@ QUnit.test("contrast ratio", function (assert) {
   assert.equal(Irid("#08f").contrastRatio("#fff").toFixed(2), (3.52).toFixed(2));
 });
 
-QUnit.skip("bug: luma calculation on numbers that haven't been RGB initialised", function (assert) {
+QUnit.test("bug: luma calculation on numbers that haven't been RGB initialised", function (assert) {
     assert.equal(Irid("hsl(180, 50%, 0%)").luma(), 0)
 })
 
-QUnit.skip("bug: canInterpret should recognise CSS HSL strings", function (assert) {
+QUnit.test("bug: canInterpret should recognise CSS HSL strings", function (assert) {
     assert.ok(Irid.canInterpret("hsl(180, 60%, 70%)"))
 })
