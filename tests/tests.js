@@ -398,7 +398,7 @@ QUnit.test("desaturate", function (assert) {
 });
 
 
-QUnit.test("contrast", function (assert) {
+QUnit.test("contrast defaults", function (assert) {
     var colour = new Irid("#fff").contrast();
     assert.equal(colour.toString(), "#111111");
     colour = new Irid("#000").contrast();
