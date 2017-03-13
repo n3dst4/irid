@@ -232,16 +232,15 @@ will generally produce a pleasingly contrasting colour.
 
 Turns the colour into a grey shade with the same lightness.
 
-.contrast ( [light, dark] )
+.contrast ( [a, b] )
 ----------------
 
 Returns a new Irid object representing a tone which will be as legible
 as possible as a text/foreground colour when the original colour is
-used as a background. The defaults are #111 (on light backgrounds) and #eee
-(on dark backgrounds.) If supplied, light and dark are strings or
-Irid objects which will be used instead (light should be a light
-colour for use on dark backgrounds, dark should be a dark colour for use
-on light backgrounds.)
+used as a background. If no arguments are given, the returned colour will be
+`#00000` (black) or `#ffffff` (white). If colour arguments are given, then the
+return value will be the one that given the strongest contrast with the
+starting color.
 
 .analagous()
 ----------------
