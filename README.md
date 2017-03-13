@@ -249,7 +249,7 @@ Returns an array of colours based on the original:
 [original, left, right]
 Where original is the original colour, and left and right are slight
 variants based on moving slighty left and right round the HSL colour
-wheel (30� each way.)
+wheel (30° each way.)
 
 .tetrad()
 ----------------
@@ -257,7 +257,7 @@ wheel (30� each way.)
 Returns an array of colours based on the original:
 [original, right, complement, left]
 Where original is the original colour, and right, complement, and left
-are produced by rotating in 90� incremenets round the HSL colour wheel
+are produced by rotating in 90° incremenets round the HSL colour wheel
 (complement is the same as the colour returned by the complement()
 method.)
 
@@ -267,7 +267,7 @@ method.)
 Returns an array of colours based on the original:
 [original, right, complement, left]
 Where original is the original colour, and right, complement, and left
-are produced by rotating in alternating 60 and 120� incremenets round
+are produced by rotating in alternating 60 and 120° incremenets round
 the HSL colour wheel (complement is the same as the colour returned by
 the complement() method.)
 
@@ -278,14 +278,14 @@ Returns an array of colours based on the original:
 [original, left, right]
 Where original is the original colour, and left and right are spaced
 evenly round the HSL colour wheel, producing a group of three colours
-120� apart.
+120° apart.
 
 .splitComplementary()
 ----------------
 
 Returns an array of colours based on the original:
 [original, left, right]
-Where original is the original colour, and left and right are 150�
+Where original is the original colour, and left and right are 150°
 round the colour HSL colour wheel on each side. (The left and right
 colours returned from this method are the same as the left and right
 returned from doing .complement().analagous().)
