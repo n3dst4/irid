@@ -164,11 +164,13 @@ Irid.prototype = {
             a: this.hsl.a
         });
     },
-    contrast: function (forDark, forLight) {
+    contrast: function (a, b) {
         // return new Irid((this.l > 0.5) ? "#111": "#eee"); // naive
-        return new Irid((this.luma() > 0.6)?
-                 forLight || "#111" :
-                 forDark || "#eee");
+        a = Irid(a || "#eee");
+        b = Irid(b || "#111");
+        var aContrast = Math.abs(a.luma() - this.luma())
+        var bContrast = Math.abs(b.luma() - this.luma())
+        return (aContrast > bContrast)? a : b;
     },
     analagous: function () {
         return [

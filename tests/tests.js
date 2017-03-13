@@ -405,6 +405,18 @@ QUnit.test("contrast defaults", function (assert) {
     assert.equal(colour.toString(), "#eeeeee");
 });
 
+QUnit.test("contrast with given light/dark values", function (assert) {
+    var colour = new Irid("#fff").contrast("#dddddd", "#222222");
+    assert.equal(colour.toString(), "#222222");
+    colour = new Irid("#000").contrast("#dddddd", "#222222");
+    assert.equal(colour.toString(), "#dddddd");
+});
+
+QUnit.test("contrast with pathologically dumb values", function (assert) {
+    var colour = new Irid("#aaaaaa").contrast("#ffffff", "#aaaaaa");
+    assert.equal(colour.toString(), "#ffffff");
+});
+
 QUnit.test("contrast uses luma", function (assert) {
     var colour = new Irid("#3531ff").contrast();
     assert.equal(colour.toString(), "#eeeeee");
