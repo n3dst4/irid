@@ -166,8 +166,8 @@ Irid.prototype = {
     },
     contrast: function (a, b) {
         // return new Irid((this.l > 0.5) ? "#111": "#eee"); // naive
-        a = Irid(a || "#eee");
-        b = Irid(b || "#111");
+        a = Irid(a || "#fff");
+        b = Irid(b || "#000");
         var aContrast = Math.abs(a.luma() - this.luma())
         var bContrast = Math.abs(b.luma() - this.luma())
         return (aContrast > bContrast)? a : b;
