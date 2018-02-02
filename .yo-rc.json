@@ -1,0 +1,9 @@
+{
+  "generator-n3dst4-package": {
+    "babel": true,
+    "name": "irid",
+    "camelName": "irid",
+    "shortName": "irid",
+    "description": "Parse, convert and manipulate colors"
+  }
+}

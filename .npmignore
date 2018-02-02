@@ -33,6 +33,6 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-# These won't be present on non-transpiled projects, but harmless to list here
-__build
-__generated
+# This npmignore should only pre present in transpiled projects, and we want to
+# *not* include src (only __build) in those
+src
