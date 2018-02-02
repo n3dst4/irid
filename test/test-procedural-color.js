@@ -2,8 +2,7 @@
 
 import proceduralColor from "../src/procedural-color";
 // import {hash} from "../src/procedural-color";
-import murmurhash3gc from "../src/murmurhash3_gc";
-import murmurhash2 from "../src/murmurhash2";
+import murmurhash3gc from "../src/murmurhash-js/murmurhash3_gc";
 import chai from "chai";
 const expect = chai.expect;
 
@@ -30,7 +29,6 @@ function testHashFunction (hash, name) {
   })
 }
 
-testHashFunction(murmurhash2, "murmurhash2");
 testHashFunction(murmurhash3gc, "murmurhash3gc");
 
 
@@ -40,21 +38,4 @@ suite("proceduralColor", function () {
     expect(proceduralColor("hey")).to.be.ok;
   })
 
-  // suiteSetup(function () {
-  //   this.results = [
-  //     "flibbit",
-  //     "libbit",
-  //     "flibbi",
-  //     "flibit",
-  //     "flobbit",
-  //     "flibbitflibbit",
-  //     "flibbitflibbitflibbit",
-  //   ].map(proceduralColor);
-  // })
-  // test("should be different for different inputs", function () {
-  //   const results = {};
-  //   for (const color of results) {
-  //     expect(results[color.toHexString()]).to.be.undefined;
-  //   }
-  // })
 })
