@@ -15,7 +15,7 @@ const assert = chai.assert;
 
 suite("functions", function() {
   test("hexToRGB (6 digits)", function() {
-    var rgb = hexToRGB("#0088ff");
+    const rgb = hexToRGB("#0088ff");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -23,7 +23,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (8 digits)", function() {
-    var rgb = hexToRGB("#0088ff7f");
+    const rgb = hexToRGB("#0088ff7f");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -31,7 +31,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (3 digits)", function() {
-    var rgb = hexToRGB("#08f");
+    const rgb = hexToRGB("#08f");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -39,7 +39,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (4 digits)", function() {
-    var rgb = hexToRGB("#08f8");
+    const rgb = hexToRGB("#08f8");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -47,7 +47,7 @@ suite("functions", function() {
   });
 
   test("simple rgb", function() {
-    var rgb = cssRGBToRGB("rgb(0, 136, 255)");
+    const rgb = cssRGBToRGB("rgb(0, 136, 255)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -55,7 +55,7 @@ suite("functions", function() {
   });
 
   test("rgb with percent", function() {
-    var rgb = cssRGBToRGB("rgb(0%, 50%, 100%)");
+    const rgb = cssRGBToRGB("rgb(0%, 50%, 100%)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 127);
     assert.equal(rgb.b, 255);
@@ -63,7 +63,7 @@ suite("functions", function() {
   });
 
   test("rgba", function() {
-    var rgb = cssRGBToRGB("rgba(0, 136, 255, 0.7)");
+    const rgb = cssRGBToRGB("rgba(0, 136, 255, 0.7)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -71,7 +71,7 @@ suite("functions", function() {
   });
 
   test("hsl", function() {
-    var hsl = cssHSLToHSL("hsl(180, 60%, 70%)");
+    const hsl = cssHSLToHSL("hsl(180, 60%, 70%)");
     assert.equal(hsl.h, 0.5);
     assert.equal(hsl.s, 0.6);
     assert.equal(hsl.l, 0.7);
@@ -79,7 +79,7 @@ suite("functions", function() {
   });
 
   test("hsla", function() {
-    var hsl = cssHSLToHSL("hsl(180, 60%, 70%, 0.8)");
+    const hsl = cssHSLToHSL("hsl(180, 60%, 70%, 0.8)");
     assert.equal(hsl.h, 0.5);
     assert.equal(hsl.s, 0.6);
     assert.equal(hsl.l, 0.7);
@@ -87,10 +87,7 @@ suite("functions", function() {
   });
 
   test("rgbToCSSRGB", function() {
-    assert.equal(
-      rgbToCSSRGB({ r: 0, g: 136, b: 255 }),
-      "rgb(0, 136, 255)"
-    );
+    assert.equal(rgbToCSSRGB({ r: 0, g: 136, b: 255 }), "rgb(0, 136, 255)");
   });
 
   test("rgbToCSSRGB with alpha", function() {
@@ -101,10 +98,7 @@ suite("functions", function() {
   });
 
   test("hslToCSSHSL", function() {
-    assert.equal(
-      hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7 }),
-      "hsl(180, 60%, 70%)"
-    );
+    assert.equal(hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7 }), "hsl(180, 60%, 70%)");
   });
 
   test("hslToCSSHSL with alpha", function() {
@@ -123,7 +117,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB", function() {
-    var rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255 });
+    const rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255 });
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 138);
     assert.equal(rgb.b, 255);
@@ -131,7 +125,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB with alpha", function() {
-    var rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255, a: 0.5 });
+    const rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255, a: 0.5 });
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 138);
     assert.equal(rgb.b, 255);
@@ -139,7 +133,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (white)", function() {
-    var rgb = hslToRGB({ h: 0, s: 1, l: 1 });
+    const rgb = hslToRGB({ h: 0, s: 1, l: 1 });
     assert.equal(rgb.r, 255);
     assert.equal(rgb.g, 255);
     assert.equal(rgb.b, 255);
@@ -147,7 +141,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (hue=1)", function() {
-    var rgb = hslToRGB({ h: 1, s: 1, l: 0.5 });
+    const rgb = hslToRGB({ h: 1, s: 1, l: 0.5 });
     assert.equal(rgb.r, 255);
     assert.equal(rgb.g, 0);
     assert.equal(rgb.b, 0);
@@ -155,7 +149,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (negative hue)", function() {
-    var rgb = hslToRGB({ h: -0.25, s: 1, l: 0.5 });
+    const rgb = hslToRGB({ h: -0.25, s: 1, l: 0.5 });
     assert.equal(rgb.r, 127);
     assert.equal(rgb.g, 0);
     assert.equal(rgb.b, 255);
@@ -163,7 +157,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL", function() {
-    var hsl = rgbToHSL({ r: 0, g: 138, b: 255 });
+    const hsl = rgbToHSL({ r: 0, g: 138, b: 255 });
     assert.equal(hsl.h.toFixed(2), (147 / 255).toFixed(2));
     assert.equal(hsl.s.toFixed(2), 1);
     assert.equal(hsl.l.toFixed(2), (128 / 255).toFixed(2));
@@ -171,7 +165,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL", function() {
-    var hsl = rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 });
+    const hsl = rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 });
     assert.equal(hsl.h.toFixed(2), (147 / 255).toFixed(2));
     assert.equal(hsl.s.toFixed(2), 1);
     assert.equal(hsl.l.toFixed(2), (128 / 255).toFixed(2));
@@ -179,7 +173,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL (white)", function() {
-    var hsl = rgbToHSL({ r: 255, g: 255, b: 255 });
+    const hsl = rgbToHSL({ r: 255, g: 255, b: 255 });
     assert.equal(hsl.h.toFixed(2), 0);
     assert.equal(hsl.s.toFixed(2), 0);
     assert.equal(hsl.l.toFixed(2), 1);

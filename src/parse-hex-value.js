@@ -1,4 +1,4 @@
-export default function  parseHexValue (str) {
+export default function parseHexValue(str) {
   if (str.length == 1) {
     str += str;
   }

@@ -1,18 +1,17 @@
-export default function rgbToHSL (rgb) {
-  var v,
-    m,
-    vm,
+export default function rgbToHSL(rgb) {
+  const r = rgb.r / 255;
+  const g = rgb.g / 255;
+  const b = rgb.b / 255;
+  const v = Math.max(r, g, b);
+  const m = Math.min(r, g, b);
+
+  let vm,
     r2,
     g2,
     b2,
-    r = rgb.r / 255,
-    g = rgb.g / 255,
-    b = rgb.b / 255,
     h = 0,
     s = 0,
     l = 0;
-  v = Math.max(r, g, b);
-  m = Math.min(r, g, b);
   l = (m + v) / 2;
   if (l > 0) {
     vm = v - m;

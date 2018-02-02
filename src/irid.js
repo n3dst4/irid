@@ -10,10 +10,9 @@ import rgbToHSL from "./rgb-to-hsl";
 import hslToRGB from "./hsl-to-rgb";
 import canInterpret from "./can-interpret";
 
-var invalidError = "Invalid colour specification";
+const invalidError = "Invalid colour specification";
 
-
-var Irid = function(initial) {
+const Irid = function(initial) {
   if (!(this instanceof Irid)) {
     return new Irid(initial);
   }
@@ -65,14 +64,14 @@ Irid.prototype = {
   // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
   luma: function() {
     this._makeRGB();
-    var rgb = this.rgb;
+    const rgb = this.rgb;
     return (0.3 * rgb.r + 0.59 * rgb.g + 0.11 * rgb.b) / 255;
   },
   // see http://www.w3.org/TR/WCAG/#relativeluminancedef
   relativeLuminance: function() {
     this._makeRGB();
     function calc(x) {
-      var srgb = x / 255;
+      const srgb = x / 255;
       return srgb <= 0.03928
         ? srgb / 12.92
         : Math.pow((srgb + 0.055) / 1.055, 2.4);
@@ -87,7 +86,7 @@ Irid.prototype = {
   // http://www.w3.org/TR/WCAG20/#contrast-ratiodefs
   contrastRatio: function(other) {
     other = Irid(other);
-    var lighter, darker;
+    let lighter, darker;
     if (other.relativeLuminance() > this.relativeLuminance()) {
       lighter = other;
       darker = this;
@@ -226,15 +225,15 @@ Irid.prototype = {
     // return new Irid((this.l > 0.5) ? "#111": "#eee"); // naive
     a = Irid(a || "#fff");
     b = Irid(b || "#000");
-    var aContrast = Math.abs(a.luma() - this.luma());
-    var bContrast = Math.abs(b.luma() - this.luma());
+    const aContrast = Math.abs(a.luma() - this.luma());
+    const bContrast = Math.abs(b.luma() - this.luma());
     return aContrast > bContrast ? a : b;
   },
   analagous: function() {
     return [this, this.hue(this.hue() - 1 / 12), this.hue(this.hue() + 1 / 12)];
   },
   tetrad: function() {
-    var hue = this.hue();
+    const hue = this.hue();
     return [
       this,
       this.hue(hue + 1 / 4),
@@ -258,7 +257,7 @@ Irid.prototype = {
   },
   blend: function(other, opacity) {
     if (typeof opacity == "undefined") opacity = 0.5;
-    var thisOpacity = 1 - opacity;
+    const thisOpacity = 1 - opacity;
     other = new Irid(other);
     return new Irid({
       r: Math.floor(this.red() * thisOpacity + other.red() * opacity),
@@ -283,20 +282,6 @@ Irid.prototype = {
     return hslToCSSHSL(this.hsl);
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // see http://www.w3.org/TR/css3-color/#svg-color
 Irid.swatches = {

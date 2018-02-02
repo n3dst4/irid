@@ -1,5 +1,5 @@
 export default function parseRGBValue (str) {
-  var percent = str.charAt(str.length - 1) == "%";
+  const percent = str.charAt(str.length - 1) == "%";
   if (percent) {
     str = str.slice(0, str.length - 1);
   }

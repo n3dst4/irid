@@ -2,8 +2,8 @@ import parseHueValue from "./parse-hue-value";
 import parseSLValue from "./parse-sl-value";
 import parseAlphaValue from "./parse-alpha-value";
 
-export default function cssHSLToHSL (css) {
-  var parts = /^hsla?\(\s*(-?\d+)\s*,\s*(-?\d+%)\s*,\s*(-?\d+%)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(
+export default function cssHSLToHSL(css) {
+  const parts = /^hsla?\(\s*(-?\d+)\s*,\s*(-?\d+%)\s*,\s*(-?\d+%)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(
     css
   );
   return parts

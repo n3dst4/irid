@@ -25,6 +25,10 @@
     "extends": "@n3dst4/eslint-config-n3dst4",
     "env": {
       "es6": true
+    },
+    "rules": {
+      "no-var": "error",
+      "prefer-const": "error"
     }
   },
   "devDependencies": {

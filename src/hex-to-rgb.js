@@ -1,7 +1,7 @@
 import parseHexValue from "./parse-hex-value";
 
-export default function hexToRGB (hex) {
-  var parts =
+export default function hexToRGB(hex) {
+  const parts =
     /^#([\da-f])([\da-f])([\da-f])([\da-f])?$/i.exec(hex) ||
     /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})?$/i.exec(hex);
   return parts

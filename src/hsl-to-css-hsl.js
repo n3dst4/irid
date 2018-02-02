@@ -1,4 +1,4 @@
-export default function hslToCSSHSL (hsl) {
+export default function hslToCSSHSL(hsl) {
   return (
     "hsl" +
     (hsl.a ? "a" : "") +

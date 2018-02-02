@@ -1,23 +1,15 @@
-export default function hslToRGB (hsl) {
-  var v,
-    r,
-    g,
-    b,
-    m,
-    sv,
-    sextant,
-    fract,
-    vsf,
-    mid1,
-    mid2,
-    h = hsl.h % 1,
-    sl = hsl.s,
-    l = hsl.l;
+export default function hslToRGB(hsl) {
+  const sl = hsl.s;
+  const l = hsl.l;
+  const v = l <= 0.5 ? l * (1.0 + sl) : l + sl - l * sl;
+
+  let h = hsl.h % 1;
+  let r, g, b, m, sv, sextant, fract, vsf, mid1, mid2;
+
   if (h < 0) {
     h += 1;
   }
   r = g = b = l;
-  v = l <= 0.5 ? l * (1.0 + sl) : l + sl - l * sl;
   if (v > 0) {
     m = l + l - v;
     sv = (v - m) / v;

@@ -1,5 +1,5 @@
-export default function parseHueValue (str) {
-  var val = parseInt(str, 10) % 360;
+export default function parseHueValue(str) {
+  let val = parseInt(str, 10) % 360;
   if (val < 0) {
     val += 360;
   }

@@ -3,7 +3,7 @@ import hexToRGB from "./hex-to-rgb";
 import cssRGBToRGB from "./css-rgb-to-rgb";
 import cssHSLToHSL from "./css-hsl-to-hsl";
 
-export default function canInterpret (candidate) {
+export default function canInterpret(candidate) {
   return (
     candidate &&
     (candidate instanceof Irid ||

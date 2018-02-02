@@ -1,4 +1,4 @@
-export default function rgbToCSSRGB (rgb) {
+export default function rgbToCSSRGB(rgb) {
   return (
     "rgb" +
     (rgb.a ? "a" : "") +

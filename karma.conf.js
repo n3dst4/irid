@@ -9,17 +9,16 @@
 
 // When running under TeamCity, it will also use the TeamCity reporter.
 
-var isTeamCity = !!process.env.TEAMCITY_VERSION
-var isCIEnvironment = isTeamCity || !!(process.env.CI)
+var isTeamCity = !!process.env.TEAMCITY_VERSION;
+var isCIEnvironment = isTeamCity || !!process.env.CI;
 // this gets inserted by yeoman generator n3dst4-package:karma based on the
 // "babel" config value
-var useBabelify = true
+var useBabelify = true;
 
 module.exports = function(config) {
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: "",
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
@@ -28,47 +27,45 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['browserify', 'mocha'],
+    frameworks: ["browserify", "mocha"],
 
     browserify: {
       debug: true,
       transform: useBabelify ? ["babelify", "envify"] : ["envify"],
       // for enzyme
       configure: function(bundle) {
-        bundle.on('prebundle', function() {
-          bundle.external('react/addons');
-          bundle.external('react/lib/ReactContext');
-          bundle.external('react/lib/ExecutionEnvironment');
-          bundle.external('react-addons-test-utils');
+        bundle.on("prebundle", function() {
+          bundle.external("react/addons");
+          bundle.external("react/lib/ReactContext");
+          bundle.external("react/lib/ExecutionEnvironment");
+          bundle.external("react-addons-test-utils");
         });
       }
     },
 
     // list of files / patterns to load in the browser
-    files: [
-      'test/test-*.js'
-    ],
+    files: ["test/test-*.js"],
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/**/*.js': [ 'browserify' ],
-      'src/**/*.js': [ 'browserify' ],
+      "test/**/*.js": ["browserify"],
+      "src/**/*.js": ["browserify"]
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: isTeamCity ? ["teamcity"] : isCIEnvironment ? ['progress'] :
-      ['progress', 'notify'], // probably desktop then
+    reporters: isTeamCity
+      ? ["teamcity"]
+      : isCIEnvironment ? ["progress"] : ["progress", "notify"], // probably desktop then
 
     notifyReporter: {
       reportEachFailure: true, // Default: false, Will notify on every failed spec
-      reportSuccess: true, // Default: true, Will notify when a suite was successful
+      reportSuccess: true // Default: true, Will notify when a suite was successful
     },
 
     // web server port
@@ -82,7 +79,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox'],
+    browsers: ["Firefox"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -91,9 +88,9 @@ module.exports = function(config) {
     // See https://www.npmjs.com/package/karma-mocha
     client: {
       mocha: {
-        reporter: 'html', // change Karma's debug.html to the mocha web reporter
-        ui: 'tdd'
+        reporter: "html", // change Karma's debug.html to the mocha web reporter
+        ui: "tdd"
       }
     }
-  })
-}
+  });
+};
