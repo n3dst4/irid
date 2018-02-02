@@ -3,21 +3,23 @@ Irid
 
 ![travis build status](https://travis-ci.org/n3dst4/irid.svg)
 
-Parse, convert and manipulate colours (also known as colors).
+Parse, convert and manipulate colors.
 
-For a page which makes extensive use of irid.js, see http://colourtoy.lumphammer.com/
+For a page which makes extensive use of irid.js, see http://colortoy.lumphammer.com/
 
 
 Usage
 ===============
-```
-npm install irid --save
+Install:
+```sh
+npm install irid
 ```
 
 Then:
 
 ```js
-var Irid = require("irid");
+import Irid from "irid";
+// or var Irid = require("irid") if you're using CommonJS
 Irid( string );
 Irid( rgbObject );
 Irid( hslObject );
@@ -26,18 +28,18 @@ Irid( hslObject );
 
 
 API - Constructors
-===============
+==================
 
-For convenience, Irid() is an alias for new Irid().
+For convenience, `Irid()`` is an alias for `new Irid()`.
 
-Irid( string )
+`Irid( string )`
 ----------------
 
-Returns a new Irid object based on a css-style colour value string.
+Returns a new Irid object based on a css-style color value string.
 The recognised formats are:
 
      #xxx          Hex chars for red, greed, and blue
-     #xxxxxx       Classic HTML colour values
+     #xxxxxx       Classic HTML color values
      #xxxx         Hex chars for red, greed, blue, and alpha
      #xxxxxxxx     Hex chars for red, greed, blue, and alpha
      rgb(int, int, int)
@@ -46,50 +48,52 @@ The recognised formats are:
      rgba(int%, int%, int%, float)
      hsl(int, int%, int%)
      hsla(int, int%, int%, float)
-     colourname
+     colorname
 
 More detail about these formats can be found at
 http://www.w3.org/TR/css3-color/
 
-colourname can be any any named colour defined in CSS3. This is not
+`colorname` can be any any named color defined in CSS3. This is not
 browser-dependent: they're built in to the library.
 
-In rgb() and rgba() formats, the int values are either integers between
-0 and 255 inclusive, or percentage values (indicated by a %-sign.) The
+In `rgb()` and `rgba()` formats, the `int` values are either integers between
+0 and 255 inclusive, or percentage values (indicated by a `%`-sign.) The
 CSS3 spec stipulates that the three values should all be plain integers
-or all percentages, but this is not enforced in colour.js.
+or all percentages, but this is not enforced in color.js.
 
-In hsl() and hsla() formats, the first int value is the hue in degrees,
+In `hsl()` and `hsla()` formats, the first `int` value is the hue in degrees,
 where 0 = 360 = red. The second and third values are percentages for the
-saturation and luminance, and must be followed by a %-sign.
+saturation and luminance, and must be followed by a `%`-sign.
 
-In rgba() and hsla() formats, the float value is the alpha value, and
-should be between 0.0 and 1.0 inclusive. colour.js will actually
-understand if you supply an alpha float to rgb() or hsl(), or leave it
-out of rgba() or hsla() (in other words, the "a" is completely
+In `rgba()` and `hsla()` formats, the float value is the alpha value, and
+should be between 0.0 and 1.0 inclusive. Irid will actually
+understand if you supply an alpha float to `rgb()` or `hsl()`, or leave it
+out of `rgba()` or `hsla()` (in other words, the "a" is completely
 optional.)
 
-The #xxxx and #xxxxxxxx formats are not part of CSS3. They are like #xxx
-and #xxxxxx respectively, but with an alpha value given as the last
+The `#xxxx` and `#xxxxxxxx` formats are not part of CSS3. They are like `#xxx`
+and `#xxxxxx` respectively, but with an alpha value given as the last
 one or two hex digits.
 
-Irid( rgbobject )
+`Irid( rgbobject )`
 ----------------
 
-Returns a new Irid object based on the r, g, and b members of the
+Returns a new Irid object based on the `r`, `g`, and `b` members of the
 argument, which should be integers between 0 and 255 inclusive. Example:
-Irid({r: 255, g: 0, b: 0}) // red colour
+
+    Irid({r: 255, g: 0, b: 0}) // red color
 
 Irid( hslobject )
 ----------------
 
-Returns a new Irid object based on the h, s, and l members of the
+Returns a new Irid object based on the `h`, `s`, and `l` members of the
 argument, which should be numbers between 0 and 1 inclusive. Example:
-Irid({h: 0.33, s: 0.5, b: 0.4}) // olive colour
+
+    Irid({h: 0.33, s: 0.5, b: 0.4}) // olive color
 
 
 API - Methods of Irid objects
-===============
+=============================
 
 All destructive operations (setters) return new Irid objects, leaving the
 original intact. This means you can do this:
@@ -103,228 +107,227 @@ original intact. This means you can do this:
 
 In other words, **you can always treat Irid objects as immutable**.
 
-.red()
+`.red()`
 ----------------
 
-Returns the red component of the colour as an integer from 0 to 255.
+Returns the red component of the color as an integer from 0 to 255.
 
-.red(r)
+`.red(r)`
 ----------------
 
-Returns a new colour based the current colour but with the red component
-set to r, which should be an integer from 0 to 255.
+Returns a new color based the current color but with the red component
+set to `r`, which should be an integer from 0 to 255.
 
-.green()
+`.green()`
 ----------------
 
-Returns the green component of the colour as an integer from 0 to 255.
+Returns the green component of the color as an integer from 0 to 255.
 
-.green(g)
+`.green(g)`
 ----------------
 
-Returns a new colour based the current colour but with the green
-component set to g, which should be an integer from 0 to 255.
+Returns a new color based the current color but with the green
+component set to `g`, which should be an integer from 0 to 255.
 
-.blue()
+`.blue()`
 ----------------
 
-Returns the blue component of the colour as an integer from 0 to 255.
+Returns the blue component of the color as an integer from 0 to 255.
 
-.blue(b)
+`.blue(b)`
 ----------------
 
-Returns a new colour based the current colour but with the blue
-component set to b, which should be an integer from 0 to 255.
+Returns a new color based the current color but with the blue
+component set to `b`, which should be an integer from 0 to 255.
 
-.hue()
+`.hue()`
 ----------------
 
-Returns the hue value of the colour as an value from 0 to 1.
+Returns the hue value of the color as an value from 0 to 1.
 
-.hue(h)
+`.hue(h)`
 ----------------
 
-Returns a new colour based the current colour but with the hue
-value set to h, which should be an number from 0 to 1.
+Returns a new color based the current color but with the hue
+value set to `h`, which should be an number from 0 to 1.
 
-.saturation()
+`.saturation()`
 ----------------
 
-Returns the saturation value of the colour as an value from 0 to 1.
+Returns the saturation value of the color as an value from 0 to 1.
 
-.saturation(s)
+`.saturation(s)`
 ----------------
 
-Returns a new colour based the current colour but with the saturation
-value set to s, which should be an number from 0 to 1.
+Returns a new color based the current color but with the saturation
+value set to `s`, which should be an number from 0 to 1.
 
-.lightness()
+`.lightness()`
 ----------------
 
-Returns the lightness value of the colour as an value from 0 to 1.
+Returns the lightness value of the color as an value from 0 to 1.
 
-.lightness(l)
+`.lightness(l)`
 ----------------
 
-Returns a new colour based the current colour but with the lightness
-value set to l, which should be an number from 0 to 1.
+Returns a new color based the current color but with the lightness
+value set to `l`, which should be an number from 0 to 1.
 
-.alpha()
+`.alpha()`
 ----------------
 
-Returns alpha value of colour as a value from 0 to 1.
+Returns alpha value of color as a value from 0 to 1.
 
-.alpha(a)
+`.alpha(a)`
 ----------------
 
-Returns a new colour based the current colour but with the alpha
-value set to a, which should be a number from 0 to 1. Setting a to null
-or undefined will effectively "unset" the alpha.
+Returns a new color based the current color but with the alpha
+value set to `a`, which should be a number from 0 to 1. Setting a to `null`
+or `undefined` will effectively "unset" the alpha.
 
-.luma()
+`.luma()`
 ----------------
 
-Returns the calculated [luma](http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness) of the colour as a number from 0 to 1. It is
-not currently possible to set the luma directly.
+Returns the calculated [luma](http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness) of the color as a number from 0 to 1. It is not currently possible to set the luma directly.
 
-.relativeLuminance()
+`.relativeLuminance()`
 ----------------
 
-Returns the calculated [relative luminance](http://www.w3.org/TR/WCAG/#relativeluminancedef) of the colour as a number from 0 to 1. It is not currently possible to set the relative luminance directly.
+Returns the calculated [relative luminance](http://www.w3.org/TR/WCAG/#relativeluminancedef) of the color as a number from 0 to 1. It is not currently possible to set the relative luminance directly.
 
-.contrastRatio(other)
+`.contrastRatio(other)`
 ----------------
 
-Returns the contrast ratio [relative luminance](http://www.w3.org/TR/WCAG/#contrast-ratiodef) of the colour against a given second colour.
+Returns the contrast ratio [relative luminance](http://www.w3.org/TR/WCAG/#contrast-ratiodef) of the color against a given second color.
 
-.lighten (amount)
+`.lighten(amount)`
 ----------------
 
-Where amount is a number between 0 and 1. Lightens the colour towards
-white by the proportion given. Irid("black").lighten(0.5) is medium
-grey. Irid("black").lighten(0.5).lighten(0.5) is 75% light grey.
-.lighten(0) is a no-op, .lighten(1) turns any colour into white.
+Where amount is a number between 0 and 1. Lightens the color towards
+white by the proportion given. `Irid("black").lighten(0.5)` is medium
+grey. `Irid("black").lighten(0.5).lighten(0.5)` is 75% light grey.
+`.lighten(0)` is a no-op, `.lighten(1)` turns any color into white.
 
-.darken (amount)
+`.darken(amount)`
 ----------------
 
-Where amount is a number between 0 and 1. Darkens the colour towards
-black by the proportion given. Irid("white").darken(0.5) is medium
-grey. Irid("white").darken(0.5).darken(0.5) is 75% dark grey.
-.darken(0) is a no-op, .darken(1) turns any colour into black.
+Where amount is a number between 0 and 1. Darkens the color towards
+black by the proportion given. `Irid("white").darken(0.5)` is medium
+grey. `Irid("white").darken(0.5).darken(0.5)` is 75% dark grey.
+`.darken(0)` is a no-op, `.darken(1)` turns any color into black.
 
-.invert ()
+`.invert()`
 ----------------
 
-Turns the colour into the RGB opposite of itself. White becomes black,
+Turns the color into the RGB opposite of itself. White becomes black,
 black becomes white, and medium grey remains medium grey. If you are
-building a colour scheme, you probably want .complement() instead.
+building a color scheme, you probably want `.complement()` instead.
 
-.complement ()
+`.complement()`
 ----------------
 
-Turns the colour into its colour-wheel complement - that is, it keeps
+Turns the color into its color-wheel complement - that is, it keeps
 the same lightness and saturation but moves to the opposite hue. This
-will generally produce a pleasingly contrasting colour.
+will generally produce a pleasingly contrasting color.
 
-.desaturate ()
+`.desaturate()`
 ----------------
 
-Turns the colour into a grey shade with the same lightness.
+Turns the color into a grey shade with the same lightness.
 
-.contrast ( [a, b] )
+`.contrast( [a, b] )`
 ----------------
 
 Returns a new Irid object representing a tone which will be as legible
-as possible as a text/foreground colour when the original colour is
-used as a background. If no arguments are given, the returned colour will be
-`#00000` (black) or `#ffffff` (white). If colour arguments are given, then the
+as possible as a text/foreground color when the original color is
+used as a background. If no arguments are given, the returned color will be
+`#00000` (black) or `#ffffff` (white). If color arguments are given, then the
 return value will be the one that given the strongest contrast with the
 starting color.
 
-.analagous()
+`.analagous()`
 ----------------
 
-Returns an array of colours based on the original:
+Returns an array of colors based on the original:
 [original, left, right]
-Where original is the original colour, and left and right are slight
-variants based on moving slighty left and right round the HSL colour
+Where original is the original color, and left and right are slight
+variants based on moving slighty left and right round the HSL color
 wheel (30° each way.)
 
-.tetrad()
+`.tetrad()`
 ----------------
 
-Returns an array of colours based on the original:
+Returns an array of colors based on the original:
 [original, right, complement, left]
-Where original is the original colour, and right, complement, and left
-are produced by rotating in 90° incremenets round the HSL colour wheel
-(complement is the same as the colour returned by the complement()
+Where original is the original color, and right, complement, and left
+are produced by rotating in 90° increments round the HSL color wheel
+(complement is the same as the color returned by the complement()
 method.)
 
-.rectTetrad()
+`.rectTetrad()`
 ----------------
 
-Returns an array of colours based on the original:
+Returns an array of colors based on the original:
 [original, right, complement, left]
-Where original is the original colour, and right, complement, and left
+Where original is the original color, and right, complement, and left
 are produced by rotating in alternating 60 and 120° incremenets round
-the HSL colour wheel (complement is the same as the colour returned by
+the HSL color wheel (complement is the same as the color returned by
 the complement() method.)
 
-.triad()
+`.triad()`
 ----------------
 
-Returns an array of colours based on the original:
+Returns an array of colors based on the original:
 [original, left, right]
-Where original is the original colour, and left and right are spaced
-evenly round the HSL colour wheel, producing a group of three colours
+Where original is the original color, and left and right are spaced
+evenly round the HSL color wheel, producing a group of three colors
 120° apart.
 
-.splitComplementary()
+`.splitComplementary()`
 ----------------
 
-Returns an array of colours based on the original:
+Returns an array of colors based on the original:
 [original, left, right]
-Where original is the original colour, and left and right are 150°
-round the colour HSL colour wheel on each side. (The left and right
-colours returned from this method are the same as the left and right
+Where original is the original color, and left and right are 150°
+round the color HSL color wheel on each side. (The left and right
+colors returned from this method are the same as the left and right
 returned from doing .complement().analagous().)
 
-.blend(other [, opacity])
+`.blend(other [, opacity])`
 ----------------
 
-Returns a new colour consisting of the the original colour blended with a given
-other colour. The optional `opacity` argument is a number between 0 and 1
-specifying a weighting for the blended colour in the mix. A low value, e.g. 0.1,
+Returns a new color consisting of the original color blended with a given
+other color. The optional `opacity` argument is a number between 0 and 1
+specifying a weighting for the blended color in the mix. A low value, e.g. 0.1,
 will yield a result very close to the original, while a high value, e.g. 0.9,
-will yield a result very close to the "other" colour. The default opacity is
-0.5, yielding an even mix of the two colours.
+will yield a result very close to the "other" color. The default opacity is
+0.5, yielding an even mix of the two colors.
 
-.toString ()
+`.toString()`
 ----------------
 
-Alias for .toHexString()
+Alias for `.toHexString()`
 
-.toHexString()
+`.toHexString()`
 ----------------
 
-Returns a six or eight character hex colour code with leading #.
+Returns a six or eight character hex color code with leading #.
 
-.toRGBString()
+`.toRGBString()`
 ----------------
 
-Returns a CSS colour code in the rgb() or rgba() format.
+Returns a CSS color code in the `rgb()` or `rgba()` format.
 
-.toHSLString()
+`.toHSLString()`
 ----------------
 
-Returns a CSS colour code in the hsl() or hsla() format.
+Returns a CSS color code in the `hsl()` or `hsla()` format.
 
 
 API - Utility functions
 =======================
 
-Irid.canInterpret(candidate)
+`Irid.canInterpret(candidate)`
 ----------------------------
 
 Returns `true` is Irid will be able to use the given candidate object or string (as per any of the listed constructors).
@@ -333,14 +336,16 @@ Returns `true` is Irid will be able to use the given candidate object or string 
 Example
 ===============
 
+> Please excuse the jQuery - this example is super old!
+
 Making the background of a "dt" element proportionally darker than the parent dl:
 
      var myDl = $("my-dl");
-     myDl.find("dt").css("background-colour",
-         Irid(myDl.css("background-colour")).darken(0.3).toString()
+     myDl.find("dt").css("background-color",
+         Irid(myDl.css("background-color")).darken(0.3).toString()
      );
 
-Setting the text colour in the dl automatically:
+Setting the text color in the dl automatically:
 
      myDl.css("color",
          Irid(myDl.css("background-color")).getContrast().toString()
@@ -353,29 +358,25 @@ Irids are stored internally in HSL format, but attempt to preserve the RGB
 values they were created with. See
 http://en.wikipedia.org/wiki/HSL_and_HSV
 for details. This means that sometimes, due to gamut changes and rounding
-errors, a colour subjected to a series of transformations which should cancel
+errors, a color subjected to a series of transformations which should cancel
 each other out will actually end up very slightly different to how it
 started.
 
 
-Test coverage
-===============
-100% coverage - see colourtest.html.
-
-
 Demo
 ===============
-See http://colourtoy.lumphammer.com/ for a colour picker app which uses
+See http://colortoy.lumphammer.com/ for a color picker app which uses
 irid.js.
 
 
-Changelog
-=========
-
-
-Copyright and licence
+Copyright and license
 ===============
+Original:
 Copyright (c) 2009, Neil de Carteret
+
+Now:
+Copyright (c) 2018, Neil de Carteret
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
