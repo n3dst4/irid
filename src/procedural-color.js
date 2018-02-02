@@ -1,5 +1,5 @@
 import Irid from "./irid";
-import hash from "./murmurhash3_gc"
+import hash from "./murmurhash-js/murmurhash3_gc";
 
 export const intToColor = i =>
   `#${("00000" + Math.abs(i)
