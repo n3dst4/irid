@@ -1,12 +1,21 @@
 /* global suite, test */
-import Irid from "../src/irid";
 import chai from "chai";
+import hexToRGB from "../src/hex-to-rgb";
+import canInterpret from "../src/can-interpret";
+import Irid from "../src/irid";
+import rgbToHSL from "../src/rgb-to-hsl";
+import hslToCSSHSL from "../src/hsl-to-css-hsl";
+import cssHSLToHSL from "../src/css-hsl-to-hsl";
+import rgbToCSSRGB from "../src/rgb-to-css-rgb";
+import cssRGBToRGB from "../src/css-rgb-to-rgb";
+import hslToRGB from "../src/hsl-to-rgb";
+import rgbToHex from "../src/rgb-to-hex";
 
 const assert = chai.assert;
 
 suite("functions", function() {
   test("hexToRGB (6 digits)", function() {
-    var rgb = Irid.hexToRGB("#0088ff");
+    var rgb = hexToRGB("#0088ff");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -14,7 +23,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (8 digits)", function() {
-    var rgb = Irid.hexToRGB("#0088ff7f");
+    var rgb = hexToRGB("#0088ff7f");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -22,7 +31,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (3 digits)", function() {
-    var rgb = Irid.hexToRGB("#08f");
+    var rgb = hexToRGB("#08f");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -30,7 +39,7 @@ suite("functions", function() {
   });
 
   test("hexToRGB (4 digits)", function() {
-    var rgb = Irid.hexToRGB("#08f8");
+    var rgb = hexToRGB("#08f8");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -38,7 +47,7 @@ suite("functions", function() {
   });
 
   test("simple rgb", function() {
-    var rgb = Irid.cssRGBToRGB("rgb(0, 136, 255)");
+    var rgb = cssRGBToRGB("rgb(0, 136, 255)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -46,7 +55,7 @@ suite("functions", function() {
   });
 
   test("rgb with percent", function() {
-    var rgb = Irid.cssRGBToRGB("rgb(0%, 50%, 100%)");
+    var rgb = cssRGBToRGB("rgb(0%, 50%, 100%)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 127);
     assert.equal(rgb.b, 255);
@@ -54,7 +63,7 @@ suite("functions", function() {
   });
 
   test("rgba", function() {
-    var rgb = Irid.cssRGBToRGB("rgba(0, 136, 255, 0.7)");
+    var rgb = cssRGBToRGB("rgba(0, 136, 255, 0.7)");
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 136);
     assert.equal(rgb.b, 255);
@@ -62,7 +71,7 @@ suite("functions", function() {
   });
 
   test("hsl", function() {
-    var hsl = Irid.cssHSLToHSL("hsl(180, 60%, 70%)");
+    var hsl = cssHSLToHSL("hsl(180, 60%, 70%)");
     assert.equal(hsl.h, 0.5);
     assert.equal(hsl.s, 0.6);
     assert.equal(hsl.l, 0.7);
@@ -70,7 +79,7 @@ suite("functions", function() {
   });
 
   test("hsla", function() {
-    var hsl = Irid.cssHSLToHSL("hsl(180, 60%, 70%, 0.8)");
+    var hsl = cssHSLToHSL("hsl(180, 60%, 70%, 0.8)");
     assert.equal(hsl.h, 0.5);
     assert.equal(hsl.s, 0.6);
     assert.equal(hsl.l, 0.7);
@@ -79,42 +88,42 @@ suite("functions", function() {
 
   test("rgbToCSSRGB", function() {
     assert.equal(
-      Irid.rgbToCSSRGB({ r: 0, g: 136, b: 255 }),
+      rgbToCSSRGB({ r: 0, g: 136, b: 255 }),
       "rgb(0, 136, 255)"
     );
   });
 
   test("rgbToCSSRGB with alpha", function() {
     assert.equal(
-      Irid.rgbToCSSRGB({ r: 0, g: 136, b: 255, a: 0.7 }),
+      rgbToCSSRGB({ r: 0, g: 136, b: 255, a: 0.7 }),
       "rgba(0, 136, 255, 0.70)"
     );
   });
 
   test("hslToCSSHSL", function() {
     assert.equal(
-      Irid.hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7 }),
+      hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7 }),
       "hsl(180, 60%, 70%)"
     );
   });
 
   test("hslToCSSHSL with alpha", function() {
     assert.equal(
-      Irid.hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7, a: 0.8 }),
+      hslToCSSHSL({ h: 0.5, s: 0.6, l: 0.7, a: 0.8 }),
       "hsla(180, 60%, 70%, 0.80)"
     );
   });
 
   test("rgbToHex", function() {
-    assert.equal(Irid.rgbToHex({ r: 0, g: 136, b: 255 }), "#0088ff");
+    assert.equal(rgbToHex({ r: 0, g: 136, b: 255 }), "#0088ff");
   });
 
   test("rgbToHex with alpha", function() {
-    assert.equal(Irid.rgbToHex({ r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f");
+    assert.equal(rgbToHex({ r: 0, g: 136, b: 255, a: 0.5 }), "#0088ff7f");
   });
 
   test("hslToRGB", function() {
-    var rgb = Irid.hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255 });
+    var rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255 });
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 138);
     assert.equal(rgb.b, 255);
@@ -122,7 +131,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB with alpha", function() {
-    var rgb = Irid.hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255, a: 0.5 });
+    var rgb = hslToRGB({ h: 147 / 255, s: 1, l: 128 / 255, a: 0.5 });
     assert.equal(rgb.r, 0);
     assert.equal(rgb.g, 138);
     assert.equal(rgb.b, 255);
@@ -130,7 +139,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (white)", function() {
-    var rgb = Irid.hslToRGB({ h: 0, s: 1, l: 1 });
+    var rgb = hslToRGB({ h: 0, s: 1, l: 1 });
     assert.equal(rgb.r, 255);
     assert.equal(rgb.g, 255);
     assert.equal(rgb.b, 255);
@@ -138,7 +147,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (hue=1)", function() {
-    var rgb = Irid.hslToRGB({ h: 1, s: 1, l: 0.5 });
+    var rgb = hslToRGB({ h: 1, s: 1, l: 0.5 });
     assert.equal(rgb.r, 255);
     assert.equal(rgb.g, 0);
     assert.equal(rgb.b, 0);
@@ -146,7 +155,7 @@ suite("functions", function() {
   });
 
   test("hslToRGB (negative hue)", function() {
-    var rgb = Irid.hslToRGB({ h: -0.25, s: 1, l: 0.5 });
+    var rgb = hslToRGB({ h: -0.25, s: 1, l: 0.5 });
     assert.equal(rgb.r, 127);
     assert.equal(rgb.g, 0);
     assert.equal(rgb.b, 255);
@@ -154,7 +163,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL", function() {
-    var hsl = Irid.rgbToHSL({ r: 0, g: 138, b: 255 });
+    var hsl = rgbToHSL({ r: 0, g: 138, b: 255 });
     assert.equal(hsl.h.toFixed(2), (147 / 255).toFixed(2));
     assert.equal(hsl.s.toFixed(2), 1);
     assert.equal(hsl.l.toFixed(2), (128 / 255).toFixed(2));
@@ -162,7 +171,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL", function() {
-    var hsl = Irid.rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 });
+    var hsl = rgbToHSL({ r: 0, g: 138, b: 255, a: 0.5 });
     assert.equal(hsl.h.toFixed(2), (147 / 255).toFixed(2));
     assert.equal(hsl.s.toFixed(2), 1);
     assert.equal(hsl.l.toFixed(2), (128 / 255).toFixed(2));
@@ -170,7 +179,7 @@ suite("functions", function() {
   });
 
   test("rgbToHSL (white)", function() {
-    var hsl = Irid.rgbToHSL({ r: 255, g: 255, b: 255 });
+    var hsl = rgbToHSL({ r: 255, g: 255, b: 255 });
     assert.equal(hsl.h.toFixed(2), 0);
     assert.equal(hsl.s.toFixed(2), 0);
     assert.equal(hsl.l.toFixed(2), 1);
@@ -178,21 +187,21 @@ suite("functions", function() {
   });
 
   test("canInterpret", function() {
-    assert.ok(Irid.canInterpret("#fff"));
-    assert.ok(Irid.canInterpret("white"));
-    assert.ok(Irid.canInterpret("rgb(100, 101, 102)"));
-    assert.ok(Irid.canInterpret(Irid("#fff")));
-    assert.ok(Irid.canInterpret({ r: 255, g: 255, b: 255 }));
-    assert.notOk(Irid.canInterpret(""));
-    assert.notOk(Irid.canInterpret("rkbyucvgtsaerklyuigbfakl"));
-    assert.notOk(Irid.canInterpret("#ab"));
-    assert.notOk(Irid.canInterpret(NaN));
-    assert.notOk(Irid.canInterpret(null));
-    assert.notOk(Irid.canInterpret(undefined));
-    assert.notOk(Irid.canInterpret(5));
-    assert.notOk(Irid.canInterpret(true));
-    assert.notOk(Irid.canInterpret([]));
-    assert.notOk(Irid.canInterpret([1, 2, 3]));
-    assert.notOk(Irid.canInterpret({ foo: "bar" }));
+    assert.ok(canInterpret("#fff"));
+    assert.ok(canInterpret("white"));
+    assert.ok(canInterpret("rgb(100, 101, 102)"));
+    assert.ok(canInterpret(Irid("#fff")));
+    assert.ok(canInterpret({ r: 255, g: 255, b: 255 }));
+    assert.notOk(canInterpret(""));
+    assert.notOk(canInterpret("rkbyucvgtsaerklyuigbfakl"));
+    assert.notOk(canInterpret("#ab"));
+    assert.notOk(canInterpret(NaN));
+    assert.notOk(canInterpret(null));
+    assert.notOk(canInterpret(undefined));
+    assert.notOk(canInterpret(5));
+    assert.notOk(canInterpret(true));
+    assert.notOk(canInterpret([]));
+    assert.notOk(canInterpret([1, 2, 3]));
+    assert.notOk(canInterpret({ foo: "bar" }));
   });
 });

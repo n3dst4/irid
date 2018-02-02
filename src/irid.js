@@ -1,14 +1,16 @@
 /* xeslint "comma-spacing": 0, "space-infix-ops": 0, "no-use-before-define": 0, "space-unary-ops": 0 */
 /* global module*/
-"use strict";
+import hexToRGB from "./hex-to-rgb";
+import cssHSLToHSL from "./css-hsl-to-hsl";
+import cssRGBToRGB from "./css-rgb-to-rgb";
+import hslToCSSHSL from "./hsl-to-css-hsl";
+import rgbToCSSRGB from "./rgb-to-css-rgb";
+import rgbToHex from "./rgb-to-hex";
+import rgbToHSL from "./rgb-to-hsl";
+import hslToRGB from "./hsl-to-rgb";
 
-var invalidError = "Invalid colour specification",
-  // Silly micro-optimizations (vars get minified):
-  undef = "undefined",
-  round = Math.round,
-  max = Math.max,
-  min = Math.min,
-  floor = Math.floor;
+var invalidError = "Invalid colour specification";
+
 
 var Irid = function(initial) {
   if (!(this instanceof Irid)) {
@@ -48,12 +50,12 @@ var Irid = function(initial) {
 
 Irid.prototype = {
   _makeRGB: function() {
-    if (typeof this.rgb == undef) {
+    if (typeof this.rgb == undefined) {
       this.rgb = hslToRGB(this.hsl);
     }
   },
   _makeHSL: function() {
-    if (typeof this.hsl == undef) {
+    if (typeof this.hsl == undefined) {
       this.hsl = rgbToHSL(this.rgb);
     }
   },
@@ -96,7 +98,7 @@ Irid.prototype = {
   },
   red: function(r) {
     this._makeRGB();
-    return typeof r == undef
+    return typeof r == undefined
       ? this.rgb.r
       : new Irid({
           r: parseInt(r, 10),
@@ -107,7 +109,7 @@ Irid.prototype = {
   },
   green: function(g) {
     this._makeRGB();
-    return typeof g == undef
+    return typeof g == undefined
       ? this.rgb.g
       : new Irid({
           r: this.rgb.r,
@@ -118,7 +120,7 @@ Irid.prototype = {
   },
   blue: function(b) {
     this._makeRGB();
-    return typeof b == undef
+    return typeof b == undefined
       ? this.rgb.b
       : new Irid({
           r: this.rgb.r,
@@ -129,7 +131,7 @@ Irid.prototype = {
   },
   hue: function(h) {
     this._makeHSL();
-    return typeof h == undef
+    return typeof h == undefined
       ? this.hsl.h
       : new Irid({
           h: parseFloat(h),
@@ -140,7 +142,7 @@ Irid.prototype = {
   },
   saturation: function(s) {
     this._makeHSL();
-    return typeof s == undef
+    return typeof s == undefined
       ? this.hsl.s
       : new Irid({
           h: this.hsl.h,
@@ -151,7 +153,7 @@ Irid.prototype = {
   },
   lightness: function(l) {
     this._makeHSL();
-    return typeof l == undef
+    return typeof l == undefined
       ? this.hsl.l
       : new Irid({
           h: this.hsl.h,
@@ -279,254 +281,19 @@ Irid.prototype = {
   }
 };
 
-var parseHexValue = function(str) {
-  if (str.length == 1) {
-    str += str;
-  }
-  return max(0, min(255, parseInt(str, 16)));
-};
 
-var parseRGBValue = function(str) {
-  var percent = str.charAt(str.length - 1) == "%";
-  if (percent) {
-    str = str.slice(0, str.length - 1);
-  }
-  return max(0, min(255, round(parseInt(str, 10) * (percent ? 2.55 : 1))));
-};
 
-var parseAlphaValue = function(str) {
-  return str ? max(0, min(1, parseFloat(str))) : undefined;
-};
 
-var parseHueValue = function(str) {
-  var val = parseInt(str, 10) % 360;
-  if (val < 0) {
-    val += 360;
-  }
-  return val / 360;
-};
 
-var parseSLValue = function(str) {
-  return max(0, min(100, parseInt(str, 10))) / 100;
-};
 
-Irid.canInterpret = function(candidate) {
-  return (
-    candidate &&
-    (candidate instanceof Irid ||
-      (candidate.h !== undefined &&
-        candidate.s !== undefined &&
-        candidate.l !== undefined) ||
-      (typeof candidate == "string" &&
-        (hexToRGB(candidate) ||
-          cssRGBToRGB(candidate) ||
-          cssHSLToHSL(candidate) ||
-          hexToRGB(Irid.swatches[candidate.toLowerCase()]))) ||
-      (candidate.r !== undefined &&
-        candidate.g !== undefined &&
-        candidate.b !== undefined))
-  );
-};
 
-var hexToRGB = (Irid.hexToRGB = function(hex) {
-  var parts =
-    /^#([\da-f])([\da-f])([\da-f])([\da-f])?$/i.exec(hex) ||
-    /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})?$/i.exec(hex);
-  return parts
-    ? {
-        r: parseHexValue(parts[1]),
-        g: parseHexValue(parts[2]),
-        b: parseHexValue(parts[3]),
-        a:
-          typeof parts[4] == undef || parts[4] == ""
-            ? undefined
-            : parseHexValue(parts[4]) / 255
-      }
-    : undefined;
-});
 
-var cssRGBToRGB = (Irid.cssRGBToRGB = function(css) {
-  var parts = /^rgba?\(\s*(-?\d+%?)\s*,\s*(-?\d+%?)\s*,\s*(-?\d+%?)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(
-    css
-  );
-  return parts
-    ? {
-        r: parseRGBValue(parts[1]),
-        g: parseRGBValue(parts[2]),
-        b: parseRGBValue(parts[3]),
-        a: parseAlphaValue(parts[4])
-      }
-    : undefined;
-});
 
-var rgbToCSSRGB = (Irid.rgbToCSSRGB = function(rgb) {
-  return (
-    "rgb" +
-    (rgb.a ? "a" : "") +
-    "(" +
-    round(rgb.r) +
-    ", " +
-    round(rgb.g) +
-    ", " +
-    round(rgb.b) +
-    (rgb.a ? ", " + rgb.a.toFixed(2) : "") +
-    ")"
-  );
-});
 
-var hslToCSSHSL = (Irid.hslToCSSHSL = function(hsl) {
-  return (
-    "hsl" +
-    (hsl.a ? "a" : "") +
-    "(" +
-    round(hsl.h * 360) +
-    ", " +
-    round(hsl.s * 100) +
-    "%, " +
-    round(hsl.l * 100) +
-    "%" +
-    (hsl.a ? ", " + hsl.a.toFixed(2) : "") +
-    ")"
-  );
-});
 
-var cssHSLToHSL = (Irid.cssHSLToHSL = function(css) {
-  var parts = /^hsla?\(\s*(-?\d+)\s*,\s*(-?\d+%)\s*,\s*(-?\d+%)\s*(?:,\s*(-?\d*(?:\.\d+)?)?)?\s*\)$/.exec(
-    css
-  );
-  return parts
-    ? {
-        h: parseHueValue(parts[1]),
-        s: parseSLValue(parts[2]),
-        l: parseSLValue(parts[3]),
-        a: parseAlphaValue(parts[4])
-      }
-    : undefined;
-});
 
-var rgbToHex = (Irid.rgbToHex = function(rgb) {
-  var alpha,
-    str =
-      "#" +
-      (rgb.r < 16 ? "0" : "") +
-      rgb.r.toString(16) +
-      (rgb.g < 16 ? "0" : "") +
-      rgb.g.toString(16) +
-      (rgb.b < 16 ? "0" : "") +
-      rgb.b.toString(16);
-  if (rgb.a !== undefined) {
-    alpha = floor(rgb.a * 255);
-    str += (alpha < 16 ? "0" : "") + alpha.toString(16);
-  }
-  return str;
-});
 
-var rgbToHSL = (Irid.rgbToHSL = function(rgb) {
-  var v,
-    m,
-    vm,
-    r2,
-    g2,
-    b2,
-    r = rgb.r / 255,
-    g = rgb.g / 255,
-    b = rgb.b / 255,
-    h = 0,
-    s = 0,
-    l = 0;
-  v = max(r, g, b);
-  m = min(r, g, b);
-  l = (m + v) / 2;
-  if (l > 0) {
-    vm = v - m;
-    s = vm;
-    if (s > 0) {
-      s = s / (l <= 0.5 ? v + m : 2 - v - m);
-      r2 = (v - r) / vm;
-      g2 = (v - g) / vm;
-      b2 = (v - b) / vm;
-      if (r == v) {
-        h = g == m ? 5.0 + b2 : 1.0 - g2;
-      } else if (g == v) {
-        h = b == m ? 1.0 + r2 : 3.0 - b2;
-      } else {
-        h = r == m ? 3.0 + g2 : 5.0 - r2;
-      }
-      h = h / 6;
-    }
-  }
-  return { h: h % 1, s: s, l: l, a: rgb.a };
-});
 
-var hslToRGB = (Irid.hslToRGB = function(hsl) {
-  var v,
-    r,
-    g,
-    b,
-    m,
-    sv,
-    sextant,
-    fract,
-    vsf,
-    mid1,
-    mid2,
-    h = hsl.h % 1,
-    sl = hsl.s,
-    l = hsl.l;
-  if (h < 0) {
-    h += 1;
-  }
-  r = g = b = l;
-  v = l <= 0.5 ? l * (1.0 + sl) : l + sl - l * sl;
-  if (v > 0) {
-    m = l + l - v;
-    sv = (v - m) / v;
-    h *= 6.0;
-    sextant = floor(h);
-    fract = h - sextant;
-    vsf = v * sv * fract;
-    mid1 = m + vsf;
-    mid2 = v - vsf;
-    switch (sextant) {
-      case 0:
-        r = v;
-        g = mid1;
-        b = m;
-        break;
-      case 1:
-        r = mid2;
-        g = v;
-        b = m;
-        break;
-      case 2:
-        r = m;
-        g = v;
-        b = mid1;
-        break;
-      case 3:
-        r = m;
-        g = mid2;
-        b = v;
-        break;
-      case 4:
-        r = mid1;
-        g = m;
-        b = v;
-        break;
-      case 5:
-        r = v;
-        g = m;
-        b = mid2;
-        break;
-    }
-  }
-  return {
-    r: floor(r * 255),
-    g: floor(g * 255),
-    b: floor(b * 255),
-    a: hsl.a
-  };
-});
 
 // see http://www.w3.org/TR/css3-color/#svg-color
 Irid.swatches = {
