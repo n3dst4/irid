@@ -10,7 +10,7 @@ export default function hexToRGB (hex) {
         g: parseHexValue(parts[2]),
         b: parseHexValue(parts[3]),
         a:
-          typeof parts[4] == undefined || parts[4] == ""
+          typeof parts[4] == "undefined" || parts[4] == ""
             ? undefined
             : parseHexValue(parts[4]) / 255
       }

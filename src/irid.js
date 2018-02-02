@@ -8,6 +8,7 @@ import rgbToCSSRGB from "./rgb-to-css-rgb";
 import rgbToHex from "./rgb-to-hex";
 import rgbToHSL from "./rgb-to-hsl";
 import hslToRGB from "./hsl-to-rgb";
+import canInterpret from "./can-interpret";
 
 var invalidError = "Invalid colour specification";
 
@@ -48,14 +49,16 @@ var Irid = function(initial) {
   }
 };
 
+Irid.canInterpret = canInterpret;
+
 Irid.prototype = {
   _makeRGB: function() {
-    if (typeof this.rgb == undefined) {
+    if (typeof this.rgb == "undefined") {
       this.rgb = hslToRGB(this.hsl);
     }
   },
   _makeHSL: function() {
-    if (typeof this.hsl == undefined) {
+    if (typeof this.hsl == "undefined") {
       this.hsl = rgbToHSL(this.rgb);
     }
   },
@@ -98,7 +101,7 @@ Irid.prototype = {
   },
   red: function(r) {
     this._makeRGB();
-    return typeof r == undefined
+    return typeof r == "undefined"
       ? this.rgb.r
       : new Irid({
           r: parseInt(r, 10),
@@ -109,7 +112,7 @@ Irid.prototype = {
   },
   green: function(g) {
     this._makeRGB();
-    return typeof g == undefined
+    return typeof g == "undefined"
       ? this.rgb.g
       : new Irid({
           r: this.rgb.r,
@@ -120,7 +123,7 @@ Irid.prototype = {
   },
   blue: function(b) {
     this._makeRGB();
-    return typeof b == undefined
+    return typeof b == "undefined"
       ? this.rgb.b
       : new Irid({
           r: this.rgb.r,
@@ -131,7 +134,7 @@ Irid.prototype = {
   },
   hue: function(h) {
     this._makeHSL();
-    return typeof h == undefined
+    return typeof h == "undefined"
       ? this.hsl.h
       : new Irid({
           h: parseFloat(h),
@@ -142,7 +145,7 @@ Irid.prototype = {
   },
   saturation: function(s) {
     this._makeHSL();
-    return typeof s == undefined
+    return typeof s == "undefined"
       ? this.hsl.s
       : new Irid({
           h: this.hsl.h,
@@ -153,7 +156,7 @@ Irid.prototype = {
   },
   lightness: function(l) {
     this._makeHSL();
-    return typeof l == undefined
+    return typeof l == "undefined"
       ? this.hsl.l
       : new Irid({
           h: this.hsl.h,
