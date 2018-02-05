@@ -403,49 +403,62 @@ suite("Irid", function() {
     assert.equal(blend.toString(), "#3f3f3f");
   });
 
-  test("luma calculation", function() {
-    assert.equal(
-      Irid("#fff")
-        .luma()
-        .toFixed(2),
-      (1).toFixed(2)
-    );
-    assert.equal(
-      Irid("#f00")
-        .luma()
-        .toFixed(2),
-      (0.3).toFixed(2)
-    );
-    assert.equal(
-      Irid("#0f0")
-        .luma()
-        .toFixed(2),
-      (0.59).toFixed(2)
-    );
-    assert.equal(
-      Irid("#00f")
-        .luma()
-        .toFixed(2),
-      (0.11).toFixed(2)
-    );
-    assert.equal(
-      Irid("#ff0")
-        .luma()
-        .toFixed(2),
-      (0.89).toFixed(2)
-    );
-    assert.equal(
-      Irid("#0ff")
-        .luma()
-        .toFixed(2),
-      (0.7).toFixed(2)
-    );
-    assert.equal(
-      Irid("#f0f")
-        .luma()
-        .toFixed(2),
-      (0.41).toFixed(2)
-    );
+  suite("luma calculation", function() {
+    [
+      ["#fff", 1],
+      ["#f00", 0.3],
+      ["#0f0", 0.59],
+      ["#00f", 0.11],
+      ["#ff0", 0.89],
+      ["#0ff", 0.7],
+      ["#f0f", 0.41]
+    ].forEach(([color, expectedLuma]) => {
+      test(color, function() {
+        assert.equal(
+          Irid(color)
+            .luma()
+            .toFixed(2),
+          expectedLuma.toFixed(2)
+        );
+      });
+    });
+  });
+
+  suite("set luma", function() {
+    const colors = [
+      "#fff",
+      "#f00",
+      "#0f0",
+      "#00f",
+      "#660",
+      "#066",
+      "#606",
+      "#600",
+      "#060",
+      "#006"
+    ];
+    const expectedLumas = [1, 0.9, 0.7, 0.5, 0.3, 0.1, 0];
+    colors.forEach(color => {
+      expectedLumas.forEach(luma => {
+        test(`set luma of ${color} to ${luma}`, function() {
+          assert.equal(
+            Irid(color)
+              .luma(luma)
+              .luma()
+              .toFixed(2),
+            luma.toFixed(2)
+          );
+        });
+      });
+    });
+  });
+
+  test("set luma", function() {
+    const expectedLuma = 0.7;
+    const color1 = Irid("#123");
+    const color2 = color1.luma(expectedLuma);
+    const luma = color2.luma();
+    assert.equal(luma.toFixed(2), expectedLuma.toFixed(2));
   });
 
   test("relative luminance", function() {

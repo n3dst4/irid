@@ -59,10 +59,21 @@ Irid.prototype = {
     }
   },
   // See http://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
-  luma: function() {
+  luma: function(l) {
+    return typeof l == "undefined"
+      ? this._calculateLuma()
+      : this._setLuma(l)
+  },
+  _calculateLuma: function () {
     this._makeRGB();
-    const rgb = this.rgb;
-    return (0.3 * rgb.r + 0.59 * rgb.g + 0.11 * rgb.b) / 255;
+    const { r, g, b } = this.rgb;
+    return (0.3 * r + 0.59 * g + 0.11 * b) / 255;
+  },
+  _setLuma: function (l) {
+    this._makeRGB();
+    const {r, g, b} = this.rgb;
+    const factor = (l * 255) / (0.3 * r + 0.59 * g + 0.11 * b);
+    return Irid({r: r * factor, g: g * factor, b: b * factor});
   },
   // see http://www.w3.org/TR/WCAG/#relativeluminancedef
   relativeLuminance: function() {
