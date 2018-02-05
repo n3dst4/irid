@@ -10,11 +10,8 @@
     "watch-build": "npm run build -- --watch",
     "watch-test": "cross-env NODE_ENV=testing karma start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/n3dst4/colour.js.git"
-  },
-  "homepage": "https://github.com/n3dst4/colour.js#readme",
+  "repository": "github:n3dst4/irid",
+  "homepage": "http://n3dst4.github.io/irid/",
   "author": "Neil de Carteret <npm@lumphammer.com>",
   "license": "ISC",
   "keywords": [],
