@@ -185,6 +185,11 @@ Returns a new color based the current color but with the alpha
 value set to `a`, which should be a number from 0 to 1. Setting a to `null`
 or `undefined` will effectively "unset" the alpha.
 
+`.opacity()` and `.opacity(a)`
+------------------------------
+
+`.opacity` is an alias for `.alpha`.
+
 `.luma()`
 ----------------
 

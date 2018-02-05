@@ -173,6 +173,14 @@ Irid.prototype = {
       }
     }
   },
+  opacity: function(a) {
+    if (arguments.length === 0) {
+      return this.alpha();
+    }
+    else {
+      return this.alpha(a);
+    }
+  },
   lighten: function(amount) {
     this._makeHSL();
     return new Irid({

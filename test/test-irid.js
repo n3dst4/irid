@@ -311,6 +311,30 @@ suite("Irid", function() {
     assert.equal(Irid("#ffffff").alpha(), undefined);
   });
 
+  test("get opacity", function() {
+    const color = new Irid("#ffffff80");
+    assert.equal(color.opacity().toFixed(2), "0.50");
+  });
+
+  test("set opacity", function() {
+    const color = new Irid("#ffffff").opacity(0.5);
+    assert.equal(color.toString(), "#ffffff7f");
+  });
+
+  test("set opacity to null", function() {
+    const color = new Irid("#ffffff55").opacity(null);
+    assert.equal(color.toString(), "#ffffff");
+  });
+
+  test("set opacity to undefined", function() {
+    const color = new Irid("#ffffff55").opacity(undefined);
+    assert.equal(color.toString(), "#ffffff");
+  });
+
+  test("undefined opacity returned correctly", function() {
+    assert.equal(Irid("#ffffff").opacity(), undefined);
+  });
+
   test("analagous colors", function() {
     const c = new Irid("red"),
       anal = c.analagous();
