@@ -334,7 +334,7 @@ Returns `true` is Irid will be able to use the given candidate object or string 
 
 
 Example
-===============
+=======
 
 > Please excuse the jQuery - this example is super old!
 
@@ -352,8 +352,26 @@ Setting the text color in the dl automatically:
      );
 
 
+Example: Generating a color from a number
+=========================================
+
+Irid nearly grew a function that would accept any string, and return a color generated programmatically from it. This would be cool for e.g. generated avatars, or data visualization. But I figured this was feature-creep, and you can do it yourself pretty easily. First, this is how you turn a number into a color:
+
+```js
+const myNumber = 123456789;
+const myColor = Irid("#" + ("00000" + (myNumber).toString(16)).substr(-6));
+```
+
+So now all you need is a way to turn a string into a number, which is generically known as hashing. I recommend [Murmurhash](https://github.com/garycourt/murmurhash-js), which isn't on npm at the time of writing but is MIT licensed so you can borrow it. It's good because:
+
+* it's not a cryptographic algorithm, so it only generates a 32-bit integer, not a massive cryptographically-secure signature.
+* it's fast
+* it perturbs (scatters) well even for similar inputs. Other hashing algorithms tend to produce almost-identical results for almost-identical inputs. But imagine we're creating colored avatars for two forum users called "jim" and "kim". They're only only ascii digit apart but we'd want their colors to be nice and distinct.
+
+
+
 Notes
-===============
+=====
 Irids are stored internally in HSL format, but attempt to preserve the RGB
 values they were created with. See
 http://en.wikipedia.org/wiki/HSL_and_HSV
