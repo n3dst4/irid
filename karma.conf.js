@@ -61,7 +61,7 @@ module.exports = function(config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: isTeamCity
       ? ["teamcity"]
-      : isCIEnvironment ? ["progress"] : ["progress", "notify"], // probably desktop then
+      : isCIEnvironment ? ["mocha"] : ["mocha", "notify"], // probably desktop then
 
     notifyReporter: {
       reportEachFailure: true, // Default: false, Will notify on every failed spec
