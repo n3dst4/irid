@@ -9,7 +9,7 @@ import hslToRGB from "./hsl-to-rgb";
 import canInterpret from "./can-interpret";
 import swatches from "./swatches";
 
-const invalidError = "Invalid colour specification";
+const invalidError = "Invalid color specification";
 
 const Irid = function(initial) {
   if (!(this instanceof Irid)) {

@@ -7,27 +7,27 @@ const assert = chai.assert;
 
 suite("Irid", function() {
   test("from string (#fff)", function() {
-    const colour = new Irid("#fff");
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 1);
-    assert.equal(colour.a, undefined);
+    const color = new Irid("#fff");
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 1);
+    assert.equal(color.a, undefined);
   });
 
   test("from string (#FFF)", function() {
-    const colour = new Irid("#FFF");
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 1);
-    assert.equal(colour.a, undefined);
+    const color = new Irid("#FFF");
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 1);
+    assert.equal(color.a, undefined);
   });
 
   test("from string (#000)", function() {
-    const colour = new Irid("#000");
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0);
-    assert.equal(colour.a, undefined);
+    const color = new Irid("#000");
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0);
+    assert.equal(color.a, undefined);
   });
 
   test("from invalid string (#yyy)", function() {
@@ -35,7 +35,7 @@ suite("Irid", function() {
     try {
       Irid("#yyy");
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -43,12 +43,12 @@ suite("Irid", function() {
   });
 
   test("from Irid object", function() {
-    let colour = new Irid("#000");
-    colour = new Irid(colour);
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0);
-    assert.equal(colour.a, undefined);
+    let color = new Irid("#000");
+    color = new Irid(color);
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0);
+    assert.equal(color.a, undefined);
   });
 
   test("from RGB object", function() {
@@ -58,14 +58,14 @@ suite("Irid", function() {
     assert.equal(c.lightness(), 0.5);
   });
 
-  test("from named colour", function() {
+  test("from named color", function() {
     const c = Irid("lightgoldenrodyellow");
     assert.equal(c.hue().toFixed(2), "0.17");
     assert.equal(c.saturation().toFixed(2), "0.80");
     assert.equal(c.lightness().toFixed(2), "0.90");
   });
 
-  test("from named colour (case insensitive)", function() {
+  test("from named color (case insensitive)", function() {
     const c = Irid("LightGoldenrodYellow");
     assert.equal(c.hue().toFixed(2), "0.17");
     assert.equal(c.saturation().toFixed(2), "0.80");
@@ -77,7 +77,7 @@ suite("Irid", function() {
     try {
       Irid(undefined);
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -89,7 +89,7 @@ suite("Irid", function() {
     try {
       Irid("ThisIsDefinitelyNotTheNameOfAIrid");
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -101,7 +101,7 @@ suite("Irid", function() {
     try {
       Irid(null);
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -113,7 +113,7 @@ suite("Irid", function() {
     try {
       Irid(NaN);
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -125,7 +125,7 @@ suite("Irid", function() {
     try {
       Irid("#ab");
     } catch (e) {
-      assert.equal(e, "Invalid colour specification");
+      assert.equal(e, "Invalid color specification");
       failed = true;
     } finally {
       assert.ok(failed, "An error was correctly raised");
@@ -133,34 +133,34 @@ suite("Irid", function() {
   });
 
   test("lighten", function() {
-    let colour = new Irid("#000").lighten(0.5);
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0.5);
-    assert.equal(colour.a, undefined);
-    assert.equal(colour.toHexString(), "#7f7f7f");
-    colour = new Irid({ h: 0, s: 0, l: 0.5 }).lighten(0.5);
-    assert.equal(colour.lightness().toFixed(2), 0.75);
+    let color = new Irid("#000").lighten(0.5);
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0.5);
+    assert.equal(color.a, undefined);
+    assert.equal(color.toHexString(), "#7f7f7f");
+    color = new Irid({ h: 0, s: 0, l: 0.5 }).lighten(0.5);
+    assert.equal(color.lightness().toFixed(2), 0.75);
   });
 
   test("darken", function() {
-    const colour = new Irid("#fff").darken(0.5);
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0.5);
-    assert.equal(colour.a, undefined);
-    assert.equal(colour.toHexString(), "#7f7f7f");
+    const color = new Irid("#fff").darken(0.5);
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0.5);
+    assert.equal(color.a, undefined);
+    assert.equal(color.toHexString(), "#7f7f7f");
   });
 
   test("invert", function() {
-    let colour = new Irid("#fff").invert();
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.saturation().toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0);
-    colour = new Irid("#000").invert();
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.hsl.s.toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 1);
+    let color = new Irid("#fff").invert();
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.saturation().toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0);
+    color = new Irid("#000").invert();
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.hsl.s.toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 1);
     assert.equal(new Irid("#f00").invert().toHexString(), "#00ffff");
     assert.equal(new Irid("#0f0").invert().toHexString(), "#ff00ff");
     assert.equal(new Irid("#00f").invert().toHexString(), "#ffff00");
@@ -168,14 +168,14 @@ suite("Irid", function() {
   });
 
   test("complement", function() {
-    let colour = new Irid("#fff").complement();
-    assert.equal(colour.hue().toFixed(2), 0.5);
-    assert.equal(colour.hsl.s.toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 1);
-    colour = new Irid("#000").complement();
-    assert.equal(colour.hue().toFixed(2), 0.5);
-    assert.equal(colour.hsl.s.toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0);
+    let color = new Irid("#fff").complement();
+    assert.equal(color.hue().toFixed(2), 0.5);
+    assert.equal(color.hsl.s.toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 1);
+    color = new Irid("#000").complement();
+    assert.equal(color.hue().toFixed(2), 0.5);
+    assert.equal(color.hsl.s.toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0);
     assert.equal(new Irid("#f00").complement().toHexString(), "#00ffff");
     assert.equal(new Irid("#0f0").complement().toHexString(), "#ff00ff");
     assert.equal(new Irid("#00f").complement().toHexString(), "#fffe00");
@@ -183,14 +183,14 @@ suite("Irid", function() {
   });
 
   test("desaturate", function() {
-    let colour = new Irid("#fff").desaturate();
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.hsl.s.toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 1);
-    colour = new Irid("#000").desaturate();
-    assert.equal(colour.hue().toFixed(2), 0);
-    assert.equal(colour.hsl.s.toFixed(2), 0);
-    assert.equal(colour.lightness().toFixed(2), 0);
+    let color = new Irid("#fff").desaturate();
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.hsl.s.toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 1);
+    color = new Irid("#000").desaturate();
+    assert.equal(color.hue().toFixed(2), 0);
+    assert.equal(color.hsl.s.toFixed(2), 0);
+    assert.equal(color.lightness().toFixed(2), 0);
     assert.equal(new Irid("#f00").desaturate().toHexString(), "#7f7f7f");
     assert.equal(new Irid("#0f0").desaturate().toHexString(), "#7f7f7f");
     assert.equal(new Irid("#00f").desaturate().toHexString(), "#7f7f7f");
@@ -198,120 +198,120 @@ suite("Irid", function() {
   });
 
   test("contrast defaults", function() {
-    let colour = new Irid("#fff").contrast();
-    assert.equal(colour.toString(), "#000000");
-    colour = new Irid("#000").contrast();
-    assert.equal(colour.toString(), "#ffffff");
+    let color = new Irid("#fff").contrast();
+    assert.equal(color.toString(), "#000000");
+    color = new Irid("#000").contrast();
+    assert.equal(color.toString(), "#ffffff");
   });
 
   test("contrast with given light/dark values", function() {
-    let colour = new Irid("#fff").contrast("#dddddd", "#222222");
-    assert.equal(colour.toString(), "#222222");
-    colour = new Irid("#000").contrast("#dddddd", "#222222");
-    assert.equal(colour.toString(), "#dddddd");
+    let color = new Irid("#fff").contrast("#dddddd", "#222222");
+    assert.equal(color.toString(), "#222222");
+    color = new Irid("#000").contrast("#dddddd", "#222222");
+    assert.equal(color.toString(), "#dddddd");
   });
 
   test("contrast with pathologically dumb values", function() {
-    const colour = new Irid("#aaaaaa").contrast("#ffffff", "#aaaaaa");
-    assert.equal(colour.toString(), "#ffffff");
+    const color = new Irid("#aaaaaa").contrast("#ffffff", "#aaaaaa");
+    assert.equal(color.toString(), "#ffffff");
   });
 
   test("contrast uses luma", function() {
-    let colour = new Irid("#3531ff").contrast();
-    assert.equal(colour.toString(), "#ffffff");
-    colour = new Irid("#d8ec00").contrast();
-    assert.equal(colour.toString(), "#000000");
+    let color = new Irid("#3531ff").contrast();
+    assert.equal(color.toString(), "#ffffff");
+    color = new Irid("#d8ec00").contrast();
+    assert.equal(color.toString(), "#000000");
   });
 
   test("get red", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.red(), 0x35);
+    const color = new Irid("#3531ff");
+    assert.equal(color.red(), 0x35);
   });
 
   test("get blue", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.blue(), 0xff);
+    const color = new Irid("#3531ff");
+    assert.equal(color.blue(), 0xff);
   });
 
   test("get green", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.green(), 0x31);
+    const color = new Irid("#3531ff");
+    assert.equal(color.green(), 0x31);
   });
 
   test("set red", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.red(128).toString(), "#8031ff");
+    const color = new Irid("#3531ff");
+    assert.equal(color.red(128).toString(), "#8031ff");
   });
 
   test("set blue", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.blue(128).toString(), "#353180");
+    const color = new Irid("#3531ff");
+    assert.equal(color.blue(128).toString(), "#353180");
   });
 
   test("set green", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.green(128).toString(), "#3580ff");
+    const color = new Irid("#3531ff");
+    assert.equal(color.green(128).toString(), "#3580ff");
   });
   test("get hue", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.hue().toFixed(2), "0.67");
+    const color = new Irid("#3531ff");
+    assert.equal(color.hue().toFixed(2), "0.67");
   });
 
   test("get saturation", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.saturation().toFixed(2), "1.00");
+    const color = new Irid("#3531ff");
+    assert.equal(color.saturation().toFixed(2), "1.00");
   });
 
   test("get lightness", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.lightness().toFixed(2), "0.60");
+    const color = new Irid("#3531ff");
+    assert.equal(color.lightness().toFixed(2), "0.60");
   });
 
   test("set hue", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.hue(0.5).toString(), "#30ffff");
+    const color = new Irid("#3531ff");
+    assert.equal(color.hue(0.5).toString(), "#30ffff");
   });
 
   test("set saturation", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.saturation(0.5).toString(), "#6664cb");
+    const color = new Irid("#3531ff");
+    assert.equal(color.saturation(0.5).toString(), "#6664cb");
   });
 
   test("set lightness", function() {
-    const colour = new Irid("#3531ff");
-    assert.equal(colour.lightness(0.5).toString(), "#0400ff");
+    const color = new Irid("#3531ff");
+    assert.equal(color.lightness(0.5).toString(), "#0400ff");
   });
 
   test("component values can assigned by string", function() {
-    const colour = new Irid("black").green("101");
-    assert.equal(colour.toString(), "#006500");
+    const color = new Irid("black").green("101");
+    assert.equal(color.toString(), "#006500");
   });
 
   test("get alpha", function() {
-    const colour = new Irid("#ffffff80");
-    assert.equal(colour.alpha().toFixed(2), "0.50");
+    const color = new Irid("#ffffff80");
+    assert.equal(color.alpha().toFixed(2), "0.50");
   });
 
   test("set alpha", function() {
-    const colour = new Irid("#ffffff").alpha(0.5);
-    assert.equal(colour.toString(), "#ffffff7f");
+    const color = new Irid("#ffffff").alpha(0.5);
+    assert.equal(color.toString(), "#ffffff7f");
   });
 
   test("set alpha to null", function() {
-    const colour = new Irid("#ffffff55").alpha(null);
-    assert.equal(colour.toString(), "#ffffff");
+    const color = new Irid("#ffffff55").alpha(null);
+    assert.equal(color.toString(), "#ffffff");
   });
 
   test("set alpha to undefined", function() {
-    const colour = new Irid("#ffffff55").alpha(undefined);
-    assert.equal(colour.toString(), "#ffffff");
+    const color = new Irid("#ffffff55").alpha(undefined);
+    assert.equal(color.toString(), "#ffffff");
   });
 
   test("undefined alpha returned correctly", function() {
     assert.equal(Irid("#ffffff").alpha(), undefined);
   });
 
-  test("analagous colours", function() {
+  test("analagous colors", function() {
     const c = new Irid("red"),
       anal = c.analagous();
     assert.equal(anal.length, 3);
@@ -320,7 +320,7 @@ suite("Irid", function() {
     assert.equal(anal[2].toString(), "#ff7f00");
   });
 
-  test("tetradic colours", function() {
+  test("tetradic colors", function() {
     const c = new Irid("red"),
       tet = c.tetrad();
     assert.equal(tet.length, 4);
@@ -330,7 +330,7 @@ suite("Irid", function() {
     assert.equal(tet[3].toString(), "#7f00ff");
   });
 
-  test("rectangular tetradic colours", function() {
+  test("rectangular tetradic colors", function() {
     const c = new Irid("red"),
       tet = c.rectTetrad();
     assert.equal(tet.length, 4);
@@ -340,7 +340,7 @@ suite("Irid", function() {
     assert.equal(tet[3].toString(), "#0000ff");
   });
 
-  test("triadic colours", function() {
+  test("triadic colors", function() {
     const c = new Irid("red"),
       tri = c.triad();
     assert.equal(tri.length, 3);
@@ -349,7 +349,7 @@ suite("Irid", function() {
     assert.equal(tri[2].toString(), "#00ff00");
   });
 
-  test("split complementary colours", function() {
+  test("split complementary colors", function() {
     const c = new Irid("red"),
       comp = c.splitComplementary();
     assert.equal(comp.length, 3);
