@@ -5,6 +5,10 @@
         "target": "es5",
         "isolatedModules": true,
         "allowJs": true,
-        "esModuleInterop": true
-    }
+        "esModuleInterop": true,
+        "outDir": "__build"
+    },
+    "files": [
+      "src/irid.js"
+    ]
 }

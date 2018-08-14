@@ -5,7 +5,7 @@
   "main": "__build/irid.js",
   "scripts": {
     "test": "cross-env NODE_ENV=testing mocha",
-    "build": "babel src --out-dir __build --source-maps inline",
+    "build": "tsc -p tsconfig.json",
     "prepublish": "npm run build",
     "watch-build": "npm run build -- --watch",
     "test:watch": "npm test -- --watch"
