@@ -1,5 +1,5 @@
 // see http://www.w3.org/TR/css3-color/#svg-color
-export default {
+export const swatches = {
   aliceblue: "#f0f8ff",
   antiquewhite: "#faebd7",
   aqua: "#00ffff",

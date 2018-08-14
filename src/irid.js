@@ -7,7 +7,7 @@ import rgbToHex from "./rgb-to-hex";
 import rgbToHSL from "./rgb-to-hsl";
 import hslToRGB from "./hsl-to-rgb";
 import canInterpret from "./can-interpret";
-import swatches from "./swatches";
+import { swatches } from "./swatches";
 
 const invalidError = "Invalid color specification";
 
@@ -288,7 +288,11 @@ Irid.prototype = {
   }
 };
 
-Irid.swatches = swatches;
-Irid.canInterpret = canInterpret;
+console.log(cssHSLToHSL);
+
+setTimeout(() => {
+  Irid.swatches = swatches;
+  Irid.canInterpret = canInterpret;
+}, 0);
 
 export default Irid;
