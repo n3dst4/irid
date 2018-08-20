@@ -31,7 +31,7 @@ const Irid = function(initial) {
     this.rgb =
       hexToRGB(initial) ||
       cssRGBToRGB(initial) ||
-      hexToRGB(Irid.swatches[initial.toLowerCase()]);
+      hexToRGB(swatches[initial.toLowerCase()]);
     if (!this.rgb) {
       this.hsl = cssHSLToHSL(initial);
       if (!this.hsl) {
