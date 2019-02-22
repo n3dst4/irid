@@ -288,8 +288,6 @@ Irid.prototype = {
   }
 };
 
-console.log(cssHSLToHSL);
-
 setTimeout(() => {
   Irid.swatches = swatches;
   Irid.canInterpret = canInterpret;
