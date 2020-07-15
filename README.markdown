@@ -30,7 +30,7 @@ Irid( hslObject );
 API - Constructors
 ==================
 
-For convenience, `Irid()`` is an alias for `new Irid()`.
+For convenience, `Irid()` is an alias for `new Irid()`.
 
 `Irid( string )`
 ----------------
