@@ -1,8 +1,8 @@
 {
     "compilerOptions":{
-        "module": "commonjs",
+        "module": "ESNext",
         "sourceMap": true,
-        "target": "es5",
+        "target": "ESNext",
         "isolatedModules": true,
         "allowJs": true,
         "esModuleInterop": true,
