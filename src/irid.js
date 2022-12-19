@@ -6,7 +6,6 @@ import rgbToCSSRGB from "./rgb-to-css-rgb";
 import rgbToHex from "./rgb-to-hex";
 import rgbToHSL from "./rgb-to-hsl";
 import hslToRGB from "./hsl-to-rgb";
-import canInterpret from "./can-interpret";
 import { swatches } from "./swatches";
 
 const invalidError = "Invalid color specification";
@@ -292,5 +291,23 @@ setTimeout(() => {
   Irid.swatches = swatches;
   Irid.canInterpret = canInterpret;
 }, 0);
+
+function canInterpret(candidate) {
+  return (
+    candidate &&
+    (candidate instanceof Irid ||
+      (candidate.h !== undefined &&
+        candidate.s !== undefined &&
+        candidate.l !== undefined) ||
+      (typeof candidate == "string" &&
+        (hexToRGB(candidate) ||
+          cssRGBToRGB(candidate) ||
+          cssHSLToHSL(candidate) ||
+          hexToRGB(Irid.swatches[candidate.toLowerCase()]))) ||
+      (candidate.r !== undefined &&
+        candidate.g !== undefined &&
+        candidate.b !== undefined))
+  );
+}
 
 export default Irid;
