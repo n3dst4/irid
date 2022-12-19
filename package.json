@@ -1,6 +1,6 @@
 {
   "name": "irid",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Parse, convert and manipulate colors",
   "main": "__build/irid.js",
   "scripts": {
