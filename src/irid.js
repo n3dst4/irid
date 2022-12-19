@@ -11,7 +11,7 @@ import { swatches } from "./swatches";
 
 const invalidError = "Invalid color specification";
 
-const Irid = function(initial) {
+export const Irid = function(initial) {
   if (!(this instanceof Irid)) {
     return new Irid(initial);
   }
